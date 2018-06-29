@@ -1,0 +1,47 @@
+.o-note-summary {
+  padding: 1.6rem 3rem;
+  border-bottom: 1px solid $grayDark;
+  border-left: 5px solid transparent;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 1.6rem;
+
+  &__title {
+    font-weight: 600;
+    padding-bottom: 0.3rem;
+  }
+
+  &__date {
+    display: inline;
+    color: $textColorLight;
+    font-size: 1.2rem;
+    padding-right: .8rem;
+  }
+
+  &__excerpt {
+    display: inline;
+    font-size: 1.3rem;
+    font-weight: 300;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &--active {
+    background-color: white;
+    border-left: 5px solid $textColor;
+  }
+
+  &--highlighted {
+    background-color: white;
+    border-left: 5px solid $textColorHighlight;
+  }
+}

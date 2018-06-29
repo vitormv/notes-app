@@ -1,0 +1,139 @@
+.o-notes-menu {
+  padding: 0;
+  list-style: none;
+  font-size: 1.6rem;
+
+  &__children-toggle {
+    display: none;
+    position: absolute;
+    opacity: 0.3;
+  }
+
+  &__item {
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    position: relative;
+    transition: height 300ms linear;
+    overflow: hidden;
+
+    &:nth-child(4) {
+      margin-top: 2rem;
+    }
+
+    &:nth-child(n+4) {
+      font-size: 1.4rem;
+    }
+
+    &--collapsed {
+      .o-notes-menu {
+        display: none;
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    padding: 0.6rem 1.5rem;
+
+    &--active {
+      background-color: rgba($textColor, 0.5);
+      color: $backgroundColor;
+    }
+    &--highlighted {
+      background-color: $textColorHighlight;
+      color: $backgroundColor;
+    }
+
+    &--withChildren {
+      .o-notes-menu__children-toggle {
+        display: block;
+      }
+    }
+  }
+
+  &__icon {
+    width: 30px;
+    text-align: center;
+    opacity: 0.3;
+  }
+
+  &__expand {
+    padding-left: .2rem;
+    opacity: .3;
+    display: inline-block;
+  }
+
+  &__sub {
+    padding: 0.8rem 0;
+
+    .o-notes-menu__item {
+        padding-left: 0;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+.o-list-header {
+  box-sizing: border-box;
+  padding: 1rem 3.2rem;
+  height: 4.8rem;
+
+  border-bottom: 1px solid $grayDark;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  &__sort {
+    flex: 1 0 auto;
+  }
+
+  &__search {
+    flex: 2 1 auto;
+    position: relative;
+
+    &-icon {
+      position: absolute;
+      left: 0.8rem;
+      transform: translateY(50%);
+      top: 0;
+    }
+
+    &-input {
+      width: 100%;
+      background-color: $backgroundColor;
+      border: 1px solid $grayDarkest;
+      border-radius: 4px;
+      padding: 0.6rem 1.6rem 0.6rem 3.2rem;
+      font-size: 1.6rem;
+
+      &::-webkit-input-placeholder {
+        transform: translateX(50%);
+      }
+
+      &:-moz-placeholder { /* Firefox 18- */
+        transform: translateX(50%);
+      }
+
+      &::-moz-placeholder {  /* Firefox 19+ */
+        transform: translateX(50%);
+      }
+
+      &:-ms-input-placeholder {
+        transform: translateX(50%);
+      }
+    }
+  }
+
+  &__new-note {
+    flex: 1 0 auto;
+    text-align: right;
+  }
+}

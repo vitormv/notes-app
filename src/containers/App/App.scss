@@ -1,0 +1,28 @@
+.l-main {
+  display: flex;
+  height: 100%;
+  font-size: 1.6rem;
+
+  > * {
+    box-sizing: border-box;
+    height: 100%;
+  }
+}
+
+.l-panel-menu {
+  background-color: $menuColor;
+  color: $grayDark;
+  width: 250px;
+  padding: 3.2rem 0;
+}
+
+.l-panel-list {
+  background-color: $grayLight;
+  width: 400px;
+  border-right: 1px solid $grayDark;
+}
+
+.l-panel-editor {
+  background-color: $backgroundColor;
+  flex: 1;
+}

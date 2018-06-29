@@ -1,0 +1,45 @@
+@function get-breakpoint-value($size) {
+  @if $size == xs {
+    @return $breakpoint-xs;
+  }
+  @else if $size == sm {
+    @return $breakpoint-sm;
+  }
+  @else if $size == md {
+    @return $breakpoint-md;
+  }
+  @else if $size == lg {
+    @return $breakpoint-lg;
+  }
+  @else {
+    @warn "Breakpoint mixin supports: xs, sm, md, lg";
+  }
+}
+
+@mixin breakpoint($from: 0, $until: 0) {
+  // convert strings to numbers
+  @if type-of($from) == string {
+    $from: get-breakpoint-value($from);
+  }
+  @if type-of($until) == string {
+    $until: get-breakpoint-value($until);
+  }
+
+  // the $until is always the actual breakpoint value minus 1
+  $untilBreakpoint: ($until - 1);
+
+  $query: "all" !default;
+
+  @if $from != 0 and $until != 0 {
+    $query: "(min-width: #{$from}) and (max-width: #{$untilBreakpoint})";
+  }
+  @else if $from != 0 and $until == 0 {
+    $query: "(min-width: #{$from})";
+  }
+  @else if $from == 0 and $until != 0 {
+    $query: "(max-width: #{$untilBreakpoint})";
+  }
+  @media #{$query} {
+    @content;
+  }
+}
