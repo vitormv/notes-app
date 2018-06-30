@@ -1,7 +1,5 @@
-import TreeModel from 'tree-model';
+import Arboreal from 'arboreal';
 
-export const buildFolderTree = (folders) => {
-    const tree = new TreeModel();
-
-    return tree.parse({ id: null, isCollapsed: false, children: folders });
-};
+export const buildFolderTree = folders => (
+    Arboreal.parse({ children: folders }, 'children')
+);

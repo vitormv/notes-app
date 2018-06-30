@@ -14,6 +14,8 @@
   color: $grayDark;
   width: 250px;
   padding: 3.2rem 0;
+  overflow-y: scroll;
+  resize: horizontal;
 }
 
 .l-panel-list {

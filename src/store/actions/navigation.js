@@ -49,8 +49,10 @@ export const handleArrowKeysPress = (
                 if (highlightedItem.itemUid && flattenedFolders[highlightedItem.itemUid]) {
                     const node = flattenedFolders[highlightedItem.itemUid];
 
-                    if (node.hasChildren() && !node.model.isCollapsed) {
+                    if (node.children.length > 0 && !node.data.isCollapsed) {
                         return collapseFolder(highlightedItem.itemUid, true);
+                    } else if (node.parent && !node.parent.isRoot()) {
+                        return navigationHighlightItem(1, node.parent.data.uid);
                     }
                 }
 
@@ -61,7 +63,7 @@ export const handleArrowKeysPress = (
                 if (highlightedItem.itemUid && flattenedFolders[highlightedItem.itemUid]) {
                     const node = flattenedFolders[highlightedItem.itemUid];
 
-                    if (node.hasChildren() && node.model.isCollapsed) {
+                    if (node.children.length > 0 && node.data.isCollapsed) {
                         return collapseFolder(highlightedItem.itemUid, false);
                     }
                 }

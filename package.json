@@ -10,6 +10,7 @@
         "electron": "yarn build && electron ."
     },
     "dependencies": {
+        "arboreal": "^0.0.2",
         "classnames": "^2.2.6",
         "date-fns": "^1.29.0",
         "html-webpack-plugin": "^3.2.0",
@@ -18,8 +19,7 @@
         "react-dom": "^16.4.1",
         "react-redux": "^5.0.7",
         "recompose": "^0.27.1",
-        "redux": "^4.0.0",
-        "tree-model": "^1.0.7"
+        "redux": "^4.0.0"
     },
     "devDependencies": {
         "@fortawesome/fontawesome": "^1.1.8",

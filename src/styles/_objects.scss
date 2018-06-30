@@ -1,12 +1,23 @@
+$animationDuration: 100ms;
+
 .o-notes-menu {
   padding: 0;
   list-style: none;
   font-size: 1.6rem;
+  transition: transform $animationDuration linear;
 
-  &__children-toggle {
+  .o-notes-menu {
+    font-size: 1.4rem;
+  }
+
+  &__collapse {
     display: none;
     position: absolute;
-    opacity: 0.3;
+    opacity: 0.5;
+    transition: transform $animationDuration ease-out;
+    left: -0.8rem;
+    padding: 0.3rem;
+    top: -0.1rem;
   }
 
   &__item {
@@ -17,7 +28,7 @@
     user-select: none;
     outline: none;
     position: relative;
-    transition: height 300ms linear;
+    transition: height $animationDuration linear;
     overflow: hidden;
 
     &:nth-child(4) {
@@ -29,8 +40,16 @@
     }
 
     &--collapsed {
+      height: 2.8rem;
+      transition: height $animationDuration ease-out;
+
       .o-notes-menu {
-        display: none;
+        transform: translateY(-100%);
+        transition: transform $animationDuration linear;
+      }
+
+      .o-notes-menu__collapse {
+        transform: rotateZ(-90deg);
       }
     }
   }
@@ -38,9 +57,10 @@
   &__content {
     display: flex;
     padding: 0.6rem 1.5rem;
+    background-color: $menuColor;
 
     &--active {
-      background-color: rgba($textColor, 0.5);
+      background-color: #4c4e53;
       color: $backgroundColor;
     }
     &--highlighted {
@@ -49,16 +69,27 @@
     }
 
     &--withChildren {
-      .o-notes-menu__children-toggle {
+      z-index: 1;
+      position: relative;
+
+      .o-notes-menu__collapse {
         display: block;
       }
     }
   }
 
   &__icon {
-    width: 30px;
+    width: 3rem;
+    min-width: 3rem;
     text-align: center;
     opacity: 0.3;
+    position: relative;
+  }
+
+  &__label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &__expand {

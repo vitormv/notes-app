@@ -7,7 +7,6 @@ import {
     currentNotesUidsSelector,
     flattenedFolderNodesSelector,
     highlightedItemSelector,
-    selectedItemsSelector,
 } from 'src/store/selectors';
 
 const KeyboardNavigationPure = ({ handleArrowKeyPress, style, children }) => (

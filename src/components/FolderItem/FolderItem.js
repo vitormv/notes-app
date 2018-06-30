@@ -5,11 +5,26 @@ import { shouldUpdate } from 'recompose';
 import isEqual from 'lodash/isEqual';
 import { FolderList } from 'src/components/FolderList';
 
+const itemHeight = 28;
+
+const calculateItemHeight = (folder) => {
+    let height = itemHeight;
+
+    if (!folder.isCollapsed) {
+        folder.children.forEach((child) => {
+            height += calculateItemHeight(child);
+        });
+    }
+
+    return height;
+};
+
 const FolderItemPure = ({
     folder,
     highlightedUid,
     lastActiveFolder,
     onSelectFolder,
+    onCollapseFolder,
     indent,
 }) => (
     <li
@@ -20,6 +35,9 @@ const FolderItemPure = ({
         key={folder.uid}
         onClick={(e) => { e.stopPropagation(); onSelectFolder(folder.uid); }}
         tabIndex={0}
+        style={{
+            height: `${calculateItemHeight(folder) / 10}rem`,
+        }}
     >
         <div
             className={classNames({
@@ -29,14 +47,19 @@ const FolderItemPure = ({
                 'o-notes-menu__content--active': lastActiveFolder === folder.uid,
                 'o-notes-menu__content--highlighted': highlightedUid === folder.uid,
             })}
-            style={{ paddingLeft: `${((indent + 1) * 3.8)}rem` }}
+            style={{ paddingLeft: `${((indent + 1) * 2)}rem` }}
         >
             <div className="o-notes-menu__icon">
                 <i className={folder.iconClass} />
+
+                <div
+                    className="o-notes-menu__collapse"
+                    onClick={(e) => { e.stopPropagation(); onCollapseFolder(folder.uid, !folder.isCollapsed); }}
+                >
+                    <i className="fas fa-angle-down" />
+                </div>
             </div>
-            <div className="o-notes-menu__children-toggle">
-                <i className="fas fa-angle-down" />
-            </div>
+
             <div className="o-notes-menu__label" title={folder.label}>{folder.label}</div>
         </div>
 
@@ -47,6 +70,7 @@ const FolderItemPure = ({
                     highlightedUid={highlightedUid}
                     lastActiveFolder={lastActiveFolder}
                     onSelectFolder={onSelectFolder}
+                    onCollapseFolder={onCollapseFolder}
                     indent={indent + 1}
                 />
         }
@@ -64,6 +88,7 @@ FolderItemPure.propTypes = {
         indent: PropTypes.number,
     }).isRequired,
     onSelectFolder: PropTypes.func,
+    onCollapseFolder: PropTypes.func,
     highlightedUid: PropTypes.string,
     lastActiveFolder: PropTypes.string,
     indent: PropTypes.number,
@@ -71,6 +96,7 @@ FolderItemPure.propTypes = {
 
 FolderItemPure.defaultProps = {
     onSelectFolder: () => {},
+    onCollapseFolder: () => {},
     highlightedUid: null,
     lastActiveFolder: null,
     indent: 0,

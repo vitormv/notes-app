@@ -7,6 +7,7 @@ export const FolderList = ({
     highlightedUid,
     lastActiveFolder,
     onSelectFolder,
+    onCollapseFolder,
     hasAddButton,
     indent,
 }) => (
@@ -18,6 +19,7 @@ export const FolderList = ({
                     indent={indent}
                     folder={folder}
                     onSelectFolder={onSelectFolder}
+                    onCollapseFolder={onCollapseFolder}
                     lastActiveFolder={lastActiveFolder}
                     highlightedUid={highlightedUid}
                 />
@@ -54,6 +56,7 @@ FolderList.propTypes = {
     highlightedUid: PropTypes.string,
     lastActiveFolder: PropTypes.string,
     onSelectFolder: PropTypes.func.isRequired,
+    onCollapseFolder: PropTypes.func.isRequired,
     hasAddButton: PropTypes.bool,
     indent: PropTypes.number,
 };
