@@ -1,10 +1,8 @@
-$animationDuration: 100ms;
-
 .o-notes-menu {
   padding: 0;
   list-style: none;
   font-size: 1.6rem;
-  transition: transform $animationDuration linear;
+  transition: transform $animationDuration $animationSlower;
 
   .o-notes-menu {
     font-size: 1.4rem;
@@ -14,7 +12,7 @@ $animationDuration: 100ms;
     display: none;
     position: absolute;
     opacity: 0.5;
-    transition: transform $animationDuration ease-out;
+    transition: transform $animationDuration $animationFaster;
     left: -0.8rem;
     padding: 0.3rem;
     top: -0.1rem;
@@ -28,8 +26,10 @@ $animationDuration: 100ms;
     user-select: none;
     outline: none;
     position: relative;
-    transition: height $animationDuration linear;
+    box-sizing: border-box;
+    transition: height $animationDuration $animationFaster;
     overflow: hidden;
+    height: 2.8rem;
 
     &:nth-child(4) {
       margin-top: 2rem;
@@ -41,11 +41,11 @@ $animationDuration: 100ms;
 
     &--collapsed {
       height: 2.8rem;
-      transition: height $animationDuration ease-out;
+      transition: height $animationDuration $animationFaster;
 
       .o-notes-menu {
         transform: translateY(-100%);
-        transition: transform $animationDuration linear;
+        transition: transform $animationDuration $animationSlower;
       }
 
       .o-notes-menu__collapse {

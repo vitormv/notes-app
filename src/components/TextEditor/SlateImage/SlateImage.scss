@@ -1,0 +1,39 @@
+.slate-image {
+  position: relative;
+
+  &__remove {
+    position: absolute;
+    display: none;
+    transform: translateY(-50%);
+    left: 50%;
+    top: 0;
+    border: 2px solid $textColorHighlight;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 2rem;
+    background-color: white;
+    justify-content: center;
+    flex-flow: row wrap;
+    align-items: center;
+    color: $textColor;
+  }
+
+  &--selected {
+
+    .slate-image__remove {
+      display: flex;
+    }
+
+    img {
+      outline: 3px solid $textColorHighlight;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+    max-height: 300px;
+    margin: 0 auto;
+  }
+}

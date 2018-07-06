@@ -54,9 +54,12 @@ const FolderItemPure = ({
 
                 <div
                     className="o-notes-menu__collapse"
-                    onClick={(e) => { e.stopPropagation(); onCollapseFolder(folder.uid, !folder.isCollapsed); }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onCollapseFolder(folder.uid, !folder.isCollapsed);
+                    }}
                 >
-                    <i className="fas fa-angle-down" />
+                    <i className="icon-angle-down" />
                 </div>
             </div>
 

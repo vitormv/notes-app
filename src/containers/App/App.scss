@@ -7,20 +7,31 @@
     box-sizing: border-box;
     height: 100%;
   }
+
+  &--loading {
+    * {
+      -webkit-transition: none !important;
+      -moz-transition: none !important;
+      -ms-transition: none !important;
+      -o-transition: none !important;
+      transition: none !important;
+    }
+  }
 }
 
 .l-panel-menu {
   background-color: $menuColor;
   color: $grayDark;
   width: 250px;
+  min-width: 250px;
   padding: 3.2rem 0;
   overflow-y: scroll;
-  resize: horizontal;
 }
 
 .l-panel-list {
   background-color: $grayLight;
   width: 400px;
+  min-width: 400px;
   border-right: 1px solid $grayDark;
 }
 

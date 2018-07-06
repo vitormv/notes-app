@@ -13,7 +13,7 @@ function createWindow() {
     mainWindow = new BrowserWindow({ width: 1200, height: 600, titleBarStyle: 'hiddenInset' });
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     // load the index.html of the app.
     const startUrl = process.env.ELECTRON_START_URL || url.format({

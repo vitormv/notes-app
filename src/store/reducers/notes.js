@@ -1,7 +1,10 @@
-import { NAVIGATION_HIGHLIGHT_ITEM } from 'src/store/actions';
+import { NAVIGATION_HIGHLIGHT_ITEM, UI_LOADED } from 'src/store/actions';
 import { COLLAPSE_FOLDER, NAVIGATION_HIGHLIGHT_COLUMN } from 'src/store/actions/navigation';
 
 const defaultState = {
+    ui: {
+        isLoading: true,
+    },
     navigation: {
         highlighted: {
             column: 1,
@@ -19,63 +22,63 @@ const defaultState = {
         uidFolder1: {
             uid: 'uidFolder1',
             label: 'forró',
-            iconClass: 'fas fa-xs fa-circle',
+            iconClass: 'icon-circle',
             isCollapsed: false,
             parent: null,
         },
         uidFolder2: {
             uid: 'uidFolder2',
             label: 'personal',
-            iconClass: 'fas fa-xs fa-circle',
+            iconClass: 'icon-circle',
             isCollapsed: false,
             parent: null,
         },
         uidFolder3: {
             uid: 'uidFolder3',
             label: 'ideas',
-            iconClass: 'fas fa-xs fa-circle',
+            iconClass: 'icon-circle',
             isCollapsed: false,
             parent: 'uidFolder2',
         },
         uidFolder31: {
             uid: 'uidFolder31',
             label: 'home',
-            iconClass: 'fas fa-xs fa-circle',
+            iconClass: 'icon-circle',
             isCollapsed: false,
             parent: 'uidFolder2',
         },
         uidFolder311: {
             uid: 'uidFolder311',
             label: 'shopping list',
-            iconClass: 'fas fa-xs fa-circle',
+            iconClass: 'icon-circle',
             isCollapsed: false,
             parent: 'uidFolder31',
         },
         uidFolder312: {
             uid: 'uidFolder312',
             label: 'chores',
-            iconClass: 'fas fa-xs fa-circle',
+            iconClass: 'icon-circle',
             isCollapsed: false,
             parent: 'uidFolder31',
         },
         uidFolder313: {
             uid: 'uidFolder313',
             label: 'renovating plans',
-            iconClass: 'fas fa-xs fa-circle',
+            iconClass: 'icon-circle',
             isCollapsed: false,
             parent: 'uidFolder31',
         },
         uidFolder4: {
             uid: 'uidFolder4',
             label: 'meditation',
-            iconClass: 'fas fa-xs fa-circle',
+            iconClass: 'icon-circle',
             isCollapsed: false,
             parent: null,
         },
         uidFolder5: {
             uid: 'uidFolder5',
             label: 'work',
-            iconClass: 'fas fa-xs fa-circle',
+            iconClass: 'icon-circle',
             isCollapsed: false,
             parent: null,
         },
@@ -210,6 +213,16 @@ export default (state = defaultState, action) => {
                         ...state.folders[action.folderUid],
                         isCollapsed: action.isCollapsed,
                     },
+                },
+            };
+        }
+
+        case UI_LOADED: {
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    isLoading: action.isLoading,
                 },
             };
         }

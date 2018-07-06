@@ -1,0 +1,13 @@
+.toolbar {
+    span {
+        width: 3rem;
+        height: 2.5rem;
+        display: inline-block;
+
+        &.active {
+            color: $textColorHighlight;
+        }
+    }
+
+    margin-bottom: 2rem;
+}
