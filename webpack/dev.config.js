@@ -36,7 +36,6 @@ module.exports = merge(baseConfig, {
                         loader: 'css-loader',
                         options: {
                             modules: false,
-                            sourceMap: true,
                         },
                     },
                     'sass-loader',
@@ -44,6 +43,7 @@ module.exports = merge(baseConfig, {
                         loader: 'sass-resources-loader',
                         options: {
                             resources: config.baseSassFiles,
+                            sourceMap: true,
                         },
                     },
                 ],

@@ -4,11 +4,11 @@ import './PanelEditor.scss';
 
 export const PanelEditor = () => (
     <section className="l-panel-editor">
-        <div className="o-editor-header">
-            Header
-        </div>
         <div className="o-editor">
             <TextEditor />
+        </div>
+        <div className="editor-sidebar">
+
         </div>
     </section>
 );

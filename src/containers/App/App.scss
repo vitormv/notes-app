@@ -33,6 +33,8 @@
   width: 400px;
   min-width: 400px;
   border-right: 1px solid $grayDark;
+  display: flex;
+  flex-direction: column;
 }
 
 .l-panel-editor {

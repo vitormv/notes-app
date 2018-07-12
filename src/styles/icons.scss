@@ -2,8 +2,6 @@
 @import "../media/font-awesome-icons/fa-solid.scss";
 @import "../media/font-awesome-icons/fa-regular.scss";
 
-
-
 [class^="icon-"] {
   @include fa-icon;
 }
@@ -33,6 +31,7 @@
 .icon-plus { @include create-awesome-icon(plus) }
 .icon-ellipsis-h { @include create-awesome-icon(ellipsis-h) }
 .icon-times { @include create-awesome-icon(times) }
+.icon-check-circle { @include create-awesome-icon(check-circle, regular) }
 
 .icon-bold { @include create-awesome-icon(bold) }
 .icon-italic { @include create-awesome-icon(italic) }
@@ -48,3 +47,4 @@
 .icon-code { @include create-awesome-icon(code) }
 .icon-quote-right { @include create-awesome-icon(quote-right) }
 .icon-image { @include create-awesome-icon(image, regular) }
+.icon-checkbox { @include create-awesome-icon(check-square, regular) }

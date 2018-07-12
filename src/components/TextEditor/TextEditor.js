@@ -1,33 +1,48 @@
 import React from 'react';
-import { Block, Value, Change } from 'slate';
-import { Editor, getEventRange, getEventTransfer } from 'slate-react';
+import { Block, Value } from 'slate';
+import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import { FIRST_CHILD_TYPE_INVALID, LAST_CHILD_TYPE_INVALID } from 'slate-schema-violations';
-import { hasImageExtension } from 'src/functions/files/hasImageExtension';
-import { isUrl } from 'src/functions/files/isUrl';
+import { HoverMenu } from 'src/components/TextEditor/HoverMenu';
+import { applyMark, MarkHotkey } from 'src/components/TextEditor/plugins/MarkHotkey';
+import DropOrPasteImages from 'slate-drop-or-paste-images';
+import {
+    BLOCK_CHECKLIST_ITEM,
+    BLOCK_H1,
+    BLOCK_H2,
+    BLOCK_H3,
+    BLOCK_IMAGE,
+    BLOCK_LIST_ITEM,
+    BLOCK_LIST_OL,
+    BLOCK_LIST_UL,
+    BLOCK_PARAGRAPH,
+    BLOCK_QUOTE,
+    BLOCK_SEPARATOR,
+    MARK_BOLD,
+    MARK_CODE,
+    MARK_ITALIC,
+    MARK_STRIKETHROUGH,
+    MARK_UNDERLINE,
+} from 'src/components/TextEditor/SlateDictionary';
 import { renderSlateNode } from './renderSlateNode';
-import { DEFAULT_NODE, Schema } from './Schema';
+import { DEFAULT_NODE, InitialValue } from './InitialValue';
 import './TextEditor.scss';
 
-const isBoldHotkey = isKeyHotkey('mod+b');
-const isItalicHotkey = isKeyHotkey('mod+i');
-const isUnderlinedHotkey = isKeyHotkey('mod+u');
-const isCodeHotkey = isKeyHotkey('mod+`');
 const isEnterKey = isKeyHotkey('enter');
 const isBackspaceKey = isKeyHotkey('backspace');
 const isSpaceKey = isKeyHotkey('space');
 
 const schema = {
     document: {
-        first: { types: ['heading-one'], min: 1 },
-        last: { types: ['paragraph'] },
+        first: { types: [BLOCK_H1], min: 1 },
+        last: { types: [BLOCK_PARAGRAPH] },
         normalize: (change, reason, { node, child }) => {
             switch (reason) {
                 case FIRST_CHILD_TYPE_INVALID: {
-                    return change.setNodeByKey(child.key, { type: 'heading-one' });
+                    return change.setNodeByKey(child.key, { type: BLOCK_H1 });
                 }
                 case LAST_CHILD_TYPE_INVALID: {
-                    const paragraph = Block.create('paragraph');
+                    const paragraph = Block.create(BLOCK_PARAGRAPH);
                     return change.insertNodeByKey(node.key, node.nodes.size, paragraph);
                 }
                 default:
@@ -36,53 +51,48 @@ const schema = {
         },
     },
     blocks: {
-        'heading-one': {
+        [BLOCK_H1]: {
             nodes: [{ objects: ['text'] }],
-            marks: [{ type: 'underlined' }, { type: 'italic' }],
+            marks: [{ type: MARK_UNDERLINE }, { type: MARK_ITALIC }],
         },
     },
 };
 
-/**
- * A change function to standardize inserting images.
- *
- * @param {Change} change
- * @param {String} src
- * @param {Range} target
- */
-
-const insertImage = (change, src, target) => {
-    if (target) {
-        change.select(target);
-    }
-
-    change.insertBlock({
-        type: 'image',
-        isVoid: true,
-        data: { src },
-    });
-};
+const plugins = [
+    MarkHotkey({ type: MARK_BOLD, key: 'mod+b' }),
+    MarkHotkey({ type: MARK_UNDERLINE, key: 'mod+u' }),
+    MarkHotkey({ type: MARK_ITALIC, key: 'mod+i' }),
+    MarkHotkey({ type: MARK_CODE, key: 'mod+shift+c' }),
+    MarkHotkey({ type: MARK_STRIKETHROUGH, key: 'mod+shift+k' }),
+    DropOrPasteImages({
+        extensions: ['png', 'jpg', 'jpeg', 'gif', 'webm', 'tiff'],
+        insertImage: (transform, file) => transform.insertBlock({
+            type: BLOCK_IMAGE,
+            isVoid: true,
+            data: { src: file },
+        }),
+    }),
+];
 
 const getMarkdownType = (chars) => {
     switch (chars) {
         case '*':
         case '-':
         case '+':
-            return 'list-item';
+            return BLOCK_LIST_ITEM;
         case '>':
-            return 'block-quote';
+            return BLOCK_QUOTE;
         case '#':
-            return 'heading-one';
+            return BLOCK_H1;
         case '##':
-            return 'heading-two';
+            return BLOCK_H2;
         case '###':
-            return 'heading-three';
-        case '####':
-            return 'heading-four';
-        case '#####':
-            return 'heading-five';
-        case '######':
-            return 'heading-six';
+            return BLOCK_H3;
+        case '[]':
+        case '[ ]':
+            return BLOCK_CHECKLIST_ITEM;
+        case '---':
+            return BLOCK_SEPARATOR;
         default:
             return null;
     }
@@ -93,7 +103,8 @@ class TextEditor extends React.Component {
         super(props);
 
         this.state = {
-            value: Value.fromJSON(Schema),
+            value: Value.fromJSON(InitialValue),
+            isHoverMenuVisible: false,
         };
 
         this.onChange = this.onChange.bind(this);
@@ -103,6 +114,12 @@ class TextEditor extends React.Component {
 
     // On change, update the app's React state with the new editor value.
     onChange({ value }) {
+        if (value.isBlurred || value.isEmpty) {
+            this.setState({ isHoverMenuVisible: false });
+        } else {
+            this.setState({ isHoverMenuVisible: true });
+        }
+
         this.setState({ value });
     }
 
@@ -114,28 +131,15 @@ class TextEditor extends React.Component {
      * @return {Change}
      */
     onKeyDown(event, change) {
-        let mark;
-
         if (isSpaceKey(event)) {
             return this.onSpace(event, change);
         } else if (isBackspaceKey(event)) {
             return this.onBackspace(event, change);
         } else if (isEnterKey(event)) {
             return this.onEnter(event, change);
-        } else if (isBoldHotkey(event)) {
-            mark = 'bold';
-        } else if (isItalicHotkey(event)) {
-            mark = 'italic';
-        } else if (isUnderlinedHotkey(event)) {
-            mark = 'underlined';
-        } else if (isCodeHotkey(event)) {
-            mark = 'code';
-        } else {
-            return;
         }
 
-        event.preventDefault();
-        change.toggleMark(mark);
+        return null;
     }
 
     hasMark(type) {
@@ -169,14 +173,13 @@ class TextEditor extends React.Component {
      * @param {String} icon
      * @return {Element}
      */
-
     renderBlockButton(type, icon) {
         let isActive = this.hasBlock(type);
 
-        if (['numbered-list', 'bulleted-list'].includes(type)) {
+        if ([BLOCK_LIST_OL, BLOCK_LIST_UL].includes(type)) {
             const { value } = this.state;
             const parent = value.document.getParent(value.blocks.first().key);
-            isActive = this.hasBlock('list-item') && parent && parent.type === type;
+            isActive = this.hasBlock(BLOCK_LIST_ITEM) && parent && parent.type === type;
         }
 
         return (
@@ -195,19 +198,20 @@ class TextEditor extends React.Component {
      * @param {Object} props
      * @return {Element}
      */
-
     renderMark(props) {
         const { children, mark, attributes } = props;
 
         switch (mark.type) {
-            case 'bold':
+            case MARK_BOLD:
                 return <strong {...attributes}>{children}</strong>;
-            case 'code':
+            case MARK_CODE:
                 return <code {...attributes}>{children}</code>;
-            case 'italic':
+            case MARK_ITALIC:
                 return <em {...attributes}>{children}</em>;
-            case 'underlined':
+            case MARK_UNDERLINE:
                 return <u {...attributes}>{children}</u>;
+            case MARK_STRIKETHROUGH:
+                return <span className="strikethrough" {...attributes}>{children}</span>;
             default:
                 return null;
         }
@@ -222,10 +226,11 @@ class TextEditor extends React.Component {
 
     onClickMark(event, type) {
         event.preventDefault();
-        const { value } = this.state;
-        const change = value.change().toggleMark(type);
 
-        console.log('selected: ', value.texts.toString());
+        const { value } = this.state;
+        const change = value.change();
+
+        applyMark(value, change, type);
 
         this.onChange(change);
     }
@@ -244,34 +249,34 @@ class TextEditor extends React.Component {
         const { document } = value;
 
         // Handle everything but list buttons.
-        if (type !== 'bulleted-list' && type !== 'numbered-list') {
+        if (type !== BLOCK_LIST_OL && type !== BLOCK_LIST_UL) {
             const isActive = this.hasBlock(type);
-            const isList = this.hasBlock('list-item');
+            const isList = this.hasBlock(BLOCK_LIST_ITEM);
 
             if (isList) {
                 change
                     .setBlocks(isActive ? DEFAULT_NODE : type)
-                    .unwrapBlock('bulleted-list')
-                    .unwrapBlock('numbered-list');
+                    .unwrapBlock(BLOCK_LIST_OL)
+                    .unwrapBlock(BLOCK_LIST_UL);
             } else {
                 change.setBlocks(isActive ? DEFAULT_NODE : type);
             }
         } else {
             // Handle the extra wrapping required for list buttons.
-            const isList = this.hasBlock('list-item');
+            const isList = this.hasBlock(BLOCK_LIST_ITEM);
             const isType = value.blocks.some(block => !!document.getClosest(block.key, parent => parent.type === type));
 
             if (isList && isType) {
                 change
                     .setBlocks(DEFAULT_NODE)
-                    .unwrapBlock('bulleted-list')
-                    .unwrapBlock('numbered-list');
+                    .unwrapBlock(BLOCK_LIST_OL)
+                    .unwrapBlock(BLOCK_LIST_UL);
             } else if (isList) {
                 change
-                    .unwrapBlock(type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list')
+                    .unwrapBlock(type === BLOCK_LIST_UL ? BLOCK_LIST_OL : BLOCK_LIST_UL)
                     .wrapBlock(type);
             } else {
-                change.setBlocks('list-item').wrapBlock(type);
+                change.setBlocks(BLOCK_LIST_ITEM).wrapBlock(type);
             }
         }
 
@@ -287,13 +292,13 @@ class TextEditor extends React.Component {
         const type = getMarkdownType(chars);
 
         if (!type) return;
-        if (type === 'list-item' && startBlock.type === 'list-item') return;
+        if (type === BLOCK_LIST_ITEM && startBlock.type === BLOCK_LIST_ITEM) return;
         event.preventDefault();
 
         change.setBlocks(type);
 
-        if (type === 'list-item') {
-            change.wrapBlock('bulleted-list');
+        if (type === BLOCK_LIST_ITEM) {
+            change.wrapBlock(BLOCK_LIST_UL);
         }
 
         change.extendToStartOf(startBlock).delete();
@@ -309,100 +314,66 @@ class TextEditor extends React.Component {
 
     onBackspace(event, change) {
         const { value } = change;
-        if (value.isExpanded) return;
-        if (value.startOffset !== 0) return;
+        if (value.isExpanded) return null;
+        if (value.startOffset !== 0) return null;
 
         const { startBlock } = value;
-        console.log(startBlock.type);
-        if (startBlock.type === 'paragraph') return;
+        if (startBlock.type === BLOCK_PARAGRAPH) return null;
 
         event.preventDefault();
-        change.setBlocks('paragraph');
+        change.setBlocks(BLOCK_PARAGRAPH);
 
-        if (startBlock.type === 'list-item') {
-            change.unwrapBlock('bulleted-list');
+        if (startBlock.type === BLOCK_LIST_ITEM) {
+            change.unwrapBlock(BLOCK_LIST_OL).unwrapBlock(BLOCK_LIST_UL);
+            return false;
         }
+
+        return true;
     }
 
     onEnter(event, change) {
         const { value } = change;
 
-        if (value.isExpanded) return;
+        if (value.isExpanded) return null;
 
         const { startBlock, startOffset, endOffset } = value;
 
         if (startOffset === 0 && startBlock.text.length === 0) {
-            this.onBackspace(event, change);
-            return;
+            return this.onBackspace(event, change);
         }
 
-        if (endOffset !== startBlock.text.length) return;
+        if (endOffset !== startBlock.text.length) return null;
+
+        if (startBlock.type === BLOCK_CHECKLIST_ITEM) {
+            change.splitBlock().setBlocks({ data: { checked: false } });
+            return true;
+        }
 
         if (
-            startBlock.type !== 'heading-one' &&
-            startBlock.type !== 'heading-two' &&
-            startBlock.type !== 'heading-three' &&
-            startBlock.type !== 'heading-four' &&
-            startBlock.type !== 'heading-five' &&
-            startBlock.type !== 'heading-six' &&
-            startBlock.type !== 'block-quote'
+            startBlock.type !== BLOCK_H1 &&
+            startBlock.type !== BLOCK_H2 &&
+            startBlock.type !== BLOCK_H3 &&
+            startBlock.type !== BLOCK_QUOTE
         ) {
-            return;
+            return null;
         }
 
         event.preventDefault();
-        change.splitBlock().setBlocks('paragraph');
-    }
-
-    onDropOrPaste(event, change, editor) {
-        const target = getEventRange(event, change.value);
-        if (!target && event.type === 'drop') return;
-
-        const transfer = getEventTransfer(event);
-        const { type, text, files } = transfer;
-
-        if (type === 'files') {
-            for (const file of files) {
-                const reader = new FileReader();
-                const [mime] = file.type.split('/');
-                if (mime !== 'image') continue;
-
-                reader.addEventListener('load', () => {
-                    editor.change((c) => {
-                        c.call(insertImage, reader.result, target);
-                    });
-                });
-
-                reader.readAsDataURL(file);
-            }
-        }
-
-        if (type === 'text') {
-            if (!isUrl(text)) return;
-            if (!hasImageExtension(text)) return;
-            change.call(insertImage, text, target);
-        }
+        change.splitBlock().setBlocks(BLOCK_PARAGRAPH);
+        return false;
     }
 
     // Render the editor.
     render() {
         return (
-            <div>
-                <div className="toolbar">
-                    {this.renderBlockButton('heading-one', 'heading')}
-                    {this.renderBlockButton('heading-two', 'heading')}
-                    <span className="gap" />
-                    {this.renderMarkButton('bold', 'bold')}
-                    {this.renderMarkButton('italic', 'italic')}
-                    {this.renderMarkButton('underlined', 'underline')}
-                    <span className="gap" />
-                    {this.renderBlockButton('numbered-list', 'list-ol')}
-                    {this.renderBlockButton('bulleted-list', 'list-ul')}
-                    <span className="gap" />
-                    {this.renderMarkButton('code', 'code')}
-                    {this.renderBlockButton('block-quote', 'quote-right')}
-                </div>
+            <div className="editor-wrapper">
+                <HoverMenu
+                    value={this.state.value}
+                    onChange={this.onChange}
+                    isVisible={this.state.isHoverMenuVisible}
+                />
                 <Editor
+                    className="editor"
                     spellCheck
                     autoFocus
                     placeholder="Enter some text..."
@@ -414,7 +385,20 @@ class TextEditor extends React.Component {
                     onPaste={this.onDropOrPaste}
                     renderNode={renderSlateNode}
                     renderMark={this.renderMark}
+                    plugins={plugins}
                 />
+                <div className="toolbar">
+                    {this.renderBlockButton(BLOCK_H1, 'heading')}
+                    {this.renderBlockButton(BLOCK_H2, 'heading')}
+                    {this.renderBlockButton(BLOCK_H3, 'heading')}
+                    <span className="gap" />
+                    {this.renderBlockButton(BLOCK_LIST_OL, 'list-ol')}
+                    {this.renderBlockButton(BLOCK_LIST_UL, 'list-ul')}
+                    {this.renderBlockButton(BLOCK_CHECKLIST_ITEM, 'checkbox')}
+                    <span className="gap" />
+                    {this.renderBlockButton(BLOCK_QUOTE, 'quote-right')}
+                    {this.renderBlockButton(BLOCK_SEPARATOR, 'quote-right')}
+                </div>
             </div>
         );
     }

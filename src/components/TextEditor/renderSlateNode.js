@@ -1,4 +1,16 @@
 import React from 'react';
+import { CheckListItem } from 'src/components/TextEditor/CheckListItem';
+import {
+    BLOCK_CHECKLIST_ITEM,
+    BLOCK_H1,
+    BLOCK_H2,
+    BLOCK_H3,
+    BLOCK_IMAGE,
+    BLOCK_LIST_ITEM,
+    BLOCK_LIST_OL,
+    BLOCK_LIST_UL,
+    BLOCK_QUOTE, BLOCK_SEPARATOR,
+} from 'src/components/TextEditor/SlateDictionary';
 import { SlateImage } from 'src/components/TextEditor/SlateImage';
 
 /**
@@ -13,24 +25,42 @@ export const renderSlateNode = (props) => {
         children,
         node,
         isSelected,
+        editor,
     } = props;
     switch (node.type) {
-        case 'heading-one':
+        case BLOCK_H1:
             return <h1 {...attributes}>{children}</h1>;
-        case 'heading-two':
+        case BLOCK_H2:
             return <h2 {...attributes}>{children}</h2>;
-        case 'block-quote':
+        case BLOCK_H3:
+            return <h3 {...attributes}>{children}</h3>;
+        case BLOCK_QUOTE:
             return <blockquote {...attributes}>{children}</blockquote>;
-        case 'bulleted-list':
+        case BLOCK_LIST_UL:
             return <ul {...attributes}>{children}</ul>;
-        case 'list-item':
+        case BLOCK_LIST_ITEM:
             return <li {...attributes}>{children}</li>;
-        case 'numbered-list':
+        case BLOCK_LIST_OL:
             return <ol {...attributes}>{children}</ol>;
-        case 'image': {
-            const src = node.data.get('src');
-            return <SlateImage src={src} isSelected={isSelected} attributes={attributes} />;
+        case BLOCK_IMAGE: {
+            const change = editor.value.change();
+
+            return (
+                <SlateImage
+                    src={node.data.get('src')}
+                    isSelected={isSelected}
+                    attributes={attributes}
+                    onRemove={() => {
+                        change.removeNodeByKey(node.key);
+                        editor.onChange(change);
+                    }}
+                />
+            );
         }
+        case BLOCK_CHECKLIST_ITEM:
+            return <CheckListItem {...props} />;
+        case BLOCK_SEPARATOR:
+            return <div {...attributes} className="editor-separator-line"><hr /></div>;
         default:
             return null;
     }

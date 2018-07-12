@@ -8,19 +8,24 @@ import { PanelList } from 'src/containers/PanelList';
 import { PanelEditor } from 'src/containers/PanelEditor';
 import { isUiLoadingSelector } from 'src/store/selectors';
 import { uiLoaded } from 'src/store/actions';
+import { ThemeProvider } from 'styled-components';
+import { styledTheme } from 'src/styles/styledTheme';
 import './App.scss';
 
+
 const AppPure = ({ isLoading }) => (
-    <div
-        className={classNames({
-            'l-main': true,
-            'l-main--loading': isLoading,
-        })}
-    >
-        <PanelFolders />
-        <PanelList />
-        <PanelEditor />
-    </div>
+    <ThemeProvider theme={styledTheme}>
+        <div
+            className={classNames({
+                'l-main': true,
+                'l-main--loading': isLoading,
+            })}
+        >
+            <PanelFolders />
+            <PanelList />
+            <PanelEditor />
+        </div>
+    </ThemeProvider>
 );
 
 AppPure.propTypes = {
