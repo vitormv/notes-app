@@ -7,7 +7,7 @@ import { PanelFolders } from 'src/containers/PanelFolders';
 import { PanelList } from 'src/containers/PanelList';
 import { PanelEditor } from 'src/containers/PanelEditor';
 import { isUiLoadingSelector } from 'src/store/selectors';
-import { uiLoaded } from 'src/store/actions';
+import { uiLoadedAction } from 'src/store/actions';
 import { ThemeProvider } from 'styled-components';
 import { styledTheme } from 'src/styles/styledTheme';
 import './App.scss';
@@ -38,7 +38,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    onUiLoaded: uiLoaded,
+    onUiLoaded: uiLoadedAction,
 };
 
 export const App = compose(

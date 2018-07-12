@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { MARK_BOLD, MARK_CODE, MARK_ITALIC, MARK_UNDERLINE } from 'src/components/TextEditor/SlateDictionary';
+import { Icon } from 'src/components/ui/Icon';
 import styled from 'styled-components';
 
 const StyledMenu = styled('div')`
@@ -12,8 +13,8 @@ const StyledMenu = styled('div')`
   opacity: ${props => (props.isVisible ? 1 : 0)};
   background-color: ${props => props.theme.reversed.background};
   border-radius: 0.4rem;
-  transition: opacity 200ms ${props => props.theme.animation.fast},
-              transform 150ms ${props => props.theme.animation.fast};
+  transition: opacity 200ms ${props => props.theme.animation.slow},
+              transform 100ms ${props => props.theme.animation.fast};
   transform: translateX(-50%)
              translateY(${props => (props.isVisible ? '-110%' : '-90%')})
              scale(${props => (props.isVisible ? 1 : 0.95)});
@@ -28,7 +29,7 @@ export const Button = styled('span')`
   color: ${props => (props.active ? props.theme.primary : props.theme.text)};
 `;
 
-export const Icon = styled(({ name, className, ...rest }) => <span className={`icon-${name} ${className}`} {...rest} />)`
+export const MenuIcon = styled(Icon)`
   font-size: 16px;
   display: inline-block;
   padding: .5rem 0.8rem;

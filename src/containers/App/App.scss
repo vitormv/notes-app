@@ -21,7 +21,7 @@
 
 .l-panel-menu {
   background-color: $menuColor;
-  color: $grayDark;
+  color: $grayMedium;
   width: 250px;
   min-width: 250px;
   padding: 3.2rem 0;
@@ -32,7 +32,7 @@
   background-color: $grayLight;
   width: 400px;
   min-width: 400px;
-  border-right: 1px solid $grayDark;
+  border-right: 1px solid $grayMedium;
   display: flex;
   flex-direction: column;
 }

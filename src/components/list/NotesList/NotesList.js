@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NoteSummary } from 'src/components/NoteSummary';
+import { NoteSummary } from 'src/components/list/NoteSummary';
 import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
 import { ensureElementIsInView } from 'src/functions/dom/ensureElementisInView';
 import './NotesList.scss';

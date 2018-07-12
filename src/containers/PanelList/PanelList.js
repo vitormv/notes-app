@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { ListHeader } from 'src/components/list/ListHeader';
 import { connect } from 'react-redux';
-import { NotesList } from 'src/components/NotesList';
+import { NotesList } from 'src/components/list/NotesList';
 import { navigationSelectNoteAction } from 'src/store/actions';
 import {
     currentNotesSelector,
@@ -16,18 +17,7 @@ const PanelListPure = ({
     lastActiveNote,
 }) => (
     <section className="l-panel-list o-notes-list">
-        <div className="o-notes-list__header o-list-header">
-            <div className="o-list-header__sort">
-                Sort by
-            </div>
-            <div className="o-list-header__search">
-                <i className="fas fa-search o-list-header__search-icon" />
-                <input className="o-list-header__search-input" name="search" placeholder="Search" title="search" type="search" />
-            </div>
-            <div className="o-list-header__new-note">
-                <i className="far fa-lg fa-edit" />
-            </div>
-        </div>
+        <ListHeader />
 
         <NotesList
             notes={notes}

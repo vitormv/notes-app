@@ -10,7 +10,7 @@ const styledTheme = {
     },
     gray: {
         darkest: '#E3E3E3',
-        dark: '#F0F0F0',
+        medium: '#F0F0F0',
         light: '#FBFBFB',
     },
     animation: {

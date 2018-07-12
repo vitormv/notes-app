@@ -1,9 +1,16 @@
-import { NAVIGATION_HIGHLIGHT_ITEM, UI_LOADED } from 'src/store/actions';
+import {
+    NAVIGATION_HIGHLIGHT_ITEM,
+    SEARCH_TOGGLE_FOCUS,
+    UI_LOADED,
+    UPDATE_SEARCH_QUERY,
+} from 'src/store/actions';
 import { COLLAPSE_FOLDER, NAVIGATION_HIGHLIGHT_COLUMN } from 'src/store/actions/navigation';
 
 const defaultState = {
     ui: {
         isLoading: true,
+        isSearchFocused: false,
+        searchQuery: '',
     },
     navigation: {
         highlighted: {
@@ -223,6 +230,26 @@ export default (state = defaultState, action) => {
                 ui: {
                     ...state.ui,
                     isLoading: action.isLoading,
+                },
+            };
+        }
+
+        case SEARCH_TOGGLE_FOCUS: {
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    isSearchFocused: action.isFocused,
+                },
+            };
+        }
+
+        case UPDATE_SEARCH_QUERY: {
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    searchQuery: action.searchQuery,
                 },
             };
         }

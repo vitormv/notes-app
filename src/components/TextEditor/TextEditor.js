@@ -3,6 +3,7 @@ import { Block, Value } from 'slate';
 import { Editor } from 'slate-react';
 import { isKeyHotkey } from 'is-hotkey';
 import { FIRST_CHILD_TYPE_INVALID, LAST_CHILD_TYPE_INVALID } from 'slate-schema-violations';
+import { getMarkdownBlockFromPrefix } from 'src/components/TextEditor/getMarkdownBlockFromPrefix';
 import { HoverMenu } from 'src/components/TextEditor/HoverMenu';
 import { applyMark, MarkHotkey } from 'src/components/TextEditor/plugins/MarkHotkey';
 import DropOrPasteImages from 'slate-drop-or-paste-images';
@@ -74,30 +75,6 @@ const plugins = [
     }),
 ];
 
-const getMarkdownType = (chars) => {
-    switch (chars) {
-        case '*':
-        case '-':
-        case '+':
-            return BLOCK_LIST_ITEM;
-        case '>':
-            return BLOCK_QUOTE;
-        case '#':
-            return BLOCK_H1;
-        case '##':
-            return BLOCK_H2;
-        case '###':
-            return BLOCK_H3;
-        case '[]':
-        case '[ ]':
-            return BLOCK_CHECKLIST_ITEM;
-        case '---':
-            return BLOCK_SEPARATOR;
-        default:
-            return null;
-    }
-};
-
 class TextEditor extends React.Component {
     constructor(props) {
         super(props);
@@ -107,16 +84,25 @@ class TextEditor extends React.Component {
             isHoverMenuVisible: false,
         };
 
+        // keep track of selections internally, so we know when to rerender the mark popup
+        this.selectionLength = false;
+
         this.onChange = this.onChange.bind(this);
         this.hasMark = this.hasMark.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
     }
 
-    // On change, update the app's React state with the new editor value.
     onChange({ value }) {
-        if (value.isBlurred || value.isEmpty) {
+        const selectionLength = [
+            value.focusBlock.key,
+            value.startOffset,
+            value.endOffset,
+        ].join('.');
+
+        if (value.isBlurred || value.isEmpty || (this.selectionLength === selectionLength)) {
             this.setState({ isHoverMenuVisible: false });
         } else {
+            this.selectionLength = selectionLength;
             this.setState({ isHoverMenuVisible: true });
         }
 
@@ -289,7 +275,7 @@ class TextEditor extends React.Component {
 
         const { startBlock, startOffset } = value;
         const chars = startBlock.text.slice(0, startOffset).replace(/\s*/g, '');
-        const type = getMarkdownType(chars);
+        const type = getMarkdownBlockFromPrefix(chars);
 
         if (!type) return;
         if (type === BLOCK_LIST_ITEM && startBlock.type === BLOCK_LIST_ITEM) return;
