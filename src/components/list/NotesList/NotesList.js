@@ -5,7 +5,7 @@ import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
 import { ensureElementIsInView } from 'src/functions/dom/ensureElementisInView';
 import './NotesList.scss';
 
-class NotesList extends React.Component {
+class NotesList extends React.PureComponent {
     componentDidUpdate() {
         if (this.highlightedEl && this.container) {
             ensureElementIsInView(this.container, this.highlightedEl.getDOMNode());

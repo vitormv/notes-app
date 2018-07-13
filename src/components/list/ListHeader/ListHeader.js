@@ -1,4 +1,5 @@
 import React from 'react';
+import { NewNoteButton } from 'src/components/list/NewNoteButton';
 import { SortBy } from 'src/components/list/SortBy';
 import { SearchBox } from 'src/containers/SearchBox';
 import styled from 'styled-components';
@@ -32,9 +33,7 @@ const ListHeader = () => (
 
         <SearchBox />
 
-        <div className="o-list-header__new-note">
-            <i className="far fa-lg fa-edit" />
-        </div>
+        <NewNoteButton />
     </ListHeaderStyled>
 );
 

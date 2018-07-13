@@ -1,7 +1,7 @@
 import React from 'react';
 import './CheckListItem.scss';
 
-class CheckListItem extends React.Component {
+class CheckListItem extends React.PureComponent {
     constructor(props) {
         super(props);
 

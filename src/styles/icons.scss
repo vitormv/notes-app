@@ -32,6 +32,7 @@
 .icon-ellipsis-h { @include create-awesome-icon(ellipsis-h) }
 .icon-times { @include create-awesome-icon(times) }
 .icon-check-circle { @include create-awesome-icon(check-circle, regular) }
+.icon-times-circle { @include create-awesome-icon(times-circle, regular) }
 
 .icon-bold { @include create-awesome-icon(bold) }
 .icon-italic { @include create-awesome-icon(italic) }

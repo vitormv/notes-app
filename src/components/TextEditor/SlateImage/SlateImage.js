@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classsNames from 'classnames';
 import './SlateImage.scss';
 
-class SlateImage extends React.Component {
+class SlateImage extends React.PureComponent {
     constructor(props) {
         super(props);
 

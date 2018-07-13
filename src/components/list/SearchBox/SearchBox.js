@@ -6,14 +6,15 @@ import styled from 'styled-components';
 const SearchBoxStyled = styled.div`
     position: relative;
     width: 20rem;
+    overflow-x: hidden;
     cursor: text;
     background-color: ${props => props.theme.background};
-    border: 1px solid ${props => props.theme.gray.medium};
+    border: 1px solid ${({ isFocused, theme }) => (isFocused ? theme.textLight : theme.gray.medium)};
     border-radius: 4px;
     padding: 0.6rem 1rem;
     box-sizing: border-box;
     font-size: 1.6rem;
-    color: ${props => (props.isFocused ? props.theme.text : props.theme.textLight)};
+    color: ${({ hasSearchQuery, theme }) => (hasSearchQuery ? theme.text : theme.textLight)};
     transition: color 150ms linear;
     
     strong {
@@ -22,10 +23,27 @@ const SearchBoxStyled = styled.div`
     }
 `;
 
+const StyledRemove = styled(Icon)`
+  position: absolute;
+  cursor: pointer;
+  right: .8rem;
+  top: 50%;
+  font-size: 1.8rem;
+  color: ${props => (props.isFocused ? props.theme.text : props.theme.textLight)};
+  transform: translateY(-50%);
+  opacity: ${props => ((props.isFocused || props.hasSearchQuery) ? '1' : '0')};
+  transition: opacity 150ms ${props => props.theme.animation.fast};
+  ${props => ((props.isFocused || props.hasSearchQuery) ? '' : `
+    pointer-events: none;
+    cursor: default;  
+  `)};
+`;
+
 const StyledIcon = styled(Icon)`
     position: absolute;
     left: 0;
     top: 1px;
+    color: ${props => (props.isFocused ? props.theme.text : props.theme.textLight)};
 `;
 
 const ShiftedSpan = styled.span`
@@ -53,22 +71,23 @@ const StyledSearchInput = styled.input`
     position: absolute;
     left: 0;
     top: 0;
-    width: ${props => ((props.isFocused || props.hasSearchQuery) ? `calc(${props.width}px - 4.5rem)` : '100%')};
+    width: ${props => ((props.isFocused || props.hasSearchQuery) ? `calc(${props.width}px - 6.5rem)` : '100%')};
     outline: none;
     box-sizing: border-box;
     margin-left: 2.5rem;
     border: none;
     font-size: 1.6rem;
-    color: ${props => (props.isFocused ? props.theme.text : props.theme.textLight)};
+    color: ${props => props.theme.text};
 `;
 
-class SearchBox extends React.Component {
+class SearchBox extends React.PureComponent {
     constructor(props) {
         super(props);
 
         this.width = 0;
         this.inputNode = null;
         this.containerNode = null;
+        this.state = { isFocused: false };
     }
 
     componentDidMount() {
@@ -79,32 +98,43 @@ class SearchBox extends React.Component {
         this.recalculateContainerWidth();
     }
 
+    onClickErase(event) {
+        this.props.onInputChange('');
+        this.toggleInputFocus(false);
+        event.stopPropagation();
+    }
+
+    toggleInputFocus(isFocused) {
+        if (this.inputNode) {
+            this.setState({ isFocused });
+
+            if (isFocused) {
+                this.inputNode.focus();
+            } else {
+                this.inputNode.blur();
+            }
+        }
+    }
+
     recalculateContainerWidth() {
         this.width = Math.floor(this.containerNode.getBoundingClientRect().width);
     }
 
-    toggleInputFocus() {
-        if (this.inputNode) {
-            this.inputNode.focus();
-        }
-    }
-
     render() {
-        const {
-            isFocused, toggleSearchBoxFocus, searchQuery, onInputChange,
-        } = this.props;
-
+        const { searchQuery, onInputChange } = this.props;
+        const { isFocused } = this.state;
         const hasSearchQuery = searchQuery.length > 0;
 
         return (
             <SearchBoxStyled
+                hasSearchQuery={hasSearchQuery}
                 innerRef={(el) => { this.containerNode = el; }}
                 isFocused={isFocused}
-                onClick={() => { this.toggleInputFocus(); }}
+                onClick={() => { this.toggleInputFocus(true); }}
             >
                 <ShiftedSpan isFocused={isFocused} hasSearchQuery={hasSearchQuery}>
                     <ShiftedSpan2 isFocused={isFocused} hasSearchQuery={hasSearchQuery}>
-                        <StyledIcon name="search" />
+                        <StyledIcon name="search" isFocused={isFocused} />
                         <span style={{ visibility: hasSearchQuery ? 'hidden' : 'visible' }}>
                             Search
                         </span>
@@ -116,26 +146,28 @@ class SearchBox extends React.Component {
                             width={this.width}
                             onChange={(e) => { onInputChange(e.target.value); }}
                             onClick={(e) => { e.stopPropagation(); }}
-                            onBlur={() => { toggleSearchBoxFocus(false); }}
-                            onFocus={() => { toggleSearchBoxFocus(true); }}
+                            onBlur={() => { this.toggleInputFocus(false); }}
+                            onFocus={() => { this.toggleInputFocus(true); }}
                         />
                     </ShiftedSpan2>
                 </ShiftedSpan>
+                <StyledRemove
+                    name="times-circle"
+                    isFocused={isFocused}
+                    hasSearchQuery={hasSearchQuery}
+                    onClick={(e) => { this.onClickErase(e); }}
+                />
             </SearchBoxStyled>
         );
     }
 }
 
 SearchBox.propTypes = {
-    isFocused: PropTypes.bool,
     searchQuery: PropTypes.string,
-    toggleSearchBoxFocus: PropTypes.func,
     onInputChange: PropTypes.func.isRequired,
 };
 
 SearchBox.defaultProps = {
-    toggleSearchBoxFocus: () => {},
-    isFocused: false,
     searchQuery: 'Search',
 };
 

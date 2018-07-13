@@ -5,11 +5,7 @@ import isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
 import './NoteSummary.scss';
 
-class NoteSummaryPure extends React.Component {
-    shouldComponentUpdate(nextProps) {
-        return !isEqual(this.props, nextProps);
-    }
-
+class NoteSummaryPure extends React.PureComponent {
     getDOMNode() {
         return this.node;
     }

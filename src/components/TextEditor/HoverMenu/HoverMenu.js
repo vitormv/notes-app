@@ -41,7 +41,7 @@ export const MenuIcon = styled(Icon)`
   }
 `;
 
-class HoverMenu extends React.Component {
+class HoverMenu extends React.PureComponent {
     onClickMark(event, type) {
         event.preventDefault();
 
@@ -61,7 +61,7 @@ class HoverMenu extends React.Component {
                 active={isActive}
                 onMouseDown={event => this.onClickMark(event, type)}
             >
-                <Icon name={`${icon}`} />
+                <MenuIcon name={`${icon}`} />
             </Button>
         );
     }
