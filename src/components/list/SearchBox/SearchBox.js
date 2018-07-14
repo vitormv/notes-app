@@ -24,6 +24,7 @@ const SearchBoxStyled = styled.div`
 `;
 
 const StyledRemove = styled(Icon)`
+  z-index: 1;
   position: absolute;
   cursor: pointer;
   right: .8rem;
@@ -32,12 +33,10 @@ const StyledRemove = styled(Icon)`
   color: ${props => (props.isFocused ? props.theme.text : props.theme.textLight)};
   transform: translateY(-50%);
   opacity: ${props => ((props.isFocused || props.hasSearchQuery) ? '1' : '0')};
-  transition: opacity 150ms ${props => props.theme.animation.fast};
-  ${props => ((props.isFocused || props.hasSearchQuery) ? '' : `
-    pointer-events: none;
-    cursor: default;  
-  `)};
+  transition: opacity 200ms ${props => props.theme.animation.fast};
+  display: ${props => ((props.isFocused || props.hasSearchQuery) ? 'block' : 'none')});
 `;
+StyledRemove.passProps = false;
 
 const StyledIcon = styled(Icon)`
     position: absolute;
@@ -52,7 +51,7 @@ const ShiftedSpan = styled.span`
     cursor: text;
     width: 100%;
     box-sizing: border-box;
-    transition: transform 150ms ${props => props.theme.animation.fast};
+    transition: transform 200ms ${props => props.theme.animation.fast};
 `;
 
 const ShiftedSpan2 = styled.span`
@@ -63,7 +62,7 @@ const ShiftedSpan2 = styled.span`
     box-sizing: border-box;
     cursor: text;
     height: 1.4rem;
-    transition: transform 150ms ${props => props.theme.animation.fast};
+    transition: transform 200ms ${props => props.theme.animation.fast};
 `;
 
 const StyledSearchInput = styled.input`
@@ -101,7 +100,10 @@ class SearchBox extends React.PureComponent {
     onClickErase(event) {
         this.props.onInputChange('');
         this.toggleInputFocus(false);
+
         event.stopPropagation();
+        event.preventDefault();
+        return false;
     }
 
     toggleInputFocus(isFocused) {
@@ -130,7 +132,7 @@ class SearchBox extends React.PureComponent {
                 hasSearchQuery={hasSearchQuery}
                 innerRef={(el) => { this.containerNode = el; }}
                 isFocused={isFocused}
-                onClick={() => { this.toggleInputFocus(true); }}
+                onClick={(e) => { this.toggleInputFocus(true, e); }}
             >
                 <ShiftedSpan isFocused={isFocused} hasSearchQuery={hasSearchQuery}>
                     <ShiftedSpan2 isFocused={isFocused} hasSearchQuery={hasSearchQuery}>
@@ -155,7 +157,7 @@ class SearchBox extends React.PureComponent {
                     name="times-circle"
                     isFocused={isFocused}
                     hasSearchQuery={hasSearchQuery}
-                    onClick={(e) => { this.onClickErase(e); }}
+                    onClick={e => this.onClickErase(e)}
                 />
             </SearchBoxStyled>
         );

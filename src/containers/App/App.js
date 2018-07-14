@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import PanelGroup from 'react-panelgroup';
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
 import classNames from 'classnames';
@@ -12,19 +13,20 @@ import { ThemeProvider } from 'styled-components';
 import { styledTheme } from 'src/styles/styledTheme';
 import './App.scss';
 
-
 const AppPure = ({ isLoading }) => (
     <ThemeProvider theme={styledTheme}>
-        <div
-            className={classNames({
-                'l-main': true,
-                'l-main--loading': isLoading,
-            })}
+        <PanelGroup
+            spacing={0}
+            panelWidths={[
+                { minSize: 150, size: 250, resize: 'dynamic' },
+                { minSize: 350, size: 400, resize: 'dynamic' },
+                { minSize: 500, resize: 'stretch' },
+            ]}
         >
             <PanelFolders />
             <PanelList />
             <PanelEditor />
-        </div>
+        </PanelGroup>
     </ThemeProvider>
 );
 

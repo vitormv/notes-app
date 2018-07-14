@@ -163,9 +163,9 @@ const defaultState = {
         },
         uid13: {
             uid: 'uid13',
-            title: 'Some fancy title would go in here',
+            title: 'Ok, this is really the last one',
             updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
+            summary: 'Are you happy now, that you got all the way down here?',
         },
     },
 };

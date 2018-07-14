@@ -1,12 +1,17 @@
 const merge = require('webpack-merge');
 const baseConfig = require('./base.config');
 const config = require('./config');
+const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 
 module.exports = merge(baseConfig, {
     devServer: {
         contentBase: config.buildPath,
         noInfo: true,
+        overlay: true,
     },
+    plugins: [
+        new ErrorOverlayPlugin(),
+    ],
     module: {
         rules: [
             {

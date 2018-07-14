@@ -39,6 +39,10 @@
       font-size: 1.4rem;
     }
 
+    &:last-child {
+      margin-top: 1rem;
+    }
+
     &--collapsed {
       height: 2.8rem;
       transition: height $animationDuration $animationFaster;
