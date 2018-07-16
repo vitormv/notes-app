@@ -35,19 +35,9 @@ const mapStateToProps = state => ({
     highlightedItem: highlightedItemSelector(state),
 });
 
-const mapDispatchToProps = dispatch => ({
-    dispatchHandleKeyPress: (
-        arrowKey,
-        notesUids,
-        flattenedFolders,
-        highlightedItem,
-    ) => dispatch(handleArrowKeysPress(
-        arrowKey,
-        notesUids,
-        flattenedFolders,
-        highlightedItem,
-    )),
-});
+const mapDispatchToProps = {
+    dispatchHandleKeyPress: handleArrowKeysPress,
+};
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
     const newProps = {

@@ -1,8 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { FolderItem } from 'src/components/FolderItem';
+import styled from 'styled-components';
 
-export const FolderList = ({
+const StyledRename = styled.li`
+    padding: 1rem 3rem;
+    box-sizing: border-box;
+    
+    input {
+        background-color: transparent;
+        border: none;
+        border-bottom: 2px solid ${props => props.theme.reversed.text};
+        color: ${props => props.theme.reversed.text};
+        padding: 1rem 2rem 1rem 2rem;
+        width: 100%;
+        box-sizing: border-box;
+        display: block;
+        outline: none;
+    }
+`;
+
+const FolderList = ({
     folders,
     highlightedUid,
     lastActiveFolder,
@@ -11,7 +30,12 @@ export const FolderList = ({
     hasAddButton,
     indent,
 }) => (
-    <ul className="o-notes-menu">
+    <ul
+        className={classNames({
+            'o-notes-menu': true,
+            'o-notes-menu--main': indent === 0,
+        })}
+    >
         {
             folders.map(folder => (
                 <FolderItem
@@ -25,6 +49,10 @@ export const FolderList = ({
                 />
             ))
         }
+
+        {/*<StyledRename>*/}
+            {/*<input placeholder="folder name" type="text" />*/}
+        {/*</StyledRename>*/}
 
         {
             hasAddButton &&
@@ -67,3 +95,5 @@ FolderList.defaultProps = {
     lastActiveFolder: null,
     indent: 0,
 };
+
+export { FolderList };

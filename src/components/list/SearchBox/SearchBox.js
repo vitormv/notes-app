@@ -30,13 +30,18 @@ const StyledRemove = styled(Icon)`
   right: .8rem;
   top: 50%;
   font-size: 1.8rem;
+  background-color: white;
   color: ${props => (props.isFocused ? props.theme.text : props.theme.textLight)};
   transform: translateY(-50%);
-  opacity: ${props => ((props.isFocused || props.hasSearchQuery) ? '1' : '0')};
+  
+  opacity: ${props => ((props.hasSearchQuery) ? '1' : '0')};
   transition: opacity 200ms ${props => props.theme.animation.fast};
-  display: ${props => ((props.isFocused || props.hasSearchQuery) ? 'block' : 'none')});
+  display: ${props => (props.hasSearchQuery ? 'block' : 'none')} !important;
+
+  &:hover {
+      color: ${props => props.theme.primary};
+  }
 `;
-StyledRemove.passProps = false;
 
 const StyledIcon = styled(Icon)`
     position: absolute;
@@ -69,13 +74,13 @@ const StyledSearchInput = styled.input`
     background-color: transparent;
     position: absolute;
     left: 0;
-    top: 0;
+    top: 0.2rem;
     width: ${props => ((props.isFocused || props.hasSearchQuery) ? `calc(${props.width}px - 6.5rem)` : '100%')};
     outline: none;
     box-sizing: border-box;
     margin-left: 2.5rem;
     border: none;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     color: ${props => props.theme.text};
 `;
 
@@ -132,7 +137,7 @@ class SearchBox extends React.PureComponent {
                 hasSearchQuery={hasSearchQuery}
                 innerRef={(el) => { this.containerNode = el; }}
                 isFocused={isFocused}
-                onClick={(e) => { this.toggleInputFocus(true, e); }}
+                onClick={() => { this.toggleInputFocus(true); }}
             >
                 <ShiftedSpan isFocused={isFocused} hasSearchQuery={hasSearchQuery}>
                     <ShiftedSpan2 isFocused={isFocused} hasSearchQuery={hasSearchQuery}>
@@ -157,7 +162,7 @@ class SearchBox extends React.PureComponent {
                     name="times-circle"
                     isFocused={isFocused}
                     hasSearchQuery={hasSearchQuery}
-                    onClick={e => this.onClickErase(e)}
+                    onClick={(e) => { this.onClickErase(e); }}
                 />
             </SearchBoxStyled>
         );

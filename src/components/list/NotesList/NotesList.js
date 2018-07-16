@@ -1,56 +1,54 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
+import List from 'react-virtualized/dist/commonjs/List';
 import { NoteSummary } from 'src/components/list/NoteSummary';
 import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
-import { ensureElementIsInView } from 'src/functions/dom/ensureElementisInView';
 import './NotesList.scss';
 
-class NotesList extends React.PureComponent {
-    componentDidUpdate() {
-        if (this.highlightedEl && this.container) {
-            ensureElementIsInView(this.container, this.highlightedEl.getDOMNode());
-        }
-    }
+const NotesList = ({
+    notes, highlighted, lastActiveNote, onSelectNote,
+}) => {
+    const uids = Object.values(notes).map(note => note.uid);
+    const numberOfRows = uids.length;
+    const highlightedIndex = highlighted.column === 2 ? uids.indexOf(highlighted.itemUid) : undefined;
 
-    render() {
-        const {
-            notes,
-            highlighted,
-            lastActiveNote,
-            onSelectNote,
-        } = this.props;
-        this.highlightedEl = null;
-
-        return (
-            <div className="o-notes-list__items" ref={(el) => { this.container = el; }}>
-                <KeyboardNavigation>
-                    {
-                        Object.keys(notes).map((index) => {
-                            const isHighlighted = highlighted.column === 2
-                                && highlighted.itemUid === notes[index].uid;
-
-                            return (
+    return (
+        <div className="o-notes-list__items">
+            <KeyboardNavigation style={{ height: '100%' }}>
+                <AutoSizer>
+                    {({ height, width }) => (
+                        <List
+                            width={width}
+                            height={height}
+                            rowCount={numberOfRows}
+                            scrollToIndex={highlightedIndex}
+                            rowHeight={133}
+                            style={{ outline: 'none' }}
+                            rowRenderer={({ key, index, style }) => (
                                 <NoteSummary
-                                    ref={(node) => {
-                                        if (isHighlighted) this.highlightedEl = node;
-                                    }}
-                                    key={notes[index].uid}
+                                    key={key}
+                                    style={style}
                                     uid={notes[index].uid}
                                     title={notes[index].title}
-                                    summary={notes[index].summary}
+                                    summary={notes[index].summary.substr(0, 100)}
                                     updatedAt={notes[index].updatedAt}
                                     onClick={onSelectNote}
                                     isActive={lastActiveNote === notes[index].uid}
-                                    isHighlighted={isHighlighted}
+                                    isHighlighted={(
+                                        highlighted.column === 2
+                                        && highlighted.itemUid === notes[index].uid
+                                    )}
                                 />
-                            );
-                        })
-                    }
-                </KeyboardNavigation>
-            </div>
-        );
-    }
-}
+                            )}
+                        />
+
+                    )}
+                </AutoSizer>
+            </KeyboardNavigation>
+        </div>
+    );
+};
 
 NotesList.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.shape({

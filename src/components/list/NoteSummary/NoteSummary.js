@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
-import isEqual from 'lodash/isEqual';
 import classNames from 'classnames';
+import { format } from 'date-fns';
 import './NoteSummary.scss';
 
 class NoteSummaryPure extends React.PureComponent {
-    getDOMNode() {
-        return this.node;
-    }
-
     render() {
         return (
             <div
-                ref={(node) => { this.node = node; }}
+                ref={(node) => {
+                    this.node = node;
+                }}
                 className={classNames({
                     'o-notes-list__note': true,
                     'o-note-summary': true,
@@ -21,16 +18,14 @@ class NoteSummaryPure extends React.PureComponent {
                     'o-note-summary--highlighted': this.props.isHighlighted,
                 })}
                 onClick={() => this.props.onClick(this.props.uid)}
-                onFocus={() => this.props.onClick(this.props.uid)}
-                role="link"
-                tabIndex="0"
+                style={this.props.style}
             >
-                <div className="o-note-summary__title">{ this.props.title }</div>
+                <div className="o-note-summary__title">{this.props.title}</div>
                 <div className="o-note-summary__date" title={format(this.props.updatedAt, 'DD MMM')}>
-                    { format(this.props.updatedAt, 'DD MMM') }
+                    {format(this.props.updatedAt, 'DD MMM')}
                 </div>
                 <div className="o-note-summary__excerpt">
-                    { this.props.summary }
+                    {this.props.summary}
                 </div>
             </div>
         );
@@ -45,11 +40,13 @@ NoteSummaryPure.propTypes = {
     onClick: PropTypes.func.isRequired,
     isActive: PropTypes.bool,
     isHighlighted: PropTypes.bool,
+    style: PropTypes.shape({}),
 };
 
 NoteSummaryPure.defaultProps = {
     isActive: false,
     isHighlighted: false,
+    style: {},
 };
 
 export const NoteSummary = NoteSummaryPure;

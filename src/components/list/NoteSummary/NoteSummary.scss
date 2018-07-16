@@ -9,6 +9,10 @@
   user-select: none;
   font-size: 1.6rem;
 
+  box-sizing: border-box;
+  height: 133px;
+  overflow: hidden;
+
   &__title {
     font-weight: 600;
     padding-bottom: 0.3rem;

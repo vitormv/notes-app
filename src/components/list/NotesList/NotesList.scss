@@ -1,7 +1,5 @@
 .o-notes-list {
-  box-sizing: border-box;
-
   &__items {
-    overflow-y: scroll;
+    flex: 1;
   }
 }

@@ -7,9 +7,7 @@ import styled from 'styled-components';
 const ListHeaderStyled = styled.div`
     box-sizing: border-box;
     padding: 1rem 3.2rem;
-    min-height: 6rem;
-    max-height: 6rem;
-    height: 6rem;
+    flex: 0 0 6rem;
     border-bottom: 1px solid ${props => props.theme.gray.medium};
     display: flex;
     align-items: center;
@@ -24,6 +22,11 @@ const ListHeaderStyled = styled.div`
     }
     > :nth-child(3) {
         text-align: right;   
+    }
+    
+    > * {
+        // disable drag on Electron on all children
+        -webkit-app-region: no-drag;
     }
 `;
 

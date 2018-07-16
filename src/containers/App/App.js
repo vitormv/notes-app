@@ -18,8 +18,8 @@ const AppPure = ({ isLoading }) => (
         <PanelGroup
             spacing={0}
             panelWidths={[
-                { minSize: 150, size: 250, resize: 'dynamic' },
-                { minSize: 350, size: 400, resize: 'dynamic' },
+                { minSize: 150, size: 220, resize: 'dynamic' },
+                { minSize: 350, size: 450, resize: 'dynamic' },
                 { minSize: 500, resize: 'stretch' },
             ]}
         >

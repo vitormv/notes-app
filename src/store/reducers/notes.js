@@ -4,6 +4,7 @@ import {
     UPDATE_SEARCH_QUERY,
 } from 'src/store/actions';
 import { COLLAPSE_FOLDER, NAVIGATION_HIGHLIGHT_COLUMN } from 'src/store/actions/navigation';
+import bigList from './bigListOfNotes.json';
 
 const defaultState = {
     ui: {
@@ -20,9 +21,7 @@ const defaultState = {
             note: null,
         },
     },
-    current: [
-        'uid1', 'uid2', 'uid3', 'uid4', 'uid5', 'uid6', 'uid7', 'uid8', 'uid9', 'uid10', 'uid11', 'uid12', 'uid13',
-    ],
+    current: Object.keys(bigList),
     folders: {
         uidFolder1: {
             uid: 'uidFolder1',
@@ -88,86 +87,7 @@ const defaultState = {
             parent: null,
         },
     },
-    notes: {
-        uid1: {
-            uid: 'uid1',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid2: {
-            uid: 'uid2',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid3: {
-            uid: 'uid3',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid4: {
-            uid: 'uid4',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid5: {
-            uid: 'uid5',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid6: {
-            uid: 'uid6',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid7: {
-            uid: 'uid7',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid8: {
-            uid: 'uid8',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid9: {
-            uid: 'uid9',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid10: {
-            uid: 'uid10',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid11: {
-            uid: 'uid11',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid12: {
-            uid: 'uid12',
-            title: 'Some fancy title would go in here',
-            updatedAt: 1529176116,
-            summary: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit',
-        },
-        uid13: {
-            uid: 'uid13',
-            title: 'Ok, this is really the last one',
-            updatedAt: 1529176116,
-            summary: 'Are you happy now, that you got all the way down here?',
-        },
-    },
+    notes: bigList,
 };
 
 export default (state = defaultState, action) => {

@@ -8,6 +8,20 @@
     font-size: 1.4rem;
   }
 
+  &--main {
+      > :nth-child(4) {
+        margin-top: 2rem;
+      }
+
+      > :nth-child(n+4) {
+        font-size: 1.4rem;
+      }
+
+      > :last-child {
+        margin-top: 1rem;
+      }
+  }
+
   &__collapse {
     display: none;
     position: absolute;
@@ -30,18 +44,6 @@
     transition: height $animationDuration $animationFaster;
     overflow: hidden;
     height: 2.8rem;
-
-    &:nth-child(4) {
-      margin-top: 2rem;
-    }
-
-    &:nth-child(n+4) {
-      font-size: 1.4rem;
-    }
-
-    &:last-child {
-      margin-top: 1rem;
-    }
 
     &--collapsed {
       height: 2.8rem;
