@@ -6,7 +6,7 @@ const styledTheme = {
     background: '#fff',
     reversed: {
         background: '#292D36',
-        backgroundLight: '#363A42',
+        backgroundLight: '#3c4048',
         text: '#FBFBFB',
     },
     gray: {

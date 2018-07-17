@@ -21,9 +21,10 @@ const calculateItemHeight = (folder) => {
 
 const FolderItemPure = ({
     folder,
+    className,
     highlightedUid,
     lastActiveFolder,
-    onSelectFolder,
+    onClick,
     onCollapseFolder,
     indent,
 }) => (
@@ -31,9 +32,10 @@ const FolderItemPure = ({
         className={classNames({
             'o-notes-menu__item': true,
             'o-notes-menu__item--collapsed': folder.isCollapsed,
+            [className]: true,
         })}
         key={folder.uid}
-        onClick={(e) => { e.stopPropagation(); onSelectFolder(folder.uid); }}
+        onClick={(e) => { e.stopPropagation(); onClick(folder.uid); }}
         tabIndex={0}
         style={{
             height: `${calculateItemHeight(folder) / 10}rem`,
@@ -72,7 +74,7 @@ const FolderItemPure = ({
                     folders={folder.children}
                     highlightedUid={highlightedUid}
                     lastActiveFolder={lastActiveFolder}
-                    onSelectFolder={onSelectFolder}
+                    onClick={onClick}
                     onCollapseFolder={onCollapseFolder}
                     indent={indent + 1}
                 />
@@ -90,18 +92,20 @@ FolderItemPure.propTypes = {
         children: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
         indent: PropTypes.number,
     }).isRequired,
-    onSelectFolder: PropTypes.func,
+    onClick: PropTypes.func,
     onCollapseFolder: PropTypes.func,
     highlightedUid: PropTypes.string,
     lastActiveFolder: PropTypes.string,
+    className: PropTypes.string,
     indent: PropTypes.number,
 };
 
 FolderItemPure.defaultProps = {
-    onSelectFolder: () => {},
+    onClick: () => {},
     onCollapseFolder: () => {},
     highlightedUid: null,
     lastActiveFolder: null,
+    className: '',
     indent: 0,
 };
 

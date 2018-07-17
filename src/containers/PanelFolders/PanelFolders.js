@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { FolderList } from 'src/components/FolderList';
 import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
 import { collapseFolder, navigationSelectFolderAction } from 'src/store/actions';
+import { addFolderAction } from 'src/store/actions/folders';
 import {
     getSidebarFoldersSelector,
     highlightedItemSelector,
@@ -13,9 +14,10 @@ import {
 export const PanelFoldersPure = ({
     folders,
     highlighted,
-    onSelectFolder,
+    onClick,
     onCollapseFolder,
     lastActiveFolder,
+    addFolder,
 }) => (
     <nav className="l-panel-menu">
         <KeyboardNavigation>
@@ -23,8 +25,9 @@ export const PanelFoldersPure = ({
                 folders={folders}
                 highlightedUid={highlighted.itemUid}
                 lastActiveFolder={lastActiveFolder}
-                onSelectFolder={onSelectFolder}
+                onClick={onClick}
                 onCollapseFolder={onCollapseFolder}
+                addFolder={addFolder}
                 hasAddButton
             />
         </KeyboardNavigation>
@@ -46,8 +49,9 @@ PanelFoldersPure.propTypes = {
         itemUid: PropTypes.string,
     }).isRequired,
     lastActiveFolder: PropTypes.string,
-    onSelectFolder: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
     onCollapseFolder: PropTypes.func.isRequired,
+    addFolder: PropTypes.func.isRequired,
 };
 
 
@@ -62,8 +66,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    onSelectFolder: navigationSelectFolderAction,
+    onClick: navigationSelectFolderAction,
     onCollapseFolder: collapseFolder,
+    addFolder: addFolderAction,
 };
 
 export const PanelFolders = connect(mapStateToProps, mapDispatchToProps)(PanelFoldersPure);

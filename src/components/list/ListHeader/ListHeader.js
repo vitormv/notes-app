@@ -33,9 +33,7 @@ const ListHeaderStyled = styled.div`
 const ListHeader = () => (
     <ListHeaderStyled>
         <SortBy />
-
         <SearchBox />
-
         <NewNoteButton />
     </ListHeaderStyled>
 );

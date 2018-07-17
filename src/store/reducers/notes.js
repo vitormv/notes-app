@@ -3,8 +3,20 @@ import {
     UI_LOADED,
     UPDATE_SEARCH_QUERY,
 } from 'src/store/actions';
+import { ADD_FOLDER } from 'src/store/actions/folders';
 import { COLLAPSE_FOLDER, NAVIGATION_HIGHLIGHT_COLUMN } from 'src/store/actions/navigation';
 import bigList from './bigListOfNotes.json';
+
+const makeid = () => {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < 5; i += 1) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return text;
+};
 
 const defaultState = {
     ui: {
@@ -158,6 +170,24 @@ export default (state = defaultState, action) => {
                 ui: {
                     ...state.ui,
                     searchQuery: action.searchQuery,
+                },
+            };
+        }
+
+        case ADD_FOLDER: {
+            const newUid = makeid();
+
+            return {
+                ...state,
+                folders: {
+                    ...state.folders,
+                    [newUid]: {
+                        uid: newUid,
+                        label: action.name,
+                        iconClass: 'icon-circle',
+                        isCollapsed: false,
+                        parent: action.parentUid,
+                    },
                 },
             };
         }
