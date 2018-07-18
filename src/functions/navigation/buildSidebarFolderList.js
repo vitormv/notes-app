@@ -3,7 +3,7 @@ export const buildSidebarFolderList = (userFolders) => {
         {
             uid: 'folder:notes',
             label: 'notes',
-            iconClass: 'icon-note',
+            iconClass: 'note',
             classSuffix: '',
             isCollapsed: false,
             children: [],
@@ -11,7 +11,7 @@ export const buildSidebarFolderList = (userFolders) => {
         {
             uid: 'folder:favorites',
             label: 'favorites',
-            iconClass: 'icon-star',
+            iconClass: 'star',
             classSuffix: '',
             isCollapsed: false,
             children: [],
@@ -19,7 +19,7 @@ export const buildSidebarFolderList = (userFolders) => {
         {
             uid: 'folder:trash',
             label: 'trash',
-            iconClass: 'icon-trash',
+            iconClass: 'trash',
             classSuffix: '',
             isCollapsed: false,
             children: [],

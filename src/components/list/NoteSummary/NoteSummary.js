@@ -4,33 +4,28 @@ import classNames from 'classnames';
 import { format } from 'date-fns';
 import './NoteSummary.scss';
 
-class NoteSummaryPure extends React.PureComponent {
-    render() {
-        return (
-            <div
-                ref={(node) => {
-                    this.node = node;
-                }}
-                className={classNames({
-                    'o-notes-list__note': true,
-                    'o-note-summary': true,
-                    'o-note-summary--active': this.props.isActive,
-                    'o-note-summary--highlighted': this.props.isHighlighted,
-                })}
-                onClick={() => this.props.onClick(this.props.uid)}
-                style={this.props.style}
-            >
-                <div className="o-note-summary__title">{this.props.title}</div>
-                <div className="o-note-summary__date" title={format(this.props.updatedAt, 'DD MMM')}>
-                    {format(this.props.updatedAt, 'DD MMM')}
-                </div>
-                <div className="o-note-summary__excerpt">
-                    {this.props.summary}
-                </div>
-            </div>
-        );
-    }
-}
+const NoteSummaryPure = ({
+    isActive, isHighlighted, uid, style, title, updatedAt, summary, onClick,
+}) => (
+    <div
+        className={classNames({
+            'o-notes-list__note': true,
+            'o-note-summary': true,
+            'o-note-summary--active': isActive,
+            'o-note-summary--highlighted': isHighlighted,
+        })}
+        onClick={() => onClick(uid)}
+        style={style}
+    >
+        <div className="o-note-summary__title">{title}</div>
+        <div className="o-note-summary__date" title={format(updatedAt, 'DD MMM')}>
+            {format(updatedAt, 'DD MMM')}
+        </div>
+        <div className="o-note-summary__excerpt">
+            {summary}
+        </div>
+    </div>
+);
 
 NoteSummaryPure.propTypes = {
     uid: PropTypes.string.isRequired,

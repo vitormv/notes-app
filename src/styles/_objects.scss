@@ -2,7 +2,6 @@
   padding: 0;
   list-style: none;
   font-size: 1.6rem;
-  transition: transform $animationDuration $animationSlower;
 
   .o-notes-menu {
     font-size: 1.4rem;
@@ -16,20 +15,6 @@
       > :nth-child(n+4) {
         font-size: 1.4rem;
       }
-
-      > :last-child {
-        margin-top: 1rem;
-      }
-  }
-
-  &__collapse {
-    display: none;
-    position: absolute;
-    opacity: 0.5;
-    transition: transform $animationDuration $animationFaster;
-    left: -0.8rem;
-    padding: 0.3rem;
-    top: -0.1rem;
   }
 
   &__item {
@@ -41,67 +26,8 @@
     outline: none;
     position: relative;
     box-sizing: border-box;
-    transition: height $animationDuration $animationFaster;
     overflow: hidden;
     height: 2.8rem;
-
-    &--collapsed {
-      height: 2.8rem;
-      transition: height $animationDuration $animationFaster;
-
-      .o-notes-menu {
-        transform: translateY(-100%);
-        transition: transform $animationDuration $animationSlower;
-      }
-
-      .o-notes-menu__collapse {
-        transform: rotateZ(-90deg);
-      }
-    }
-  }
-
-  &__content {
-    display: flex;
-    padding: 0.6rem 1.5rem;
-    background-color: $menuColor;
-
-    &--active {
-      background-color: #4c4e53;
-      color: $backgroundColor;
-    }
-    &--highlighted {
-      background-color: $textColorHighlight;
-      color: $backgroundColor;
-    }
-
-    &--withChildren {
-      z-index: 1;
-      position: relative;
-
-      .o-notes-menu__collapse {
-        display: block;
-      }
-    }
-  }
-
-  &__icon {
-    width: 3rem;
-    min-width: 3rem;
-    text-align: center;
-    opacity: 0.3;
-    position: relative;
-  }
-
-  &__label {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  &__expand {
-    padding-left: .2rem;
-    opacity: .3;
-    display: inline-block;
   }
 
   &__sub {
