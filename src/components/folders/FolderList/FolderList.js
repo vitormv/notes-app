@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { FolderItem } from 'src/components/FolderItem';
+import { FolderItem } from 'src/components/folders/FolderItem';
 import { AddFolder } from 'src/components/folders/AddFolder';
 import { animated } from 'react-spring';
 

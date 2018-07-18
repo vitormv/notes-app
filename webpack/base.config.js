@@ -19,6 +19,7 @@ module.exports = {
     stats: {
         assets: false,
         chunks: false,
+        children: false,
     },
     plugins: [
         new HtmlWebpackPlugin({

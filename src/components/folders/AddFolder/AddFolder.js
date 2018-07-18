@@ -2,14 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { animated, Spring } from 'react-spring';
 import { CSSTransition } from 'react-transition-group';
-import { FolderItem } from 'src/components/FolderItem';
 import { FolderItemLabel } from 'src/components/folders/FolderItemLabel';
 import { Icon } from 'src/components/ui/Icon';
-import { MountAnimation } from 'src/components/ui/MountAnimation/MountAnimation';
 import styled from 'styled-components';
 
 const StyledLi = styled.li`
-    height: 2.8rem; // 2.8 * 2
+    height: 2.8rem;
     position: relative;
     overflow: hidden;
     
@@ -137,7 +135,7 @@ class AddFolder extends React.PureComponent {
                 <Spring
                     native
                     to={{
-                        transform: isAdding ? 'translateY(0) scale(1)' : 'translateY(-100%) scale(0.8)',
+                        transform: isAdding ? 'translateY(0) scale(1)' : 'translateY(-100%) scale(0.9)',
                         opacity: isAdding ? '1' : '0',
                     }}
                     immediate={this.state.immediate}

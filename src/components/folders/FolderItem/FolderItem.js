@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { shouldUpdate } from 'recompose';
 import isEqual from 'lodash/isEqual';
-import { FolderList } from 'src/components/FolderList/FolderList';
+import { FolderList } from 'src/components/folders/FolderList';
 import { FolderItemLabel } from 'src/components/folders/FolderItemLabel';
-import { animated, Spring, config } from 'react-spring';
+import { animated, Spring } from 'react-spring';
 
 export const folderItemHeight = 28;
 
@@ -31,7 +31,7 @@ const FolderItemPure = ({
     indent,
 }) => (
     <Spring
-        config={{ tension: 210, friction: 20 }}
+        config={{ tension: 210, friction: 24 }}
         native
         to={{
             height: `${calculateItemHeight(folder) / 10}rem`,
@@ -65,7 +65,7 @@ const FolderItemPure = ({
 
                 {folder.children.length > 0 && (
                     <Spring
-                        config={{ tension: 210, friction: 20 }}
+                        config={{ tension: 210, friction: 24 }}
                         native
                         to={{
                             transform: folder.isCollapsed ? 'top-100%)' : 'translateY(0%)',
