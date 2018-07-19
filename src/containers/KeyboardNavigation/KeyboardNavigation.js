@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getArrowKeyAsString } from 'src/functions/navigation';
-import { handleArrowKeysPress } from 'src/store/actions';
+import {
+    foldersColumnArrowKeyNavigationAction,
+    notesColumnArrowKeyNavigationAction,
+} from 'src/store/actions';
 import {
     currentNotesUidsSelector,
     flattenedFolderNodesSelector,
@@ -36,7 +39,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    dispatchHandleKeyPress: handleArrowKeysPress,
+    folderNavigationAction: foldersColumnArrowKeyNavigationAction,
+    noteNavigationAction: notesColumnArrowKeyNavigationAction,
 };
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -48,12 +52,19 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
             event.preventDefault();
 
-            dispatchProps.dispatchHandleKeyPress(
-                arrowKey,
-                stateProps.currentNotesUids,
-                stateProps.flattenedFolders,
-                stateProps.highlightedItem,
-            );
+            if (stateProps.highlightedItem.column === 1) {
+                dispatchProps.folderNavigationAction(
+                    arrowKey,
+                    stateProps.flattenedFolders,
+                    stateProps.highlightedItem,
+                );
+            } else {
+                dispatchProps.noteNavigationAction(
+                    arrowKey,
+                    stateProps.currentNotesUids,
+                    stateProps.highlightedItem,
+                );
+            }
         },
     };
 
