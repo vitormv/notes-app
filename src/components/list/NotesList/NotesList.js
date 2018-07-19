@@ -13,7 +13,7 @@ const cache = new CellMeasurerCache({
 const NotesList = ({
     notes, highlighted, lastActiveNote, onSelectNote,
 }) => {
-    const uids = Object.values(notes).map(note => note.uid);
+    const uids = notes.map(note => note.uid);
     const numberOfRows = uids.length;
     const highlightedIndex = highlighted.column === 2 ?
         uids.indexOf(highlighted.itemUid) : undefined;
@@ -70,7 +70,7 @@ NotesList.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.shape({
         uid: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        updatedAt: PropTypes.number.isRequired,
+        updatedAt: PropTypes.string.isRequired,
         summary: PropTypes.string.isRequired,
     })).isRequired,
     onSelectNote: PropTypes.func.isRequired,

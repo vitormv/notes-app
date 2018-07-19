@@ -33,7 +33,6 @@ const defaultState = {
             note: null,
         },
     },
-    current: Object.keys(bigList),
     folders: {
         uidFolder1: {
             uid: 'uidFolder1',

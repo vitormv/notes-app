@@ -30,7 +30,7 @@ const NoteSummaryPure = ({
 NoteSummaryPure.propTypes = {
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    updatedAt: PropTypes.number.isRequired,
+    updatedAt: PropTypes.string.isRequired,
     summary: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     isActive: PropTypes.bool,

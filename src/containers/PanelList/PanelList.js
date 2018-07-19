@@ -32,7 +32,7 @@ PanelListPure.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.shape({
         uid: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        updatedAt: PropTypes.number.isRequired,
+        updatedAt: PropTypes.string.isRequired,
         summary: PropTypes.string.isRequired,
     })).isRequired,
     onSelectNote: PropTypes.func.isRequired,
