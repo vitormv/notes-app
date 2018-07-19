@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -5,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const baseConfig = require('./base.config');
 const config = require('./config');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const stylesExtractor = new ExtractTextPlugin({
     filename: config.targetPath.css,
@@ -84,7 +86,7 @@ module.exports = merge(baseConfig, {
         ],
     },
     plugins: [
-        new CleanWebpackPlugin(['site'], {
+        new CleanWebpackPlugin([path.join(config.buildDirectory, '*.*')], {
             verbose: false,
             root: config.root,
         }),
@@ -93,5 +95,9 @@ module.exports = merge(baseConfig, {
             'process.env.NODE_ENV': JSON.stringify('production'),
         }),
         new UglifyJSPlugin(),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'disabled',
+            generateStatsFile: true,
+        }),
     ],
 });

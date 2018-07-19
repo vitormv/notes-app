@@ -135,13 +135,13 @@ class AddFolder extends React.PureComponent {
                 <Spring
                     native
                     to={{
-                        transform: isAdding ? 'translateY(0) scale(1)' : 'translateY(-100%) scale(0.9)',
+                        transform: isAdding ? 'translateY(0)' : 'translateY(-100%)',
                         opacity: isAdding ? '1' : '0',
                     }}
                     immediate={this.state.immediate}
                 >
                     {styles => (
-                        <StyledRename key="folder-input" hasText={this.state.folderNameInputValue.length > 0} style={styles}>
+                        <StyledRename key="folder-input" style={styles}>
                             <StyledInput
                                 innerRef={(el) => { this.inputNode = el; }}
                                 type="text"

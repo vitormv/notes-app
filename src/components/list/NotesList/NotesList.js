@@ -1,70 +1,79 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import memoizeOne from 'memoize-one';
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List } from 'react-virtualized';
 import { NoteSummary } from 'src/components/list/NoteSummary';
 import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
 import './NotesList.scss';
 
-const cache = new CellMeasurerCache({
+// list hash parameter is used only to bust the cache
+const getNewCache = listHash => new CellMeasurerCache({
     defaultHeight: 90,
     fixedWidth: true,
 });
 
-const NotesList = ({
-    notes, highlighted, lastActiveNote, onSelectNote,
-}) => {
-    const uids = notes.map(note => note.uid);
-    const numberOfRows = uids.length;
-    const highlightedIndex = highlighted.column === 2 ?
-        uids.indexOf(highlighted.itemUid) : undefined;
+const getRowSizesCache = memoizeOne(getNewCache);
 
-    return (
-        <div className="o-notes-list__items">
-            <KeyboardNavigation style={{ height: '100%' }}>
-                <AutoSizer>
-                    {({ height, width }) => (
-                        <List
-                            width={width}
-                            height={height}
-                            deferredMeasurementCache={cache}
-                            style={{ outline: 'none' }}
-                            scrollToIndex={highlightedIndex}
-                            rowCount={numberOfRows}
-                            rowHeight={cache.rowHeight}
-                            rowRenderer={({
-                                key, index, style, parent,
-                            }) => (
-                                <CellMeasurer
-                                    cache={cache}
-                                    columnIndex={0}
-                                    key={key}
-                                    parent={parent}
-                                    rowIndex={index}
-                                >
-                                    <NoteSummary
+class NotesList extends React.PureComponent {
+    render() {
+        const {
+            notes, highlighted, lastActiveNote, onSelectNote, listHash,
+        } = this.props;
+        const uids = notes.map(note => note.uid);
+        const numberOfRows = uids.length;
+        const highlightedIndex = highlighted.column === 2 ?
+            uids.indexOf(highlighted.itemUid) : undefined;
+
+        const cache = getRowSizesCache(listHash);
+
+        return (
+            <div className="o-notes-list__items">
+                <KeyboardNavigation style={{ height: '100%' }}>
+                    <AutoSizer>
+                        {({ height, width }) => (
+                            <List
+                                width={width}
+                                height={height}
+                                deferredMeasurementCache={cache}
+                                style={{ outline: 'none' }}
+                                scrollToIndex={highlightedIndex}
+                                rowCount={numberOfRows}
+                                rowHeight={cache.rowHeight}
+                                rowRenderer={({
+                                    key, index, style, parent,
+                                }) => (
+                                    <CellMeasurer
+                                        cache={cache}
+                                        columnIndex={0}
                                         key={key}
-                                        style={style}
-                                        uid={notes[index].uid}
-                                        title={notes[index].title}
-                                        summary={notes[index].summary.substr(0, 100)}
-                                        updatedAt={notes[index].updatedAt}
-                                        onClick={onSelectNote}
-                                        isActive={lastActiveNote === notes[index].uid}
-                                        isHighlighted={(
-                                            highlighted.column === 2
-                                            && highlighted.itemUid === notes[index].uid
-                                        )}
-                                    />
-                                </CellMeasurer>
-                            )}
-                        />
+                                        parent={parent}
+                                        rowIndex={index}
+                                    >
+                                        <NoteSummary
+                                            key={key}
+                                            style={style}
+                                            uid={notes[index].uid}
+                                            title={notes[index].title}
+                                            summary={notes[index].summary.substr(0, 100)}
+                                            updatedAt={notes[index].updatedAt}
+                                            onClick={onSelectNote}
+                                            isActive={lastActiveNote === notes[index].uid}
+                                            isHighlighted={(
+                                                highlighted.column === 2
+                                                && highlighted.itemUid === notes[index].uid
+                                            )}
+                                        />
+                                    </CellMeasurer>
+                                )}
+                            />
 
-                    )}
-                </AutoSizer>
-            </KeyboardNavigation>
-        </div>
-    );
-};
+                        )}
+                    </AutoSizer>
+                </KeyboardNavigation>
+            </div>
+        );
+    }
+}
 
 NotesList.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.shape({
@@ -79,10 +88,12 @@ NotesList.propTypes = {
         itemUid: PropTypes.string,
     }).isRequired,
     lastActiveNote: PropTypes.string,
+    listHash: PropTypes.string,
 };
 
 NotesList.defaultProps = {
     lastActiveNote: null,
+    listHash: '',
 };
 
 export { NotesList };

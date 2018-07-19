@@ -3,6 +3,7 @@ import {
     buildFolderStructure, buildFolderTree,
     buildSidebarFolderList, getFlattenedFolderNodes,
 } from 'src/functions/navigation';
+import { getStringHash } from 'src/functions/string/getStringHash';
 import { lastActiveFolderSelector } from 'src/store/selectors/navigation';
 
 export const allNotesSelector = state => state.notes.notes;
@@ -46,17 +47,14 @@ export const currentNotesUidsSelector = createSelector(
     },
 );
 
+export const getCurrentNoteUidsHashSelector = createSelector(
+    currentNotesUidsSelector,
+    noteUids => getStringHash(noteUids.join('.')),
+);
+
 export const currentNotesSelector = createSelector(
     currentNotesUidsSelector,
     allNotesSelector,
-    (currentNotesUids, allNotes) => {
-        currentNotesUids.map((uid) => {
-
-
-            return (allNotes[uid]);
-        });
-
-        return (currentNotesUids.map(uid => (allNotes[uid])));
-    },
+    (currentNotesUids, allNotes) => (currentNotesUids.map(uid => (allNotes[uid]))),
 );
 

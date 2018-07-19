@@ -60,9 +60,7 @@ const FolderItemLabel = ({
     style,
 }) => (
     <StyledFolderItemLabel
-        isCollapsed={isCollapsed}
         status={isHighlighted ? 'highlighted' : (isUnhighlighted ? 'unhighlighted' : 'default')}
-        isUnhighlighted={isUnhighlighted}
         style={{
             ...style,
             paddingLeft: `${((indent + 1) * 2)}rem`,

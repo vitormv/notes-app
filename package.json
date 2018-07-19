@@ -8,7 +8,8 @@
         "build": "webpack --config ./webpack/prod.config.js",
         "start": "webpack-dev-server --open --config ./webpack/dev.config.js",
         "electron": "yarn build && electron .",
-        "test": "jest"
+        "test": "jest",
+        "profile": "yarn build; webpack-bundle-analyzer -s gzip ./build/stats.json ./build"
     },
     "dependencies": {
         "arboreal": "^0.0.2",
@@ -19,6 +20,8 @@
         "is-hotkey": "^0.1.2",
         "is-url": "^1.2.4",
         "lodash": "^4.17.10",
+        "memoize-one": "^4.0.0",
+        "murmurhash": "^0.0.2",
         "react": "^16.4.1",
         "react-dom": "^16.4.1",
         "react-panelgroup": "^1.0.7",
@@ -67,6 +70,7 @@
         "sass-resources-loader": "^1.3.3",
         "style-loader": "^0.21.0",
         "webpack": "^4.8.1",
+        "webpack-bundle-analyzer": "^2.13.1",
         "webpack-cli": "^2.1.3",
         "webpack-dev-server": "^3.1.4",
         "webpack-merge": "^4.1.2"

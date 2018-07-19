@@ -2,7 +2,7 @@ const path = require('path');
 
 // base folders
 exports.root = path.resolve(__dirname, '../');
-exports.buildDirectory = 'site';
+exports.buildDirectory = 'build';
 exports.buildPath = path.join(exports.root, exports.buildDirectory);
 
 // entry files
