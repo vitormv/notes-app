@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual';
 import { FolderList } from 'src/components/folders/FolderList';
 import { FolderItemLabel } from 'src/components/folders/FolderItemLabel';
 import { animated, Spring } from 'react-spring';
+import { FolderType } from 'src/models/Folder';
 
 export const folderItemHeight = 28;
 
@@ -92,15 +93,7 @@ const FolderItemPure = ({
 );
 
 FolderItemPure.propTypes = {
-    folder: PropTypes.shape({
-        uid: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-        iconClass: PropTypes.string.isRequired,
-        classSuffix: PropTypes.string,
-        isCollapsed: PropTypes.bool.isRequired,
-        children: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-        indent: PropTypes.number,
-    }).isRequired,
+    folder: FolderType.isRequired,
     onClick: PropTypes.func,
     onCollapseFolder: PropTypes.func,
     highlightedUid: PropTypes.string,

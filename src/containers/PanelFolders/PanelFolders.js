@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FolderCollectionType } from 'src/models/Folder';
+import { HighlightedItemType } from 'src/models/HighlightedItem';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { FolderList } from 'src/components/folders/FolderList';
@@ -8,7 +10,7 @@ import { collapseFolder, navigationSelectFolderAction } from 'src/store/actions'
 import { addFolderAction } from 'src/store/actions/folders';
 import {
     getSidebarFoldersSelector,
-    highlightedItemSelector,
+    highlightedFolderUidSelector,
     lastActiveFolderSelector,
 } from 'src/store/selectors';
 
@@ -19,7 +21,7 @@ const DraggableArea = styled.div`
 
 export const PanelFoldersPure = ({
     folders,
-    highlighted,
+    highlightedFolder,
     onClick,
     onCollapseFolder,
     lastActiveFolder,
@@ -30,7 +32,7 @@ export const PanelFoldersPure = ({
         <KeyboardNavigation columnIndex={1}>
             <FolderList
                 folders={folders}
-                highlightedUid={highlighted.itemUid}
+                highlightedUid={highlightedFolder}
                 lastActiveFolder={lastActiveFolder}
                 onClick={onClick}
                 onCollapseFolder={onCollapseFolder}
@@ -42,19 +44,8 @@ export const PanelFoldersPure = ({
 );
 
 PanelFoldersPure.propTypes = {
-    folders: PropTypes.arrayOf(PropTypes.shape({
-        uid: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-        iconClass: PropTypes.string.isRequired,
-        classSuffix: PropTypes.string,
-        isCollapsed: PropTypes.bool.isRequired,
-        children: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-        indent: PropTypes.number,
-    })).isRequired,
-    highlighted: PropTypes.shape({
-        column: PropTypes.number.isRequired,
-        itemUid: PropTypes.string,
-    }).isRequired,
+    folders: FolderCollectionType.isRequired,
+    highlightedFolder: PropTypes.string,
     lastActiveFolder: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     onCollapseFolder: PropTypes.func.isRequired,
@@ -64,11 +55,12 @@ PanelFoldersPure.propTypes = {
 
 PanelFoldersPure.defaultProps = {
     lastActiveFolder: null,
+    highlightedFolder: null,
 };
 
 const mapStateToProps = state => ({
     folders: getSidebarFoldersSelector(state),
-    highlighted: highlightedItemSelector(state),
+    highlightedFolder: highlightedFolderUidSelector(state),
     lastActiveFolder: lastActiveFolderSelector(state),
 });
 

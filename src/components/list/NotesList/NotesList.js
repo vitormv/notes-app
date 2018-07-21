@@ -3,7 +3,6 @@ import React from 'react';
 import memoizeOne from 'memoize-one';
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List } from 'react-virtualized';
 import { NoteSummary } from 'src/components/list/NoteSummary';
-import { HighlightedItemType } from 'src/models/HighlightedItem';
 import { NoteCollectionType } from 'src/models/Note';
 import './NotesList.scss';
 
@@ -18,12 +17,11 @@ const getRowSizesCache = memoizeOne(getNewCache);
 class NotesList extends React.PureComponent {
     render() {
         const {
-            notes, highlighted, lastActiveNote, onSelectNote, listHash,
+            notes, highlightedUid, lastActiveNote, onSelectNote, listHash,
         } = this.props;
         const uids = notes.map(note => note.uid);
         const numberOfRows = uids.length;
-        const highlightedIndex = highlighted.column === 2 ?
-            uids.indexOf(highlighted.itemUid) : undefined;
+        const highlightedIndex = highlightedUid ? uids.indexOf(highlightedUid) : undefined;
 
         const cache = getRowSizesCache(listHash);
 
@@ -58,10 +56,7 @@ class NotesList extends React.PureComponent {
                                         updatedAt={notes[index].updatedAt}
                                         onClick={onSelectNote}
                                         isActive={lastActiveNote === notes[index].uid}
-                                        isHighlighted={(
-                                            highlighted.column === 2
-                                            && highlighted.itemUid === notes[index].uid
-                                        )}
+                                        isHighlighted={highlightedUid === notes[index].uid}
                                     />
                                 </CellMeasurer>
                             )}
@@ -77,7 +72,7 @@ class NotesList extends React.PureComponent {
 NotesList.propTypes = {
     notes: NoteCollectionType.isRequired,
     onSelectNote: PropTypes.func.isRequired,
-    highlighted: HighlightedItemType.isRequired,
+    highlightedUid: PropTypes.string,
     lastActiveNote: PropTypes.string,
     listHash: PropTypes.string,
 };
@@ -85,6 +80,7 @@ NotesList.propTypes = {
 NotesList.defaultProps = {
     lastActiveNote: null,
     listHash: '',
+    highlightedUid: '',
 };
 
 export { NotesList };

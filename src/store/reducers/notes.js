@@ -24,7 +24,15 @@ const defaultState = {
         searchQuery: '',
     },
     navigation: {
-        highlighted: {
+        folders: {
+            highlightedUid: null,
+            unhighlighted: 'folder:notes',
+        },
+        notes: {
+            highlightedUid: null,
+            unhighlighted: null,
+        },
+        highlightedUid: {
             column: 1,
             itemUid: null,
         },
@@ -108,14 +116,23 @@ export default (state = defaultState, action) => {
                 ...state,
                 navigation: {
                     ...state.navigation,
-                    highlighted: {
-                        ...state.navigation.highlighted,
+                    highlightedUid: {
+                        ...state.navigation.highlightedUid,
                         column: action.column,
                         itemUid: action.itemUid,
                     },
                     selected: {
                         ...state.navigation.selected,
                         [(action.column === 1) ? 'folder' : 'note']: action.itemUid,
+                    },
+                    [(action.column === 1) ? 'folders' : 'notes']: {
+                        ...state.navigation[(action.column === 1) ? 'folders' : 'notes'],
+                        highlightedUid: action.itemUid,
+                        unhighlighted: action.itemUid,
+                    },
+                    [(action.column === 1) ? 'notes' : 'folders']: {
+                        ...state.navigation[(action.column === 1) ? 'notes' : 'folders'],
+                        highlightedUid: null,
                     },
                 },
             };
@@ -131,8 +148,8 @@ export default (state = defaultState, action) => {
                 ...state,
                 navigation: {
                     ...state.navigation,
-                    highlighted: {
-                        ...state.navigation.highlighted,
+                    highlightedUid: {
+                        ...state.navigation.highlightedUid,
                         column: action.column,
                         itemUid,
                     },

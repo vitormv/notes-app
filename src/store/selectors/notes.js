@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 import {
     buildFolderStructure, buildFolderTree,
-    buildSidebarFolderList, getFlattenedFolderNodes,
+    buildSidebarFolderList, getFlattenedFolderNodes, getHighlightedNote, getNextHighlightedNote,
 } from 'src/functions/navigation';
 import { getStringHash } from 'src/functions/string/getStringHash';
-import { lastActiveFolderSelector } from 'src/store/selectors/navigation';
+import { highlightedItemSelector, lastActiveFolderSelector } from 'src/store/selectors/navigation';
 
 export const allNotesSelector = state => state.notes.notes;
 export const userFoldersSelector = state => state.notes.folders;
@@ -50,6 +50,17 @@ export const currentNotesUidsSelector = createSelector(
 export const getCurrentNoteUidsHashSelector = createSelector(
     currentNotesUidsSelector,
     noteUids => getStringHash(noteUids.join('.')),
+);
+
+export const highlightedFolderUidSelector = createSelector(
+    highlightedItemSelector,
+    highlightedItem => (highlightedItem.column === 1 ? highlightedItem.itemUid : null),
+);
+
+export const highlightedNoteUidSelector = createSelector(
+    highlightedItemSelector,
+    currentNotesUidsSelector,
+    (...args) => getHighlightedNote(...args),
 );
 
 export const currentNotesSelector = createSelector(
