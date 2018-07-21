@@ -7,7 +7,6 @@ import styled from 'styled-components';
 const ListHeaderStyled = styled.div`
     box-sizing: border-box;
     padding: 1rem 3.2rem;
-    flex: 0 0 6rem;
     border-bottom: 1px solid ${props => props.theme.gray.medium};
     display: flex;
     align-items: center;

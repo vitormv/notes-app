@@ -33,17 +33,6 @@
   box-sizing: border-box;
 }
 
-.l-panel-list {
-  background-color: $grayLight;
-  border-right: 1px solid $grayMedium;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 1.6rem;
-}
-
 .l-panel-editor {
   background-color: $backgroundColor;
   font-size: 1.6rem;

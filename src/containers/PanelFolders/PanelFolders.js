@@ -27,7 +27,7 @@ export const PanelFoldersPure = ({
 }) => (
     <nav className="l-panel-menu">
         <DraggableArea />
-        <KeyboardNavigation>
+        <KeyboardNavigation columnIndex={1}>
             <FolderList
                 folders={folders}
                 highlightedUid={highlighted.itemUid}

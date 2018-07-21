@@ -11,6 +11,9 @@ body {
   font-weight: 200;
   color: $textColor;
 
-
   -ms-overflow-style: scrollbar;
+
+  *:focus {
+    outline: none;
+  }
 }

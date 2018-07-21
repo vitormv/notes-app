@@ -5,7 +5,7 @@ const DISCARD_ACTION = {
 };
 
 export const NAVIGATION_HIGHLIGHT_ITEM = 'NAV_HIGHLIGHT_ITEM';
-export const navigationHighlightItem = (column, itemUid) => ({
+export const navigationHighlightItemAction = (column, itemUid) => ({
     type: NAVIGATION_HIGHLIGHT_ITEM,
     column,
     itemUid,
@@ -24,8 +24,8 @@ export const collapseFolder = (folderUid, isCollapsed) => ({
     isCollapsed,
 });
 
-export const navigationSelectFolderAction = itemUid => (navigationHighlightItem(1, itemUid));
-export const navigationSelectNoteAction = itemUid => (navigationHighlightItem(2, itemUid));
+export const navigationSelectFolderAction = itemUid => (navigationHighlightItemAction(1, itemUid));
+export const navigationSelectNoteAction = itemUid => (navigationHighlightItemAction(2, itemUid));
 
 export const foldersColumnArrowKeyNavigationAction = (
     arrowKey,
@@ -47,7 +47,7 @@ export const foldersColumnArrowKeyNavigationAction = (
                 if (node.children.length > 0 && !node.data.isCollapsed) {
                     return collapseFolder(highlightedItem.itemUid, true);
                 } else if (node.parent && !node.parent.isRoot()) {
-                    return navigationHighlightItem(1, node.parent.data.uid);
+                    return navigationHighlightItemAction(1, node.parent.data.uid);
                 }
             }
 

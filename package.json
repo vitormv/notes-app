@@ -1,7 +1,7 @@
 {
     "name": "trinotas",
     "version": "0.0.1",
-    "main": "site/index.electron.js",
+    "main": "build/index.electron.js",
     "description": "Trinotas",
     "homepage": "./",
     "scripts": {

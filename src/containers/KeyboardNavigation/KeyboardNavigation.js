@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getArrowKeyAsString } from 'src/functions/navigation';
+import { HighlightedItemType } from 'src/models/HighlightedItem';
 import {
-    foldersColumnArrowKeyNavigationAction,
+    foldersColumnArrowKeyNavigationAction, navigationHighlightItemAction,
     notesColumnArrowKeyNavigationAction,
 } from 'src/store/actions';
 import {
@@ -12,24 +13,83 @@ import {
     highlightedItemSelector,
 } from 'src/store/selectors';
 
-const KeyboardNavigationPure = ({ handleArrowKeyPress, style, children }) => (
-    <div
-        onKeyDown={(event) => { handleArrowKeyPress(event); }}
-        role="presentation"
-        style={style}
-    >
-        {children}
-    </div>
-);
+class KeyboardNavigationPure extends React.PureComponent {
+    constructor(props) {
+        super(props);
+
+        this.navigationNode = null;
+
+        this.handleArrowKeyPress = this.handleArrowKeyPress.bind(this);
+    }
+
+    componentDidMount() {
+        this.handleFocus();
+    }
+
+    componentDidUpdate() {
+        this.handleFocus();
+    }
+
+    handleFocus() {
+        const { columnIndex, highlightedItem } = this.props;
+
+        if (
+            this.navigationNode
+            && (columnIndex === highlightedItem.column)
+        ) {
+            this.navigationNode.focus();
+        }
+    }
+
+    handleArrowKeyPress(event) {
+        const arrowKey = getArrowKeyAsString(event.keyCode);
+
+        // no arrow key, ignore
+        if (!arrowKey) return;
+
+        event.preventDefault();
+
+        const { highlightedItem } = this.props;
+
+        if (highlightedItem.column === 1) {
+            this.props.folderNavigationAction(
+                arrowKey,
+                this.props.flattenedFolders,
+                highlightedItem,
+            );
+        } else {
+            this.props.noteNavigationAction(
+                arrowKey,
+                this.props.currentNotesUids,
+                highlightedItem,
+            );
+        }
+    }
+
+    render() {
+        const { children } = this.props;
+
+        return (
+            <div
+                ref={(node) => { this.navigationNode = node; }}
+                onKeyDown={this.handleArrowKeyPress}
+                role="presentation"
+                tabIndex={0}
+            >
+                {children}
+            </div>
+        );
+    }
+}
 
 KeyboardNavigationPure.propTypes = {
-    handleArrowKeyPress: PropTypes.func.isRequired,
+    columnIndex: PropTypes.number.isRequired,
+    highlightedItem: HighlightedItemType.isRequired,
     children: PropTypes.node.isRequired,
-    style: PropTypes.shape(),
-};
-
-KeyboardNavigationPure.defaultProps = {
-    style: {},
+    currentNotesUids: PropTypes.arrayOf(PropTypes.string).isRequired,
+    flattenedFolders: PropTypes.shape({}).isRequired,
+    folderNavigationAction: PropTypes.func.isRequired,
+    noteNavigationAction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -41,38 +101,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     folderNavigationAction: foldersColumnArrowKeyNavigationAction,
     noteNavigationAction: notesColumnArrowKeyNavigationAction,
-};
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-    const newProps = {
-        handleArrowKeyPress: (event) => {
-            const arrowKey = getArrowKeyAsString(event.keyCode);
-
-            if (!arrowKey) return;
-
-            event.preventDefault();
-
-            if (stateProps.highlightedItem.column === 1) {
-                dispatchProps.folderNavigationAction(
-                    arrowKey,
-                    stateProps.flattenedFolders,
-                    stateProps.highlightedItem,
-                );
-            } else {
-                dispatchProps.noteNavigationAction(
-                    arrowKey,
-                    stateProps.currentNotesUids,
-                    stateProps.highlightedItem,
-                );
-            }
-        },
-    };
-
-    return Object.assign({}, ownProps, stateProps, dispatchProps, newProps);
+    setHighlightedItem: navigationHighlightItemAction,
 };
 
 export const KeyboardNavigation = connect(
     mapStateToProps,
     mapDispatchToProps,
-    mergeProps,
 )(KeyboardNavigationPure);
