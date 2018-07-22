@@ -29,10 +29,12 @@
 .icon-circle { @include create-awesome-icon(circle) }
 .icon-angle-down { @include create-awesome-icon(angle-down) }
 .icon-plus { @include create-awesome-icon(plus) }
+.icon-plus-circle { @include create-awesome-icon(plus-circle) }
 .icon-ellipsis-h { @include create-awesome-icon(ellipsis-h) }
 .icon-times { @include create-awesome-icon(times) }
 .icon-check-circle { @include create-awesome-icon(check-circle, regular) }
 .icon-times-circle { @include create-awesome-icon(times-circle, regular) }
+.icon-ellipsis-v { @include create-awesome-icon(ellipsis-v) }
 
 .icon-bold { @include create-awesome-icon(bold) }
 .icon-italic { @include create-awesome-icon(italic) }

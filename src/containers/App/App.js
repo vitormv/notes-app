@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import PanelGroup from 'react-panelgroup';
 import { connect } from 'react-redux';
 import { compose, lifecycle } from 'recompose';
-import classNames from 'classnames';
 import { PanelFolders } from 'src/containers/PanelFolders';
 import { PanelList } from 'src/containers/PanelList';
 import { PanelEditor } from 'src/containers/PanelEditor';

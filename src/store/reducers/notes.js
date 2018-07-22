@@ -24,14 +24,6 @@ const defaultState = {
         searchQuery: '',
     },
     navigation: {
-        folders: {
-            highlightedUid: null,
-            unhighlighted: 'folder:notes',
-        },
-        notes: {
-            highlightedUid: null,
-            unhighlighted: null,
-        },
         highlightedUid: {
             column: 1,
             itemUid: null,
@@ -124,15 +116,7 @@ export default (state = defaultState, action) => {
                     selected: {
                         ...state.navigation.selected,
                         [(action.column === 1) ? 'folder' : 'note']: action.itemUid,
-                    },
-                    [(action.column === 1) ? 'folders' : 'notes']: {
-                        ...state.navigation[(action.column === 1) ? 'folders' : 'notes'],
-                        highlightedUid: action.itemUid,
-                        unhighlighted: action.itemUid,
-                    },
-                    [(action.column === 1) ? 'notes' : 'folders']: {
-                        ...state.navigation[(action.column === 1) ? 'notes' : 'folders'],
-                        highlightedUid: null,
+                        [(action.column === 1) ? 'folder' : 'note']: action.itemUid,
                     },
                 },
             };
@@ -140,9 +124,9 @@ export default (state = defaultState, action) => {
         case NAVIGATION_HIGHLIGHT_COLUMN: {
             let itemUid = state.navigation.selected[(action.column === 1) ? 'folder' : 'note'];
 
-            if (action.column === 2 && !itemUid) {
-                itemUid = (state.current.length > 0) ? state.current[0] : null;
-            }
+            // if (action.column === 2 && !itemUid) {
+            //     itemUid = (state.current.length > 0) ? state.current[0] : null;
+            // }
 
             return {
                 ...state,

@@ -8,18 +8,12 @@ import {
     BLOCK_IMAGE,
     BLOCK_LIST_ITEM,
     BLOCK_LIST_OL,
-    BLOCK_LIST_UL,
+    BLOCK_LIST_UL, BLOCK_PARAGRAPH,
     BLOCK_QUOTE, BLOCK_SEPARATOR,
 } from 'src/components/TextEditor/SlateDictionary';
 import { SlateImage } from 'src/components/TextEditor/SlateImage';
 
-/**
- * Render a Slate node.
- *
- * @param {Object} props
- * @return {Element}
- */
-export const renderSlateNode = (props) => {
+const renderSlateNode = (props) => {
     const {
         attributes,
         children,
@@ -28,6 +22,8 @@ export const renderSlateNode = (props) => {
         editor,
     } = props;
     switch (node.type) {
+        case BLOCK_PARAGRAPH:
+            return <p {...attributes}>{children}</p>;
         case BLOCK_H1:
             return <h1 {...attributes}>{children}</h1>;
         case BLOCK_H2:
@@ -65,3 +61,5 @@ export const renderSlateNode = (props) => {
             return null;
     }
 };
+
+export { renderSlateNode };

@@ -19,3 +19,19 @@ export const MARK_ITALIC = 'italic';
 export const MARK_UNDERLINE = 'underlined';
 export const MARK_STRIKETHROUGH = 'strikethrough';
 export const MARK_CODE = 'code';
+
+export const DEFAULT_NODE = 'paragraph';
+
+export const ALLOWED_BLOCK_TYPES = [
+    BLOCK_PARAGRAPH,
+    BLOCK_H1,
+    BLOCK_H2,
+    BLOCK_H3,
+    BLOCK_QUOTE,
+    BLOCK_SEPARATOR,
+    BLOCK_IMAGE,
+    BLOCK_LIST_OL,
+    BLOCK_LIST_UL,
+    BLOCK_LIST_ITEM,
+    BLOCK_CHECKLIST_ITEM,
+];

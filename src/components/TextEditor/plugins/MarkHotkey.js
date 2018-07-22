@@ -20,7 +20,7 @@ export const MarkHotkey = ({ type, key }) => {
     const isValidHotkey = isKeyHotkey(key);
 
     return {
-        onKeyDown(event, change, editor) {
+        onKeyDown: (event, change, editor) => {
             // Check that the key pressed matches our `key` option.
             if (!isValidHotkey(event)) return null;
 

@@ -63,6 +63,12 @@ export const highlightedNoteUidSelector = createSelector(
     (...args) => getHighlightedNote(...args),
 );
 
+export const highlightedNoteSelector = createSelector(
+    highlightedNoteUidSelector,
+    allNotesSelector,
+    (highlightedNoteUid, notes) => notes[highlightedNoteUid],
+);
+
 export const currentNotesSelector = createSelector(
     currentNotesUidsSelector,
     allNotesSelector,

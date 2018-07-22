@@ -1,12 +1,12 @@
 import React from 'react';
-import { Block, Value } from 'slate';
+import PropTypes from 'prop-types';
 import { Editor } from 'slate-react';
-import { isKeyHotkey } from 'is-hotkey';
-import { FIRST_CHILD_TYPE_INVALID, LAST_CHILD_TYPE_INVALID } from 'slate-schema-violations';
-import { getMarkdownBlockFromPrefix } from 'src/components/TextEditor/getMarkdownBlockFromPrefix';
+import Plain from 'slate-plain-serializer';
 import { HoverMenu } from 'src/components/TextEditor/HoverMenu';
+import { ExpandMarkdownSyntax } from 'src/components/TextEditor/plugins/ExpandMarkdownSyntax';
 import { applyMark, MarkHotkey } from 'src/components/TextEditor/plugins/MarkHotkey';
 import DropOrPasteImages from 'slate-drop-or-paste-images';
+import { Schema } from 'src/components/TextEditor/Schema';
 import {
     BLOCK_CHECKLIST_ITEM,
     BLOCK_H1,
@@ -16,9 +16,8 @@ import {
     BLOCK_LIST_ITEM,
     BLOCK_LIST_OL,
     BLOCK_LIST_UL,
-    BLOCK_PARAGRAPH,
     BLOCK_QUOTE,
-    BLOCK_SEPARATOR,
+    BLOCK_SEPARATOR, DEFAULT_NODE,
     MARK_BOLD,
     MARK_CODE,
     MARK_ITALIC,
@@ -26,38 +25,7 @@ import {
     MARK_UNDERLINE,
 } from 'src/components/TextEditor/SlateDictionary';
 import { renderSlateNode } from './renderSlateNode';
-import { DEFAULT_NODE, InitialValue } from './InitialValue';
 import './TextEditor.scss';
-
-const isEnterKey = isKeyHotkey('enter');
-const isBackspaceKey = isKeyHotkey('backspace');
-const isSpaceKey = isKeyHotkey('space');
-
-const schema = {
-    document: {
-        first: { types: [BLOCK_H1], min: 1 },
-        last: { types: [BLOCK_PARAGRAPH] },
-        normalize: (change, reason, { node, child }) => {
-            switch (reason) {
-                case FIRST_CHILD_TYPE_INVALID: {
-                    return change.setNodeByKey(child.key, { type: BLOCK_H1 });
-                }
-                case LAST_CHILD_TYPE_INVALID: {
-                    const paragraph = Block.create(BLOCK_PARAGRAPH);
-                    return change.insertNodeByKey(node.key, node.nodes.size, paragraph);
-                }
-                default:
-                    return true;
-            }
-        },
-    },
-    blocks: {
-        [BLOCK_H1]: {
-            nodes: [{ objects: ['text'] }],
-            marks: [{ type: MARK_UNDERLINE }, { type: MARK_ITALIC }],
-        },
-    },
-};
 
 const plugins = [
     MarkHotkey({ type: MARK_BOLD, key: 'mod+b' }),
@@ -73,14 +41,15 @@ const plugins = [
             data: { src: file },
         }),
     }),
+    ExpandMarkdownSyntax(),
 ];
 
-class TextEditor extends React.Component {
+class TextEditor extends React.PureComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            value: Value.fromJSON(InitialValue),
+            value: Plain.deserialize(props.noteContent),
             isHoverMenuVisible: false,
         };
 
@@ -89,7 +58,6 @@ class TextEditor extends React.Component {
 
         this.onChange = this.onChange.bind(this);
         this.hasMark = this.hasMark.bind(this);
-        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     onChange({ value }) {
@@ -107,25 +75,6 @@ class TextEditor extends React.Component {
         }
 
         this.setState({ value });
-    }
-
-    /**
-     * On key down, if it's a formatting command toggle a mark.
-     *
-     * @param {Event} event
-     * @param {Change} change
-     * @return {Change}
-     */
-    onKeyDown(event, change) {
-        if (isSpaceKey(event)) {
-            return this.onSpace(event, change);
-        } else if (isBackspaceKey(event)) {
-            return this.onBackspace(event, change);
-        } else if (isEnterKey(event)) {
-            return this.onEnter(event, change);
-        }
-
-        return null;
     }
 
     hasMark(type) {
@@ -250,7 +199,9 @@ class TextEditor extends React.Component {
         } else {
             // Handle the extra wrapping required for list buttons.
             const isList = this.hasBlock(BLOCK_LIST_ITEM);
-            const isType = value.blocks.some(block => !!document.getClosest(block.key, parent => parent.type === type));
+            const isType = value.blocks.some(block => (
+                !!document.getClosest(block.key, parent => parent.type === type)
+            ));
 
             if (isList && isType) {
                 change
@@ -269,86 +220,6 @@ class TextEditor extends React.Component {
         this.onChange(change);
     }
 
-    onSpace(event, change) {
-        const { value } = change;
-        if (value.isExpanded) return;
-
-        const { startBlock, startOffset } = value;
-        const chars = startBlock.text.slice(0, startOffset).replace(/\s*/g, '');
-        const type = getMarkdownBlockFromPrefix(chars);
-
-        if (!type) return;
-        if (type === BLOCK_LIST_ITEM && startBlock.type === BLOCK_LIST_ITEM) return;
-        event.preventDefault();
-
-        change.setBlocks(type);
-
-        if (type === BLOCK_LIST_ITEM) {
-            change.wrapBlock(BLOCK_LIST_UL);
-        }
-
-        change.extendToStartOf(startBlock).delete();
-    }
-
-    /**
-     * On backspace, if at the start of a non-paragraph, convert it back into a
-     * paragraph node.
-     *
-     * @param {Event} event
-     * @param {Change} change
-     */
-
-    onBackspace(event, change) {
-        const { value } = change;
-        if (value.isExpanded) return null;
-        if (value.startOffset !== 0) return null;
-
-        const { startBlock } = value;
-        if (startBlock.type === BLOCK_PARAGRAPH) return null;
-
-        event.preventDefault();
-        change.setBlocks(BLOCK_PARAGRAPH);
-
-        if (startBlock.type === BLOCK_LIST_ITEM) {
-            change.unwrapBlock(BLOCK_LIST_OL).unwrapBlock(BLOCK_LIST_UL);
-            return false;
-        }
-
-        return true;
-    }
-
-    onEnter(event, change) {
-        const { value } = change;
-
-        if (value.isExpanded) return null;
-
-        const { startBlock, startOffset, endOffset } = value;
-
-        if (startOffset === 0 && startBlock.text.length === 0) {
-            return this.onBackspace(event, change);
-        }
-
-        if (endOffset !== startBlock.text.length) return null;
-
-        if (startBlock.type === BLOCK_CHECKLIST_ITEM) {
-            change.splitBlock().setBlocks({ data: { checked: false } });
-            return true;
-        }
-
-        if (
-            startBlock.type !== BLOCK_H1 &&
-            startBlock.type !== BLOCK_H2 &&
-            startBlock.type !== BLOCK_H3 &&
-            startBlock.type !== BLOCK_QUOTE
-        ) {
-            return null;
-        }
-
-        event.preventDefault();
-        change.splitBlock().setBlocks(BLOCK_PARAGRAPH);
-        return false;
-    }
-
     // Render the editor.
     render() {
         return (
@@ -360,13 +231,11 @@ class TextEditor extends React.Component {
                 />
                 <Editor
                     className="editor"
-                    spellCheck
-                    autoFocus
+                    spellCheck={false}
                     placeholder="Enter some text..."
                     value={this.state.value}
                     onChange={this.onChange}
-                    schema={schema}
-                    onKeyDown={this.onKeyDown}
+                    schema={Schema}
                     onDrop={this.onDropOrPaste}
                     onPaste={this.onDropOrPaste}
                     renderNode={renderSlateNode}
@@ -389,5 +258,9 @@ class TextEditor extends React.Component {
         );
     }
 }
+
+TextEditor.propTypes = {
+    noteContent: PropTypes.string.isRequired,
+};
 
 export { TextEditor };
