@@ -86,7 +86,7 @@ module.exports = merge(baseConfig, {
         ],
     },
     plugins: [
-        new CleanWebpackPlugin([path.join(config.buildDirectory, '*.*')], {
+        new CleanWebpackPlugin([path.join(config.buildDirectory, '*')], {
             verbose: false,
             root: config.root,
         }),
