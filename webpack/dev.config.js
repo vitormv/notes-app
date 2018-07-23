@@ -8,6 +8,7 @@ module.exports = merge(baseConfig, {
         contentBase: config.buildPath,
         noInfo: true,
         overlay: true,
+        hot: true,
     },
     plugins: [
         new ErrorOverlayPlugin(),
@@ -68,9 +69,6 @@ module.exports = merge(baseConfig, {
             {
                 test: /\.(png|jpg|gif|svg|woff(2)?|ttf|eot)$/,
                 loader: 'file-loader',
-                options: {
-                    name: config.targetPath.media,
-                },
             },
         ],
     },

@@ -16,6 +16,9 @@ const stylesExtractor = new ExtractTextPlugin({
 
 module.exports = merge(baseConfig, {
     mode: 'production',
+    output: {
+        filename: config.targetPath.js,
+    },
     module: {
         rules: [
             {

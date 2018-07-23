@@ -33,7 +33,6 @@ module.exports = {
         ]),
     ],
     output: {
-        filename: config.targetPath.js,
         path: config.buildPath,
     },
 };
