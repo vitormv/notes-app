@@ -63,8 +63,9 @@ class FolderItemPure extends React.PureComponent {
 
         // when the folder being collapsed has a (un)highlighted child,
         // focus on this folder first
-        if (hasAnyHighlightedChild(folder, highlightedUid, unhighlightedUid)) onClick(folder.uid);
-        // if (hasAnyHighlightedChild(folder, unhighlightedUid)) onClick(folder.uid);
+        if (hasAnyHighlightedChild(folder, highlightedUid, unhighlightedUid)) {
+            onClick(folder.uid);
+        }
 
         onCollapseFolder(folder.uid, !folder.isCollapsed);
     }
