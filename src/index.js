@@ -21,8 +21,8 @@ const mount = (options = {}) => {
     // If HMR is enabled, we rerender the application
     // if anything has changed.
     if (module.hot) {
-        module.hot.accept(['./containers/Notes'], () => {
-            const NextApp = require('./containers/App').App; // eslint-disable-line global-require
+        module.hot.accept(['./containers/App'], () => {
+            const NextApp = require('./containers/App'); // eslint-disable-line global-require
 
             render(
                 <Provider store={store}>

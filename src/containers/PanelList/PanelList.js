@@ -12,7 +12,7 @@ import { navigationSelectNoteAction } from 'src/store/actions';
 import {
     currentNotesSelector, getCurrentNoteUidsHashSelector,
     highlightedItemSelector, highlightedNoteUidSelector,
-    lastActiveNoteSelector,
+    unhighlightedNoteSelector,
 } from 'src/store/selectors';
 
 const StyledPanelList = styled.section`
@@ -81,7 +81,7 @@ PanelListPure.defaultProps = {
 const mapStateToProps = state => ({
     notes: currentNotesSelector(state),
     highlightedUid: highlightedNoteUidSelector(state),
-    lastActiveNote: lastActiveNoteSelector(state),
+    lastActiveNote: unhighlightedNoteSelector(state),
     listHash: getCurrentNoteUidsHashSelector(state),
 });
 

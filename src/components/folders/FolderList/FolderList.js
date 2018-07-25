@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { FolderItem } from 'src/components/folders/FolderItem';
 import { AddFolder } from 'src/components/folders/AddFolder';
 import { animated } from 'react-spring';
+import { FolderCollectionType } from 'src/models/Folder';
 
 const FolderList = ({
     folders,
@@ -45,15 +46,7 @@ const FolderList = ({
 );
 
 FolderList.propTypes = {
-    folders: PropTypes.arrayOf(PropTypes.shape({
-        uid: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
-        iconClass: PropTypes.string.isRequired,
-        classSuffix: PropTypes.string,
-        isCollapsed: PropTypes.bool.isRequired,
-        children: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-        indent: PropTypes.number,
-    })).isRequired,
+    folders: FolderCollectionType.isRequired,
     highlightedUid: PropTypes.string,
     lastActiveFolder: PropTypes.string,
     onClick: PropTypes.func.isRequired,

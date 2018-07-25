@@ -4,3 +4,9 @@ export const addFolderAction = (name, parentUid = null) => ({
     name,
     parentUid,
 });
+
+export const DELETE_FOLDER = 'DELETE_FOLDER';
+export const deleteFolderAction = folderUid => ({
+    type: DELETE_FOLDER,
+    folderUid,
+});

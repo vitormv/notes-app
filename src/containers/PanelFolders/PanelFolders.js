@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FolderCollectionType } from 'src/models/Folder';
-import { HighlightedItemType } from 'src/models/HighlightedItem';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { FolderList } from 'src/components/folders/FolderList';
@@ -11,7 +10,7 @@ import { addFolderAction } from 'src/store/actions/folders';
 import {
     getSidebarFoldersSelector,
     highlightedFolderUidSelector,
-    lastActiveFolderSelector,
+    unhighlightedFolderSelector,
 } from 'src/store/selectors';
 
 const DraggableArea = styled.div`
@@ -61,7 +60,7 @@ PanelFoldersPure.defaultProps = {
 const mapStateToProps = state => ({
     folders: getSidebarFoldersSelector(state),
     highlightedFolder: highlightedFolderUidSelector(state),
-    lastActiveFolder: lastActiveFolderSelector(state),
+    lastActiveFolder: unhighlightedFolderSelector(state),
 });
 
 const mapDispatchToProps = {

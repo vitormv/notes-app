@@ -1,3 +1,3 @@
 export const highlightedItemSelector = state => state.notes.navigation.highlightedUid;
-export const lastActiveFolderSelector = state => state.notes.navigation.selected.folder;
-export const lastActiveNoteSelector = state => state.notes.navigation.selected.note;
+export const unhighlightedFolderSelector = state => state.notes.navigation.unhighlighted.folder;
+export const unhighlightedNoteSelector = state => state.notes.navigation.unhighlighted.note;

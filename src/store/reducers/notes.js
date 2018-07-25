@@ -3,7 +3,8 @@ import {
     UI_LOADED,
     UPDATE_SEARCH_QUERY,
 } from 'src/store/actions';
-import { ADD_FOLDER } from 'src/store/actions/folders';
+import omit from 'lodash/omit';
+import { ADD_FOLDER, DELETE_FOLDER } from 'src/store/actions/folders';
 import { COLLAPSE_FOLDER, NAVIGATION_HIGHLIGHT_COLUMN } from 'src/store/actions/navigation';
 import bigList from './bigListOfNotes.json';
 
@@ -28,7 +29,7 @@ const defaultState = {
             column: 1,
             itemUid: null,
         },
-        selected: {
+        unhighlighted: {
             folder: 'folder:notes',
             note: null,
         },
@@ -113,16 +114,15 @@ export default (state = defaultState, action) => {
                         column: action.column,
                         itemUid: action.itemUid,
                     },
-                    selected: {
-                        ...state.navigation.selected,
-                        [(action.column === 1) ? 'folder' : 'note']: action.itemUid,
+                    unhighlighted: {
+                        ...state.navigation.unhighlighted,
                         [(action.column === 1) ? 'folder' : 'note']: action.itemUid,
                     },
                 },
             };
 
         case NAVIGATION_HIGHLIGHT_COLUMN: {
-            let itemUid = state.navigation.selected[(action.column === 1) ? 'folder' : 'note'];
+            const itemUid = state.navigation.unhighlighted[(action.column === 1) ? 'folder' : 'note'];
 
             // if (action.column === 2 && !itemUid) {
             //     itemUid = (state.current.length > 0) ? state.current[0] : null;
@@ -189,6 +189,13 @@ export default (state = defaultState, action) => {
                         parent: action.parentUid,
                     },
                 },
+            };
+        }
+
+        case DELETE_FOLDER: {
+            return {
+                ...state,
+                folders: omit(state.folders, [action.folderUid]),
             };
         }
 

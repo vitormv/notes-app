@@ -4,7 +4,7 @@ import {
     buildSidebarFolderList, getFlattenedFolderNodes, getHighlightedNote, getNextHighlightedNote,
 } from 'src/functions/navigation';
 import { getStringHash } from 'src/functions/string/getStringHash';
-import { highlightedItemSelector, lastActiveFolderSelector } from 'src/store/selectors/navigation';
+import { highlightedItemSelector, unhighlightedFolderSelector } from 'src/store/selectors/navigation';
 
 export const allNotesSelector = state => state.notes.notes;
 export const userFoldersSelector = state => state.notes.folders;
@@ -36,7 +36,7 @@ export const flattenedFolderNodesSelector = createSelector(
 
 export const currentNotesUidsSelector = createSelector(
     allNotesSelector,
-    lastActiveFolderSelector,
+    unhighlightedFolderSelector,
     (allNotes, lastActiveFolder) => {
         const folderUid = lastActiveFolder || 'folder:notes';
         const allUids = Object.keys(allNotes);

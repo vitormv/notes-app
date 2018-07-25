@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { shouldUpdate } from 'recompose';
 import isEqual from 'lodash/isEqual';
+import { ContextMenu } from 'src/components/folders/ContextMenu';
 import { FolderList } from 'src/components/folders/FolderList';
 import { FolderItemLabel } from 'src/components/folders/FolderItemLabel';
 import { animated, Spring } from 'react-spring';
+import { hasHighlightedChild } from 'src/functions/folders';
 import { FolderType } from 'src/models/Folder';
 
 export const folderItemHeight = 28;
@@ -22,75 +24,138 @@ const calculateItemHeight = (folder) => {
     return height;
 };
 
-const FolderItemPure = ({
-    folder,
-    className,
-    highlightedUid,
-    lastActiveFolder,
-    onClick,
-    onCollapseFolder,
-    indent,
-}) => (
-    <Spring
-        config={{ tension: 210, friction: 24 }}
-        native
-        to={{
-            height: `${calculateItemHeight(folder) / 10}rem`,
-        }}
-    >
-        {styles => (
-            <animated.li
-                className={classNames({
-                    'o-notes-menu__item': true,
-                    'o-notes-menu__item--collapsed': folder.isCollapsed,
-                    [className]: true,
-                })}
-                key={folder.uid}
-                onClick={(e) => { e.stopPropagation(); onClick(folder.uid); }}
-                tabIndex={0}
-                style={styles}
-            >
-                <FolderItemLabel
-                    label={folder.label}
-                    icon={folder.iconClass}
-                    indent={indent}
-                    hasChildren={folder.children.length > 0}
-                    isUnhighlighted={lastActiveFolder === folder.uid}
-                    isHighlighted={highlightedUid === folder.uid}
-                    isCollapsed={folder.isCollapsed}
-                    onCollapseFolder={(e) => {
-                        e.stopPropagation();
-                        onCollapseFolder(folder.uid, !folder.isCollapsed);
-                    }}
-                />
+class FolderItemPure extends React.PureComponent {
+    constructor(props) {
+        super(props);
 
-                {folder.children.length > 0 && (
-                    <Spring
-                        config={{ tension: 210, friction: 24 }}
-                        native
-                        to={{
-                            transform: folder.isCollapsed ? 'top-100%)' : 'translateY(0%)',
-                            opacity: folder.isCollapsed ? '0' : '1',
-                        }}
+        this.state = {
+            isContextMenuActive: false,
+        };
+
+        this.hideFolderOptions = this.hideFolderOptions.bind(this);
+        this.onCollapseFolder = this.onCollapseFolder.bind(this);
+        this.onContextMenu = this.onContextMenu.bind(this);
+    }
+
+    componentDidMount() {
+        this.folderCoordinates = this.folderNode.node.getBoundingClientRect();
+    }
+
+    componentDidUpdate() {
+        this.folderCoordinates = this.folderNode.node.getBoundingClientRect();
+    }
+
+    onContextMenu(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this.clickCoordinates = { x: event.pageX, y: event.pageY };
+
+        this.setState({ isContextMenuActive: true });
+    }
+
+    onCollapseFolder(event) {
+        event.stopPropagation();
+
+        const {
+            folder, highlightedUid, onClick, onCollapseFolder,
+        } = this.props;
+
+        // when the folder being collapsed has a (un)highlighted child,
+        // focus on this folder first
+        if (hasHighlightedChild(folder, highlightedUid)) {
+            onClick(folder.uid);
+        }
+
+        onCollapseFolder(folder.uid, !folder.isCollapsed);
+    }
+
+    hideFolderOptions() {
+        this.setState({ isContextMenuActive: false });
+    }
+
+    render() {
+        const {
+            folder,
+            className,
+            highlightedUid,
+            lastActiveFolder,
+            onClick,
+            onCollapseFolder,
+            indent,
+        } = this.props;
+
+        return (
+            <Spring
+                config={{ tension: 210, friction: 24 }}
+                native
+                to={{
+                    height: `${calculateItemHeight(folder) / 10}rem`,
+                }}
+                tabindex={-1}
+            >
+                {styles => (
+                    <animated.li
+                        ref={(el) => { this.folderNode = el; }}
+                        className={classNames({
+                            'o-notes-menu__item': true,
+                            'o-notes-menu__item--collapsed': folder.isCollapsed,
+                            [className]: true,
+                        })}
+                        key={folder.uid}
+                        onClick={(e) => { e.stopPropagation(); onClick(folder.uid); }}
+                        tabIndex={-1}
+                        style={styles}
+                        onBlur={this.hideFolderOptions}
+                        onContextMenu={this.onContextMenu}
                     >
-                        {subStyles => (
-                            <FolderList
-                                style={subStyles}
-                                isCollapsed={folder.isCollapsed}
-                                folders={folder.children}
-                                highlightedUid={highlightedUid}
-                                lastActiveFolder={lastActiveFolder}
-                                onClick={onClick}
-                                onCollapseFolder={onCollapseFolder}
-                                indent={indent + 1}
+                        <FolderItemLabel
+                            label={folder.label}
+                            icon={folder.iconClass}
+                            indent={indent}
+                            hasChildren={folder.children.length > 0}
+                            isUnhighlighted={lastActiveFolder === folder.uid}
+                            isHighlighted={highlightedUid === folder.uid}
+                            isCollapsed={folder.isCollapsed}
+                            onCollapseFolder={this.onCollapseFolder}
+                        />
+
+                        {this.state.isContextMenuActive && (
+                            <ContextMenu
+                                parentCoordinates={this.folderCoordinates}
+                                mouse={this.clickCoordinates}
                             />
                         )}
-                    </Spring>
+
+                        {folder.children.length > 0 && (
+                            <Spring
+                                config={{ tension: 210, friction: 24 }}
+                                native
+                                to={{
+                                    transform: folder.isCollapsed ? 'top-100%)' : 'translateY(0%)',
+                                    opacity: folder.isCollapsed ? '0' : '1',
+                                }}
+                            >
+                                {subStyles => (
+                                    <FolderList
+                                        style={subStyles}
+                                        isCollapsed={folder.isCollapsed}
+                                        folders={folder.children}
+                                        highlightedUid={highlightedUid}
+                                        lastActiveFolder={lastActiveFolder}
+                                        onClick={onClick}
+                                        onCollapseFolder={onCollapseFolder}
+                                        indent={indent + 1}
+                                    />
+                                )}
+                            </Spring>
+                        )}
+                    </animated.li>
                 )}
-            </animated.li>
-        )}
-    </Spring>
-);
+            </Spring>
+        );
+    }
+}
 
 FolderItemPure.propTypes = {
     folder: FolderType.isRequired,
