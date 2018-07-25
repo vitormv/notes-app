@@ -7,7 +7,7 @@ import { ContextMenu } from 'src/components/folders/ContextMenu';
 import { FolderList } from 'src/components/folders/FolderList';
 import { FolderItemLabel } from 'src/components/folders/FolderItemLabel';
 import { animated, Spring } from 'react-spring';
-import { hasHighlightedChild } from 'src/functions/folders';
+import { hasAnyHighlightedChild } from 'src/functions/folders';
 import { FolderType } from 'src/models/Folder';
 
 export const folderItemHeight = 28;
@@ -58,14 +58,13 @@ class FolderItemPure extends React.PureComponent {
         event.stopPropagation();
 
         const {
-            folder, highlightedUid, onClick, onCollapseFolder,
+            folder, highlightedUid, unhighlightedUid, onClick, onCollapseFolder,
         } = this.props;
 
         // when the folder being collapsed has a (un)highlighted child,
         // focus on this folder first
-        if (hasHighlightedChild(folder, highlightedUid)) {
-            onClick(folder.uid);
-        }
+        if (hasAnyHighlightedChild(folder, highlightedUid, unhighlightedUid)) onClick(folder.uid);
+        // if (hasAnyHighlightedChild(folder, unhighlightedUid)) onClick(folder.uid);
 
         onCollapseFolder(folder.uid, !folder.isCollapsed);
     }
@@ -79,7 +78,7 @@ class FolderItemPure extends React.PureComponent {
             folder,
             className,
             highlightedUid,
-            lastActiveFolder,
+            unhighlightedUid,
             onClick,
             onCollapseFolder,
             indent,
@@ -114,7 +113,7 @@ class FolderItemPure extends React.PureComponent {
                             icon={folder.iconClass}
                             indent={indent}
                             hasChildren={folder.children.length > 0}
-                            isUnhighlighted={lastActiveFolder === folder.uid}
+                            isUnhighlighted={unhighlightedUid === folder.uid}
                             isHighlighted={highlightedUid === folder.uid}
                             isCollapsed={folder.isCollapsed}
                             onCollapseFolder={this.onCollapseFolder}
@@ -142,7 +141,7 @@ class FolderItemPure extends React.PureComponent {
                                         isCollapsed={folder.isCollapsed}
                                         folders={folder.children}
                                         highlightedUid={highlightedUid}
-                                        lastActiveFolder={lastActiveFolder}
+                                        unhighlightedUid={unhighlightedUid}
                                         onClick={onClick}
                                         onCollapseFolder={onCollapseFolder}
                                         indent={indent + 1}
@@ -162,7 +161,7 @@ FolderItemPure.propTypes = {
     onClick: PropTypes.func,
     onCollapseFolder: PropTypes.func,
     highlightedUid: PropTypes.string,
-    lastActiveFolder: PropTypes.string,
+    unhighlightedUid: PropTypes.string,
     className: PropTypes.string,
     indent: PropTypes.number,
 };
@@ -171,7 +170,7 @@ FolderItemPure.defaultProps = {
     onClick: () => {},
     onCollapseFolder: () => {},
     highlightedUid: null,
-    lastActiveFolder: null,
+    unhighlightedUid: null,
     className: '',
     indent: 0,
 };

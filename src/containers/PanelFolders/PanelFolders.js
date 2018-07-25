@@ -23,7 +23,7 @@ export const PanelFoldersPure = ({
     highlightedFolder,
     onClick,
     onCollapseFolder,
-    lastActiveFolder,
+    unhighlightedUid,
     addFolder,
 }) => (
     <nav className="l-panel-menu">
@@ -32,7 +32,7 @@ export const PanelFoldersPure = ({
             <FolderList
                 folders={folders}
                 highlightedUid={highlightedFolder}
-                lastActiveFolder={lastActiveFolder}
+                unhighlightedUid={unhighlightedUid}
                 onClick={onClick}
                 onCollapseFolder={onCollapseFolder}
                 addFolder={addFolder}
@@ -45,7 +45,7 @@ export const PanelFoldersPure = ({
 PanelFoldersPure.propTypes = {
     folders: FolderCollectionType.isRequired,
     highlightedFolder: PropTypes.string,
-    lastActiveFolder: PropTypes.string,
+    unhighlightedUid: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     onCollapseFolder: PropTypes.func.isRequired,
     addFolder: PropTypes.func.isRequired,
@@ -53,14 +53,14 @@ PanelFoldersPure.propTypes = {
 
 
 PanelFoldersPure.defaultProps = {
-    lastActiveFolder: null,
+    unhighlightedUid: null,
     highlightedFolder: null,
 };
 
 const mapStateToProps = state => ({
     folders: getSidebarFoldersSelector(state),
     highlightedFolder: highlightedFolderUidSelector(state),
-    lastActiveFolder: unhighlightedFolderSelector(state),
+    unhighlightedUid: unhighlightedFolderSelector(state),
 });
 
 const mapDispatchToProps = {

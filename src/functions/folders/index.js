@@ -1,1 +1,1 @@
-export * from './hasHighlightedChild';
+export * from './hasAnyHighlightedChild';

@@ -9,7 +9,7 @@ import { FolderCollectionType } from 'src/models/Folder';
 const FolderList = ({
     folders,
     highlightedUid,
-    lastActiveFolder,
+    unhighlightedUid,
     onClick,
     onCollapseFolder,
     indent,
@@ -31,8 +31,8 @@ const FolderList = ({
                     folder={folder}
                     onClick={onClick}
                     onCollapseFolder={onCollapseFolder}
-                    lastActiveFolder={lastActiveFolder}
                     highlightedUid={highlightedUid}
+                    unhighlightedUid={unhighlightedUid}
                 />
             ))
         }
@@ -48,7 +48,7 @@ const FolderList = ({
 FolderList.propTypes = {
     folders: FolderCollectionType.isRequired,
     highlightedUid: PropTypes.string,
-    lastActiveFolder: PropTypes.string,
+    unhighlightedUid: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     onCollapseFolder: PropTypes.func.isRequired,
     indent: PropTypes.number,
@@ -59,7 +59,7 @@ FolderList.propTypes = {
 FolderList.defaultProps = {
     addFolder: null,
     highlightedUid: null,
-    lastActiveFolder: null,
+    unhighlightedUid: null,
     indent: 0,
     style: {},
 };
