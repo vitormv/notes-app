@@ -1,1 +1,1 @@
-export * from './watchDeleteFolderTree';
+export * from './deleteFolderTreeWatcher';

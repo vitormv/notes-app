@@ -34,6 +34,6 @@ function* onDeleteFolderRequestWorker(deleteFolderAction) {
     if (unhighlightedFolderUid) yield put(navigationUnhighlightItemAction(1, 'folder:notes'));
 }
 
-export function* watchDeleteFolderTree() {
+export function* deleteFolderTreeWatcher() {
     yield takeEvery(DELETE_FOLDER_TREE, onDeleteFolderRequestWorker);
 }

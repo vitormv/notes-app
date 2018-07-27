@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { isDevelopment } from 'src/functions/environment';
 import createSagaMiddleware from 'redux-saga';
-import { watchDeleteFolderTree } from 'src/store/sagas';
+import { deleteFolderTreeWatcher } from 'src/store/sagas';
 import rootReducer from './reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 const sagas = [
-    watchDeleteFolderTree,
+    deleteFolderTreeWatcher,
 ];
 
 const enhancers = [];
