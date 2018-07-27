@@ -11,6 +11,13 @@ export const navigationHighlightItemAction = (column, itemUid) => ({
     itemUid,
 });
 
+export const NAVIGATION_UNHIGHLIGHT_ITEM = 'NAVIGATION_UNHIGHLIGHT_ITEM';
+export const navigationUnhighlightItemAction = (column, itemUid) => ({
+    type: NAVIGATION_UNHIGHLIGHT_ITEM,
+    column,
+    itemUid,
+});
+
 export const NAVIGATION_HIGHLIGHT_COLUMN = 'NAVIGATION_HIGHLIGHT_COLUMN';
 export const navigationHighlightColumn = column => ({
     type: NAVIGATION_HIGHLIGHT_COLUMN,

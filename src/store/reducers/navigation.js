@@ -1,4 +1,8 @@
-import { NAVIGATION_HIGHLIGHT_COLUMN, NAVIGATION_HIGHLIGHT_ITEM } from 'src/store/actions';
+import {
+    NAVIGATION_HIGHLIGHT_COLUMN,
+    NAVIGATION_HIGHLIGHT_ITEM,
+    NAVIGATION_UNHIGHLIGHT_ITEM,
+} from 'src/store/actions';
 
 const defaultState = {
     highlightedUid: {
@@ -21,6 +25,15 @@ export default (state = defaultState, action) => {
                     column: action.column,
                     itemUid: action.itemUid,
                 },
+                unhighlighted: {
+                    ...state.unhighlighted,
+                    [(action.column === 1) ? 'folder' : 'note']: action.itemUid,
+                },
+            };
+
+        case NAVIGATION_UNHIGHLIGHT_ITEM:
+            return {
+                ...state,
                 unhighlighted: {
                     ...state.unhighlighted,
                     [(action.column === 1) ? 'folder' : 'note']: action.itemUid,

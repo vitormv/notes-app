@@ -1,1 +1,1 @@
-export * from './watchDeleteFolderRequest';
+export * from './watchDeleteFolderTree';

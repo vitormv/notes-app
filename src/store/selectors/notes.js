@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { buildFolderHierarchy, buildSidebarFolderList } from 'src/functions/folders';
+import { buildFolderHierarchy } from 'src/functions/folders';
 import { buildFolderTree, getFlattenedFolderNodes, getHighlightedNote } from 'src/functions/navigation';
 import { getStringHash } from 'src/functions/string/getStringHash';
 import {
@@ -9,6 +9,7 @@ import {
 } from 'src/store/selectors/navigation';
 
 export const allNotesSelector = state => state.notes.items;
+export const defaultFoldersSelector = state => state.folders.default;
 export const userFoldersSelector = state => state.folders.userFolders;
 
 export const allNotesUids = createSelector(
@@ -22,8 +23,9 @@ export const folderHierarchySelector = createSelector(
 );
 
 export const getSidebarFoldersSelector = createSelector(
+    defaultFoldersSelector,
     folderHierarchySelector,
-    buildSidebarFolderList,
+    (defaultFolders, userFolders) => defaultFolders.concat(userFolders),
 );
 
 export const folderTreeSelector = createSelector(
