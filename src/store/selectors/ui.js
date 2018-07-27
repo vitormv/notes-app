@@ -1,2 +1,2 @@
-export const isUiLoadingSelector = state => state.notes.ui.isLoading;
-export const getSearchQuerySelector = state => state.notes.ui.searchQuery;
+export const isUiLoadingSelector = state => state.ui.isLoading;
+export const getSearchQuerySelector = state => state.ui.searchQuery;

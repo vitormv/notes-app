@@ -8,8 +8,8 @@ import {
     unhighlightedNoteSelector,
 } from 'src/store/selectors/navigation';
 
-export const allNotesSelector = state => state.notes.notes;
-export const userFoldersSelector = state => state.notes.folders;
+export const allNotesSelector = state => state.notes.items;
+export const userFoldersSelector = state => state.folders.userFolders;
 
 export const allNotesUids = createSelector(
     allNotesSelector,
