@@ -6,6 +6,7 @@ const buildSidebarFolderList = (userFolders) => {
             iconClass: 'note',
             classSuffix: '',
             isCollapsed: false,
+            isDefault: true,
             children: [],
         },
         {
@@ -14,6 +15,7 @@ const buildSidebarFolderList = (userFolders) => {
             iconClass: 'star',
             classSuffix: '',
             isCollapsed: false,
+            isDefault: true,
             children: [],
         },
         {
@@ -22,6 +24,7 @@ const buildSidebarFolderList = (userFolders) => {
             iconClass: 'trash',
             classSuffix: '',
             isCollapsed: false,
+            isDefault: true,
             children: [],
         },
     ];

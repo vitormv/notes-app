@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { FolderList } from 'src/components/folders/FolderList';
 import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
 import { collapseFolder, navigationSelectFolderAction } from 'src/store/actions';
-import { addFolderAction, deleteFolderRequestAction } from 'src/store/actions/folders';
+import { addFolderAction, deleteFolderNodeAction } from 'src/store/actions/folders';
 import {
     getSidebarFoldersSelector,
     highlightedFolderUidSelector,
@@ -70,7 +70,7 @@ const mapDispatchToProps = {
     onClick: navigationSelectFolderAction,
     onCollapseFolder: collapseFolder,
     addFolder: addFolderAction,
-    onDeleteFolder: deleteFolderRequestAction,
+    onDeleteFolder: deleteFolderNodeAction,
 };
 
 export const PanelFolders = connect(mapStateToProps, mapDispatchToProps)(PanelFoldersPure);

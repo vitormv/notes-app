@@ -1,28 +1,24 @@
-import { takeEvery, select } from 'redux-saga/effects';
-import { DELETE_FOLDER_REQUEST } from 'src/store/actions/folders';
+import { takeEvery, select, put } from 'redux-saga/effects';
+import { DELETE_FOLDER_TREE, deleteFolderByUid } from 'src/store/actions/folders';
 import { folderTreeSelector } from 'src/store/selectors';
 
 function* onDeleteFolderRequestWorker(deleteFolderAction) {
-    yield console.log('SAAAAAAGAAA');
+    const folderTree = yield select(folderTreeSelector);
 
-    const items = yield select(folderTreeSelector);
+    const nodeToDelete = folderTree.first(node => node.model.uid === deleteFolderAction.folderUid);
 
-    console.log(items);
+    const childrenUids = [];
 
+    // walk the tree
+    nodeToDelete.walk({ strategy: 'post' }, (node) => {
+        childrenUids.push(node.model.uid);
+    });
 
-    // const options = yield getContext('options');
-    // const { searchEndpoint } = options;
-    //
-    // const request = yield call(requestSearchResultsCall, searchEndpoint);
-    // const response = yield request.json();
-    //
-    // yield all([
-    //     call(storeResults, response),
-    //     call(storeData, response),
-    //     call(createFilters, response),
-    // ]);
+    for (let i = 0; i < childrenUids.length; i += 1) {
+        yield put(deleteFolderByUid(childrenUids[i]));
+    }
 }
 
 export function* watchDeleteFolderRequest() {
-    yield takeEvery(DELETE_FOLDER_REQUEST, onDeleteFolderRequestWorker);
+    yield takeEvery(DELETE_FOLDER_TREE, onDeleteFolderRequestWorker);
 }

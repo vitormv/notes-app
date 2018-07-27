@@ -50,6 +50,9 @@ class FolderItemPure extends React.PureComponent {
         event.preventDefault();
         event.stopPropagation();
 
+        // we cant delete default folders :)
+        if (this.props.folder.isDefault === true) return;
+
         this.setState({
             isContextMenuActive: true,
             mouseCoordinates: { x: event.pageX, y: event.pageY },

@@ -4,7 +4,7 @@ import {
     UPDATE_SEARCH_QUERY,
 } from 'src/store/actions';
 import omit from 'lodash/omit';
-import { ADD_FOLDER, DELETE_FOLDER } from 'src/store/actions/folders';
+import { ADD_FOLDER, DELETE_FOLDER_BY_UID } from 'src/store/actions/folders';
 import { COLLAPSE_FOLDER, NAVIGATION_HIGHLIGHT_COLUMN } from 'src/store/actions/navigation';
 import bigList from './bigListOfNotes.json';
 
@@ -192,7 +192,7 @@ export default (state = defaultState, action) => {
             };
         }
 
-        case DELETE_FOLDER: {
+        case DELETE_FOLDER_BY_UID: {
             return {
                 ...state,
                 folders: omit(state.folders, [action.folderUid]),

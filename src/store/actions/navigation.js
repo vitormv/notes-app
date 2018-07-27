@@ -46,7 +46,7 @@ export const foldersColumnArrowKeyNavigationAction = (
 
                 if (node.children.length > 0 && !node.model.isCollapsed) {
                     return collapseFolder(highlightedItem.itemUid, true);
-                } else if (node.parent && node.parent.model.uid) {
+                } else if (node.parent && !node.parent.isRoot()) {
                     return navigationHighlightItemAction(1, node.parent.model.uid);
                 }
             }

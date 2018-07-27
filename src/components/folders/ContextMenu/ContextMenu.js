@@ -50,7 +50,7 @@ class ContextMenu extends React.PureComponent {
             >
                 <li>Rename</li>
                 <li
-                    onClick={() => { console.log('clickqued'); this.props.onDelete(); }}
+                    onClick={(e) => { e.stopPropagation(); this.props.onDelete(); }}
                 >
                     Delete
                 </li>
