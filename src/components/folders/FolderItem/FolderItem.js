@@ -30,6 +30,7 @@ class FolderItemPure extends React.PureComponent {
 
         this.state = {
             isContextMenuActive: false,
+            mouseCoordinates: { x: 0, y: 0 },
         };
 
         this.hideFolderOptions = this.hideFolderOptions.bind(this);
@@ -49,9 +50,10 @@ class FolderItemPure extends React.PureComponent {
         event.preventDefault();
         event.stopPropagation();
 
-        this.clickCoordinates = { x: event.pageX, y: event.pageY };
-
-        this.setState({ isContextMenuActive: true });
+        this.setState({
+            isContextMenuActive: true,
+            mouseCoordinates: { x: event.pageX, y: event.pageY },
+        });
     }
 
     onCollapseFolder(event) {
@@ -82,6 +84,7 @@ class FolderItemPure extends React.PureComponent {
             unhighlightedUid,
             onClick,
             onCollapseFolder,
+            onDeleteFolder,
             indent,
         } = this.props;
 
@@ -106,7 +109,6 @@ class FolderItemPure extends React.PureComponent {
                         onClick={(e) => { e.stopPropagation(); onClick(folder.uid); }}
                         tabIndex={-1}
                         style={styles}
-                        onBlur={this.hideFolderOptions}
                         onContextMenu={this.onContextMenu}
                     >
                         <FolderItemLabel
@@ -123,7 +125,8 @@ class FolderItemPure extends React.PureComponent {
                         {this.state.isContextMenuActive && (
                             <ContextMenu
                                 parentCoordinates={this.folderCoordinates}
-                                mouse={this.clickCoordinates}
+                                mouse={this.state.mouseCoordinates}
+                                onDelete={() => { onDeleteFolder(folder.uid); }}
                             />
                         )}
 
@@ -145,6 +148,7 @@ class FolderItemPure extends React.PureComponent {
                                         unhighlightedUid={unhighlightedUid}
                                         onClick={onClick}
                                         onCollapseFolder={onCollapseFolder}
+                                        onDeleteFolder={onDeleteFolder}
                                         indent={indent + 1}
                                     />
                                 )}
@@ -165,6 +169,7 @@ FolderItemPure.propTypes = {
     unhighlightedUid: PropTypes.string,
     className: PropTypes.string,
     indent: PropTypes.number,
+    onDeleteFolder: PropTypes.func.isRequired,
 };
 
 FolderItemPure.defaultProps = {

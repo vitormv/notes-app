@@ -5,6 +5,12 @@ export const addFolderAction = (name, parentUid = null) => ({
     parentUid,
 });
 
+export const DELETE_FOLDER_REQUEST = 'DELETE_FOLDER_REQUEST';
+export const deleteFolderRequestAction = folderUid => ({
+    type: DELETE_FOLDER_REQUEST,
+    folderUid,
+});
+
 export const DELETE_FOLDER = 'DELETE_FOLDER';
 export const deleteFolderAction = folderUid => ({
     type: DELETE_FOLDER,

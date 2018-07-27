@@ -1,4 +1,4 @@
-export const buildSidebarFolderList = (userFolders) => {
+const buildSidebarFolderList = (userFolders) => {
     const defaultFolders = [
         {
             uid: 'folder:notes',
@@ -28,3 +28,5 @@ export const buildSidebarFolderList = (userFolders) => {
 
     return defaultFolders.concat(userFolders);
 };
+
+export { buildSidebarFolderList };

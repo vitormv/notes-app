@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-export const buildFolderStructure = (userFolders) => {
+export const buildFolderHierarchy = (userFolders) => {
     const folderStructure = [];
     const folders = cloneDeep(userFolders);
 

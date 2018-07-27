@@ -1,10 +1,12 @@
 import { createSelector } from 'reselect';
-import {
-    buildFolderStructure, buildFolderTree,
-    buildSidebarFolderList, getFlattenedFolderNodes, getHighlightedNote, getNextHighlightedNote,
-} from 'src/functions/navigation';
+import { buildFolderHierarchy, buildSidebarFolderList } from 'src/functions/folders';
+import { buildFolderTree, getFlattenedFolderNodes, getHighlightedNote } from 'src/functions/navigation';
 import { getStringHash } from 'src/functions/string/getStringHash';
-import { highlightedItemSelector, unhighlightedFolderSelector } from 'src/store/selectors/navigation';
+import {
+    highlightedItemSelector,
+    unhighlightedFolderSelector,
+    unhighlightedNoteSelector,
+} from 'src/store/selectors/navigation';
 
 export const allNotesSelector = state => state.notes.notes;
 export const userFoldersSelector = state => state.notes.folders;
@@ -14,14 +16,14 @@ export const allNotesUids = createSelector(
     allNotes => Object.keys(allNotes),
 );
 
-export const folderStructureSelector = createSelector(
+export const folderHierarchySelector = createSelector(
     userFoldersSelector,
-    buildFolderStructure,
+    buildFolderHierarchy,
 );
 
 export const getSidebarFoldersSelector = createSelector(
-    folderStructureSelector,
-    (...args) => (buildSidebarFolderList(...args)),
+    folderHierarchySelector,
+    buildSidebarFolderList,
 );
 
 export const folderTreeSelector = createSelector(
@@ -31,7 +33,7 @@ export const folderTreeSelector = createSelector(
 
 export const flattenedFolderNodesSelector = createSelector(
     folderTreeSelector,
-    (...args) => (getFlattenedFolderNodes(...args)),
+    getFlattenedFolderNodes,
 );
 
 export const currentNotesUidsSelector = createSelector(
@@ -57,16 +59,26 @@ export const highlightedFolderUidSelector = createSelector(
     highlightedItem => (highlightedItem.column === 1 ? highlightedItem.itemUid : null),
 );
 
-export const highlightedNoteUidSelector = createSelector(
+export const highlightedNoteUid = createSelector(
     highlightedItemSelector,
     currentNotesUidsSelector,
-    (...args) => getHighlightedNote(...args),
+    (highlightedItem, currentNotes) => (
+        highlightedItem.column === 2
+            ? getHighlightedNote(highlightedItem.itemUid, currentNotes)
+            : null
+    ),
 );
 
-export const highlightedNoteSelector = createSelector(
-    highlightedNoteUidSelector,
+export const currentNoteUidSelector = createSelector(
+    unhighlightedNoteSelector,
+    currentNotesUidsSelector,
+    getHighlightedNote,
+);
+
+export const currentNoteSelector = createSelector(
+    currentNoteUidSelector,
     allNotesSelector,
-    (highlightedNoteUid, notes) => notes[highlightedNoteUid],
+    (currentNoteUid, notes) => notes[currentNoteUid],
 );
 
 export const currentNotesSelector = createSelector(

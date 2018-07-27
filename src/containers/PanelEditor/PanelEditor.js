@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { TextEditor } from 'src/components/TextEditor';
 import { NoteType } from 'src/models/Note';
-import { highlightedNoteSelector } from 'src/store/selectors';
+import { currentNoteSelector } from 'src/store/selectors';
 import './PanelEditor.scss';
 
 const PanelEditorPure = ({ note }) => (
@@ -25,7 +25,7 @@ PanelEditorPure.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-    note: highlightedNoteSelector(state),
+    note: currentNoteSelector(state),
 });
 
 export const PanelEditor = connect(mapStateToProps)(PanelEditorPure);

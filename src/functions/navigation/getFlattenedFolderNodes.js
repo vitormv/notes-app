@@ -1,22 +1,12 @@
-const hasCollapsedParentId = (nodeId, collapsedIds) => (
-    collapsedIds.some(id => (nodeId.indexOf(id) === 0 && nodeId.length > id.length))
-);
+import { isRootNode, hasCollapsedParent } from 'src/functions/navigation';
 
 export const getFlattenedFolderNodes = (folderTree) => {
     const folders = {};
-    const collapsedNodeIds = [];
 
-    folderTree.traverseDown((node) => {
-        if (node.isRoot()) return;
+    folderTree.walk((node) => {
+        if (isRootNode(node) || hasCollapsedParent(node)) return;
 
-        // mark node as collapsed
-        if (node.data.isCollapsed) {
-            collapsedNodeIds.push(node.id);
-        }
-
-        if (!hasCollapsedParentId(node.id, collapsedNodeIds)) {
-            folders[node.data.uid] = node;
-        }
+        folders[node.model.uid] = node;
     });
 
     return folders;

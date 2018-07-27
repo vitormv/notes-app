@@ -15,6 +15,7 @@ const FolderList = ({
     indent,
     addFolder,
     style,
+    onDeleteFolder,
 }) => (
     <animated.ul
         className={classNames({
@@ -33,6 +34,7 @@ const FolderList = ({
                     onCollapseFolder={onCollapseFolder}
                     highlightedUid={highlightedUid}
                     unhighlightedUid={unhighlightedUid}
+                    onDeleteFolder={onDeleteFolder}
                 />
             ))
         }
@@ -54,6 +56,7 @@ FolderList.propTypes = {
     indent: PropTypes.number,
     addFolder: PropTypes.func,
     style: PropTypes.shape({}),
+    onDeleteFolder: PropTypes.func.isRequired,
 };
 
 FolderList.defaultProps = {

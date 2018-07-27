@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { HighlightedItemType } from 'src/models/HighlightedItem';
 import { NoteCollectionType } from 'src/models/Note';
 import styled from 'styled-components';
 import { ListHeader } from 'src/components/list/ListHeader';
@@ -11,8 +10,7 @@ import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
 import { navigationSelectNoteAction } from 'src/store/actions';
 import {
     currentNotesSelector, getCurrentNoteUidsHashSelector,
-    highlightedItemSelector, highlightedNoteUidSelector,
-    unhighlightedNoteSelector,
+    unhighlightedNoteSelector, highlightedNoteUid,
 } from 'src/store/selectors';
 
 const StyledPanelList = styled.section`
@@ -80,7 +78,7 @@ PanelListPure.defaultProps = {
 
 const mapStateToProps = state => ({
     notes: currentNotesSelector(state),
-    highlightedUid: highlightedNoteUidSelector(state),
+    highlightedUid: highlightedNoteUid(state),
     lastActiveNote: unhighlightedNoteSelector(state),
     listHash: getCurrentNoteUidsHashSelector(state),
 });

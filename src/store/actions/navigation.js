@@ -44,10 +44,10 @@ export const foldersColumnArrowKeyNavigationAction = (
             if (highlightedItem.itemUid && flattenedFolders[highlightedItem.itemUid]) {
                 const node = flattenedFolders[highlightedItem.itemUid];
 
-                if (node.children.length > 0 && !node.data.isCollapsed) {
+                if (node.children.length > 0 && !node.model.isCollapsed) {
                     return collapseFolder(highlightedItem.itemUid, true);
-                } else if (node.parent && !node.parent.isRoot()) {
-                    return navigationHighlightItemAction(1, node.parent.data.uid);
+                } else if (node.parent && node.parent.model.uid) {
+                    return navigationHighlightItemAction(1, node.parent.model.uid);
                 }
             }
 
@@ -58,7 +58,7 @@ export const foldersColumnArrowKeyNavigationAction = (
             if (highlightedItem.itemUid && flattenedFolders[highlightedItem.itemUid]) {
                 const node = flattenedFolders[highlightedItem.itemUid];
 
-                if (node.children.length > 0 && node.data.isCollapsed) {
+                if (node.children.length > 0 && node.model.isCollapsed) {
                     return collapseFolder(highlightedItem.itemUid, false);
                 }
             }

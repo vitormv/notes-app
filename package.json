@@ -1,18 +1,19 @@
 {
-    "name": "trinotas",
+    "name": "noteos",
     "version": "0.0.1",
     "main": "build/index.electron.js",
-    "description": "Trinotas",
+    "description": "Noteos",
     "homepage": "./",
     "scripts": {
         "build": "webpack --config ./webpack/prod.config.js",
         "start": "webpack-dev-server --hot --open --config ./webpack/dev.config.js",
         "electron": "yarn build && electron .",
         "test": "jest",
+        "lint": "eslint src/",
         "profile": "yarn build; webpack-bundle-analyzer -s gzip ./build/stats.json ./build"
     },
     "dependencies": {
-        "arboreal": "^0.0.2",
+        "babel-plugin-transform-runtime": "^6.23.0",
         "classnames": "^2.2.6",
         "date-fns": "^1.29.0",
         "html-webpack-plugin": "^3.2.0",
@@ -31,12 +32,14 @@
         "react-virtualized": "^9.20.1",
         "recompose": "^0.27.1",
         "redux": "^4.0.0",
+        "redux-saga": "^0.16.0",
         "slate": "^0.34.2",
         "slate-auto-replace": "^0.9.1",
         "slate-drop-or-paste-images": "^0.8.2",
         "slate-react": "^0.12.11",
         "slate-schema-violations": "^0.1.15",
-        "styled-components": "^3.3.3"
+        "styled-components": "^3.3.3",
+        "tree-model": "^1.0.7"
     },
     "devDependencies": {
         "babel-core": "^6.26.3",
