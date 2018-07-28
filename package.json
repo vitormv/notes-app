@@ -6,11 +6,11 @@
     "homepage": "./",
     "scripts": {
         "build": "webpack --config ./webpack/prod.config.js",
-        "start": "webpack-dev-server --hot --open --config ./webpack/dev.config.js",
         "electron": "yarn build && electron .",
-        "test": "jest",
         "lint": "eslint src/",
-        "profile": "yarn build; webpack-bundle-analyzer -s gzip ./build/stats.json ./build"
+        "profile": "yarn build; webpack-bundle-analyzer -s gzip ./build/stats.json ./build",
+        "start": "webpack-dev-server --hot --open --config ./webpack/dev.config.js",
+        "test": "jest"
     },
     "dependencies": {
         "babel-plugin-transform-runtime": "^6.23.0",

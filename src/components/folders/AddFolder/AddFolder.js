@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { animated, Spring } from 'react-spring';
 import { CSSTransition } from 'react-transition-group';
-import { FolderItemLabel } from 'src/components/folders/FolderItemLabel';
+import { AddFolderButton } from 'src/components/folders/AddFolderButton';
 import { Icon } from 'src/components/ui/Icon';
 import styled from 'styled-components';
 
@@ -128,15 +128,15 @@ class AddFolder extends React.PureComponent {
 
     render() {
         const { hasAddButton, indent } = this.props;
-        const isAdding = this.state.isAddingFolder;
+        const isInputShown = this.state.isAddingFolder;
 
         return (
             <StyledLi>
                 <Spring
                     native
                     to={{
-                        transform: isAdding ? 'translateY(0)' : 'translateY(-100%)',
-                        opacity: isAdding ? '1' : '0',
+                        transform: isInputShown ? 'translateY(0)' : 'translateY(-100%)',
+                        opacity: isInputShown ? '1' : '0',
                     }}
                     immediate={this.state.immediate}
                 >
@@ -164,24 +164,11 @@ class AddFolder extends React.PureComponent {
                 </Spring>
 
                 {hasAddButton && (
-                    <Spring
-                        native
-                        to={{
-                            transform: isAdding ? 'translateY(110%)' : 'translateY(10%)',
-                            opacity: isAdding ? '0' : '1',
-                        }}
-                    >
-                        {styles => (
-                            <FolderItemLabel
-                                style={styles}
-                                label="add folder"
-                                icon="plus"
-                                indent={indent}
-                                onClick={this.showInput}
-                                isSmall
-                            />
-                        )}
-                    </Spring>
+                    <AddFolderButton
+                        isAdding={isInputShown}
+                        indent={indent}
+                        onClick={this.showInput}
+                    />
                 )}
             </StyledLi>
         );

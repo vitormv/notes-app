@@ -47,10 +47,11 @@ class ContextMenu extends React.PureComponent {
                     top: coordinates.top,
                     left: coordinates.left,
                 }}
+                onClick={(e) => { e.stopPropagation(); this.props.closeMenu(); }}
             >
                 <li>Rename</li>
                 <li
-                    onClick={(e) => { e.stopPropagation(); this.props.onDelete(); }}
+                    onClick={() => { this.props.onDelete(); }}
                 >
                     Delete
                 </li>
@@ -64,6 +65,7 @@ ContextMenu.propTypes = {
     style: PropTypes.shape({}),
     parentCoordinates: PropTypes.shape({}).isRequired,
     onDelete: PropTypes.func.isRequired,
+    closeMenu: PropTypes.func.isRequired,
     mouse: PropTypes.shape({
         x: PropTypes.number.isRequired,
         y: PropTypes.number.isRequired,

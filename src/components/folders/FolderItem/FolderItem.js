@@ -10,21 +10,19 @@ import { animated, Spring } from 'react-spring';
 import { hasAnyHighlightedChild } from 'src/functions/folders';
 import { FolderType } from 'src/models/Folder';
 
-export const folderItemHeight = 28;
+class FolderItemPure extends React.PureComponent {
+    static calculateItemHeight(folder) {
+        let height = 28;
 
-const calculateItemHeight = (folder) => {
-    let height = folderItemHeight;
+        if (!folder.isCollapsed) {
+            folder.children.forEach((child) => {
+                height += this.calculateItemHeight(child);
+            });
+        }
 
-    if (!folder.isCollapsed) {
-        folder.children.forEach((child) => {
-            height += calculateItemHeight(child);
-        });
+        return height;
     }
 
-    return height;
-};
-
-class FolderItemPure extends React.PureComponent {
     constructor(props) {
         super(props);
 
@@ -96,7 +94,7 @@ class FolderItemPure extends React.PureComponent {
                 config={{ tension: 210, friction: 24 }}
                 native
                 to={{
-                    height: `${calculateItemHeight(folder) / 10}rem`,
+                    height: `${this.constructor.calculateItemHeight(folder) / 10}rem`,
                 }}
                 tabindex={-1}
             >
@@ -130,6 +128,7 @@ class FolderItemPure extends React.PureComponent {
                                 parentCoordinates={this.folderCoordinates}
                                 mouse={this.state.mouseCoordinates}
                                 onDelete={() => { onDeleteFolder(folder.uid); }}
+                                closeMenu={() => { this.hideFolderOptions(); }}
                             />
                         )}
 
