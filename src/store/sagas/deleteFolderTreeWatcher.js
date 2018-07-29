@@ -1,7 +1,7 @@
 import { takeEvery, select, put } from 'redux-saga/effects';
-import { navigationHighlightItemAction, navigationUnhighlightItemAction } from 'src/store/actions';
+import { navigationUnhighlightItemAction } from 'src/store/actions';
 import { DELETE_FOLDER_TREE, deleteFolderByUid } from 'src/store/actions/folders';
-import { folderTreeSelector, highlightedFolderUidSelector, unhighlightedFolderSelector } from 'src/store/selectors';
+import { folderTreeSelector, unhighlightedFolderSelector } from 'src/store/selectors';
 
 const getFolderLeafs = (folderNode) => {
     const childrenUids = [];
@@ -11,7 +11,7 @@ const getFolderLeafs = (folderNode) => {
     });
 
     return childrenUids;
-}
+};
 
 function* onDeleteFolderRequestWorker(deleteFolderAction) {
     const folderTree = yield select(folderTreeSelector);

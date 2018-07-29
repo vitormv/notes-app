@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { FolderList } from 'src/components/folders/FolderList';
 import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
-import { collapseFolder, navigationSelectFolderAction } from 'src/store/actions';
+import { collapseFolderAction, navigationSelectFolderAction } from 'src/store/actions';
 import { addFolderAction, deleteFolderNodeAction, renameFolderAction } from 'src/store/actions/folders';
 import {
     getSidebarFoldersSelector,
@@ -71,7 +71,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     onClick: navigationSelectFolderAction,
-    onCollapseFolder: collapseFolder,
+    onCollapseFolder: collapseFolderAction,
     addFolder: addFolderAction,
     onDeleteFolder: deleteFolderNodeAction,
     onRenameFolder: renameFolderAction,

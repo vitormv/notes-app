@@ -25,7 +25,7 @@ export const navigationHighlightColumn = column => ({
 });
 
 export const COLLAPSE_FOLDER = 'COLLAPSE_FOLDER';
-export const collapseFolder = (folderUid, isCollapsed) => ({
+export const collapseFolderAction = (folderUid, isCollapsed) => ({
     type: COLLAPSE_FOLDER,
     folderUid,
     isCollapsed,
@@ -52,7 +52,7 @@ export const foldersColumnArrowKeyNavigationAction = (
                 const node = flattenedFolders[highlightedItem.itemUid];
 
                 if (node.children.length > 0 && !node.model.isCollapsed) {
-                    return collapseFolder(highlightedItem.itemUid, true);
+                    return collapseFolderAction(highlightedItem.itemUid, true);
                 } else if (node.parent && !node.parent.isRoot()) {
                     return navigationHighlightItemAction(1, node.parent.model.uid);
                 }
@@ -66,7 +66,7 @@ export const foldersColumnArrowKeyNavigationAction = (
                 const node = flattenedFolders[highlightedItem.itemUid];
 
                 if (node.children.length > 0 && node.model.isCollapsed) {
-                    return collapseFolder(highlightedItem.itemUid, false);
+                    return collapseFolderAction(highlightedItem.itemUid, false);
                 }
             }
 

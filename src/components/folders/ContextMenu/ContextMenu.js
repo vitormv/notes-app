@@ -3,10 +3,19 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+`;
+
 const StyledMenu = styled('ul')`
   padding: 0;
   position: absolute;
-  z-index: 1;
+  z-index: 101;
   margin-top: -0.6px;
   opacity: 1;
   background-color: ${props => props.theme.gray.medium};
@@ -40,18 +49,28 @@ class ContextMenu extends React.PureComponent {
         coordinates.top = `${this.props.mouse.y}px`;
         coordinates.left = `${(this.props.mouse.x + 5)}px`;
 
+        const onOverlayClick = (event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            this.props.closeMenu();
+        };
+
         return ReactDOM.createPortal(
-            <StyledMenu
-                style={{
-                    ...this.props.style,
-                    top: coordinates.top,
-                    left: coordinates.left,
-                }}
-                onClick={(e) => { e.stopPropagation(); this.props.closeMenu(); }}
+            <Overlay
+                onClick={onOverlayClick}
+                onContextMenu={onOverlayClick}
             >
-                <li onClick={this.props.onRename}>Rename</li>
-                <li onClick={this.props.onDelete}>Delete</li>
-            </StyledMenu>,
+                <StyledMenu
+                    style={{
+                        ...this.props.style,
+                        top: coordinates.top,
+                        left: coordinates.left,
+                    }}
+                >
+                    <li onClick={this.props.onRename}>Rename</li>
+                    <li onClick={this.props.onDelete}>Delete</li>
+                </StyledMenu>
+            </Overlay>,
             root,
         );
     }
@@ -71,6 +90,6 @@ ContextMenu.propTypes = {
 
 ContextMenu.defaultProps = {
     style: {},
-}
+};
 
 export { ContextMenu };

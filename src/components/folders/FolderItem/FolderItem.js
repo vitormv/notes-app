@@ -8,7 +8,6 @@ import { FolderList } from 'src/components/folders/FolderList';
 import { FolderItemLabel } from 'src/components/folders/FolderItemLabel';
 import { animated, Spring } from 'react-spring';
 import { RenameFolder } from 'src/components/folders/RenameFolder';
-import { hasAnyHighlightedChild } from 'src/functions/folders';
 import { FolderType } from 'src/models/Folder';
 
 class FolderItemPure extends React.PureComponent {
@@ -63,15 +62,7 @@ class FolderItemPure extends React.PureComponent {
     onCollapseFolder(event) {
         event.stopPropagation();
 
-        const {
-            folder, highlightedUid, unhighlightedUid, onClick, onCollapseFolder,
-        } = this.props;
-
-        // when the folder being collapsed has a (un)highlighted child,
-        // focus on this folder first
-        if (hasAnyHighlightedChild(folder, highlightedUid, unhighlightedUid)) {
-            onClick(folder.uid);
-        }
+        const { folder, onCollapseFolder } = this.props;
 
         onCollapseFolder(folder.uid, !folder.isCollapsed);
     }
