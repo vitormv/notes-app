@@ -16,6 +16,7 @@ const FolderList = ({
     addFolder,
     style,
     onDeleteFolder,
+    onRenameFolder,
 }) => (
     <animated.ul
         className={classNames({
@@ -35,15 +36,16 @@ const FolderList = ({
                     highlightedUid={highlightedUid}
                     unhighlightedUid={unhighlightedUid}
                     onDeleteFolder={onDeleteFolder}
+                    onRenameFolder={onRenameFolder}
                 />
             ))
         }
 
-        <AddFolder
-            addFolderCallback={addFolder}
-            indent={indent}
-            hasAddButton={indent === 0}
-        />
+        {indent === 0 && (
+            <AddFolder
+                addFolderCallback={addFolder}
+            />
+        )}
     </animated.ul>
 );
 
@@ -57,6 +59,7 @@ FolderList.propTypes = {
     addFolder: PropTypes.func,
     style: PropTypes.shape({}),
     onDeleteFolder: PropTypes.func.isRequired,
+    onRenameFolder: PropTypes.func.isRequired,
 };
 
 FolderList.defaultProps = {

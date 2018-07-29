@@ -49,12 +49,8 @@ class ContextMenu extends React.PureComponent {
                 }}
                 onClick={(e) => { e.stopPropagation(); this.props.closeMenu(); }}
             >
-                <li>Rename</li>
-                <li
-                    onClick={() => { this.props.onDelete(); }}
-                >
-                    Delete
-                </li>
+                <li onClick={this.props.onRename}>Rename</li>
+                <li onClick={this.props.onDelete}>Delete</li>
             </StyledMenu>,
             root,
         );
@@ -65,6 +61,7 @@ ContextMenu.propTypes = {
     style: PropTypes.shape({}),
     parentCoordinates: PropTypes.shape({}).isRequired,
     onDelete: PropTypes.func.isRequired,
+    onRename: PropTypes.func.isRequired,
     closeMenu: PropTypes.func.isRequired,
     mouse: PropTypes.shape({
         x: PropTypes.number.isRequired,

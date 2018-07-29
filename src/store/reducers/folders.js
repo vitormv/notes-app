@@ -1,5 +1,5 @@
 import omit from 'lodash/omit';
-import { ADD_FOLDER, DELETE_FOLDER_BY_UID } from 'src/store/actions/folders';
+import { ADD_FOLDER, DELETE_FOLDER_BY_UID, RENAME_FOLDER } from 'src/store/actions/folders';
 import { COLLAPSE_FOLDER } from 'src/store/actions/navigation';
 
 const makeid = () => {
@@ -139,6 +139,19 @@ export default (state = defaultState, action) => {
                         isCollapsed: false,
                         isDefault: false,
                         parent: action.parentUid,
+                    },
+                },
+            };
+        }
+
+        case RENAME_FOLDER: {
+            return {
+                ...state,
+                userFolders: {
+                    ...state.userFolders,
+                    [action.folderUid]: {
+                        ...state.userFolders[action.folderUid],
+                        label: action.name,
                     },
                 },
             };

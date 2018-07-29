@@ -7,6 +7,7 @@ import { ContextMenu } from 'src/components/folders/ContextMenu';
 import { FolderList } from 'src/components/folders/FolderList';
 import { FolderItemLabel } from 'src/components/folders/FolderItemLabel';
 import { animated, Spring } from 'react-spring';
+import { RenameFolder } from 'src/components/folders/RenameFolder';
 import { hasAnyHighlightedChild } from 'src/functions/folders';
 import { FolderType } from 'src/models/Folder';
 
@@ -28,12 +29,14 @@ class FolderItemPure extends React.PureComponent {
 
         this.state = {
             isContextMenuActive: false,
+            isEditing: false,
             mouseCoordinates: { x: 0, y: 0 },
         };
 
         this.hideFolderOptions = this.hideFolderOptions.bind(this);
         this.onCollapseFolder = this.onCollapseFolder.bind(this);
         this.onContextMenu = this.onContextMenu.bind(this);
+        this.toggleEditing = this.toggleEditing.bind(this);
     }
 
     componentDidMount() {
@@ -48,7 +51,7 @@ class FolderItemPure extends React.PureComponent {
         event.preventDefault();
         event.stopPropagation();
 
-        // we cant delete default folders :)
+        // disable menu for default folders
         if (this.props.folder.isDefault === true) return;
 
         this.setState({
@@ -73,6 +76,10 @@ class FolderItemPure extends React.PureComponent {
         onCollapseFolder(folder.uid, !folder.isCollapsed);
     }
 
+    toggleEditing(isEditing) {
+        this.setState({ isEditing });
+    }
+
     hideFolderOptions() {
         this.setState({ isContextMenuActive: false });
     }
@@ -86,6 +93,7 @@ class FolderItemPure extends React.PureComponent {
             onClick,
             onCollapseFolder,
             onDeleteFolder,
+            onRenameFolder,
             indent,
         } = this.props;
 
@@ -112,15 +120,25 @@ class FolderItemPure extends React.PureComponent {
                         style={styles}
                         onContextMenu={this.onContextMenu}
                     >
-                        <FolderItemLabel
-                            label={folder.label}
-                            icon={folder.iconClass}
+                        <RenameFolder
+                            isInputVisible={this.state.isEditing}
+                            defaultInputValue={folder.label}
+                            toggleInput={this.toggleEditing}
                             indent={indent}
-                            hasChildren={folder.children.length > 0}
-                            isUnhighlighted={unhighlightedUid === folder.uid}
-                            isHighlighted={highlightedUid === folder.uid}
-                            isCollapsed={folder.isCollapsed}
-                            onCollapseFolder={this.onCollapseFolder}
+                            renderElement={renameFolderStyle => (
+                                <FolderItemLabel
+                                    style={renameFolderStyle}
+                                    label={folder.label}
+                                    icon={folder.iconClass}
+                                    indent={indent}
+                                    hasChildren={folder.children.length > 0}
+                                    isUnhighlighted={unhighlightedUid === folder.uid}
+                                    isHighlighted={highlightedUid === folder.uid}
+                                    isCollapsed={folder.isCollapsed}
+                                    onCollapseFolder={this.onCollapseFolder}
+                                />
+                            )}
+                            onEnter={(value) => { onRenameFolder(folder.uid, value); }}
                         />
 
                         {this.state.isContextMenuActive && (
@@ -128,6 +146,7 @@ class FolderItemPure extends React.PureComponent {
                                 parentCoordinates={this.folderCoordinates}
                                 mouse={this.state.mouseCoordinates}
                                 onDelete={() => { onDeleteFolder(folder.uid); }}
+                                onRename={() => { this.toggleEditing(true); }}
                                 closeMenu={() => { this.hideFolderOptions(); }}
                             />
                         )}
@@ -137,7 +156,7 @@ class FolderItemPure extends React.PureComponent {
                                 config={{ tension: 210, friction: 24 }}
                                 native
                                 to={{
-                                    transform: folder.isCollapsed ? 'top-100%)' : 'translateY(0%)',
+                                    transform: folder.isCollapsed ? 'translateY(-100%)' : 'translateY(0%)',
                                     opacity: folder.isCollapsed ? '0' : '1',
                                 }}
                             >
@@ -151,6 +170,7 @@ class FolderItemPure extends React.PureComponent {
                                         onClick={onClick}
                                         onCollapseFolder={onCollapseFolder}
                                         onDeleteFolder={onDeleteFolder}
+                                        onRenameFolder={onRenameFolder}
                                         indent={indent + 1}
                                     />
                                 )}
@@ -172,6 +192,7 @@ FolderItemPure.propTypes = {
     className: PropTypes.string,
     indent: PropTypes.number,
     onDeleteFolder: PropTypes.func.isRequired,
+    onRenameFolder: PropTypes.func.isRequired,
 };
 
 FolderItemPure.defaultProps = {

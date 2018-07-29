@@ -5,6 +5,13 @@ export const addFolderAction = (name, parentUid = null) => ({
     parentUid,
 });
 
+export const RENAME_FOLDER = 'RENAME_FOLDER';
+export const renameFolderAction = (folderUid, name) => ({
+    type: RENAME_FOLDER,
+    folderUid,
+    name,
+});
+
 export const DELETE_FOLDER_TREE = 'DELETE_FOLDER_TREE';
 export const deleteFolderNodeAction = folderUid => ({
     type: DELETE_FOLDER_TREE,
