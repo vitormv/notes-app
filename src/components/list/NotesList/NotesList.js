@@ -17,7 +17,7 @@ const getRowSizesCache = memoizeOne(getNewCache);
 class NotesList extends React.PureComponent {
     render() {
         const {
-            notes, highlightedUid, lastActiveNote, onSelectNote, listHash,
+            notes, highlightedUid, lastActiveNote, onSelectNote, listHash, searchWords,
         } = this.props;
         const uids = notes.map(note => note.uid);
         const numberOfRows = uids.length;
@@ -57,6 +57,7 @@ class NotesList extends React.PureComponent {
                                         onClick={onSelectNote}
                                         isActive={lastActiveNote === notes[index].uid}
                                         isHighlighted={highlightedUid === notes[index].uid}
+                                        searchWords={searchWords}
                                     />
                                 </CellMeasurer>
                             )}
@@ -75,12 +76,14 @@ NotesList.propTypes = {
     highlightedUid: PropTypes.string,
     lastActiveNote: PropTypes.string,
     listHash: PropTypes.string,
+    searchWords: PropTypes.arrayOf(PropTypes.string),
 };
 
 NotesList.defaultProps = {
     lastActiveNote: null,
     listHash: '',
     highlightedUid: '',
+    searchWords: [],
 };
 
 export { NotesList };

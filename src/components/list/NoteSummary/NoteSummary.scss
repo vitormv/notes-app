@@ -12,6 +12,10 @@
   box-sizing: border-box;
   overflow: hidden;
 
+  mark {
+    background-color: #FFD63F;
+  }
+
   &__title {
     font-weight: 600;
     padding-bottom: 0.3rem;

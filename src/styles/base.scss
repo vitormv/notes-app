@@ -10,6 +10,7 @@ body {
   font-family: "Nunito Sans", sans-serif;
   font-weight: 200;
   color: $textColor;
+  overscroll-behavior: none;
 
   -ms-overflow-style: scrollbar;
 

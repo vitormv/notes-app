@@ -10,7 +10,7 @@ import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
 import { navigationSelectNoteAction } from 'src/store/actions';
 import {
     currentNotesSelector, getCurrentNoteUidsHashSelector,
-    unhighlightedNoteSelector, highlightedNoteUid,
+    unhighlightedNoteSelector, highlightedNoteUid, getSearchQueryWordsSelector,
 } from 'src/store/selectors';
 
 const StyledPanelList = styled.section`
@@ -38,6 +38,7 @@ const PanelListPure = ({
     highlightedUid,
     lastActiveNote,
     listHash,
+    searchWords,
 }) => (
     <StyledPanelList>
         <ListHeader />
@@ -56,6 +57,7 @@ const PanelListPure = ({
                     highlightedUid={highlightedUid}
                     lastActiveNote={lastActiveNote}
                     listHash={listHash}
+                    searchWords={searchWords}
                 />
             </Show>
         </KeyboardNavigation>
@@ -68,12 +70,14 @@ PanelListPure.propTypes = {
     highlightedUid: PropTypes.string,
     lastActiveNote: PropTypes.string,
     listHash: PropTypes.string,
+    searchWords: PropTypes.arrayOf(PropTypes.string),
 };
 
 PanelListPure.defaultProps = {
     lastActiveNote: null,
     listHash: '',
     highlightedUid: null,
+    searchWords: [],
 };
 
 const mapStateToProps = state => ({
@@ -81,6 +85,7 @@ const mapStateToProps = state => ({
     highlightedUid: highlightedNoteUid(state),
     lastActiveNote: unhighlightedNoteSelector(state),
     listHash: getCurrentNoteUidsHashSelector(state),
+    searchWords: getSearchQueryWordsSelector(state),
 });
 
 const mapDispatchToProps = dispatch => ({

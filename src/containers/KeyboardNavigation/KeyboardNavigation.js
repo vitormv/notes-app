@@ -26,10 +26,6 @@ class KeyboardNavigationPure extends React.PureComponent {
         this.handleFocus();
     }
 
-    componentDidUpdate() {
-        this.handleFocus();
-    }
-
     handleFocus() {
         const { columnIndex, highlightedItem } = this.props;
 
