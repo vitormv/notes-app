@@ -1,22 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const SortByStyled = styled.div`
-    font-size: 1.2rem;
-    padding-right: 2rem;
-`;
-
-const SortByLabel = styled.div``;
-
-const SortBySelection = styled.div`
-    font-weight: bold;
-`;
+import styles from './SortBy.scss';
 
 const SortBy = () => (
-    <SortByStyled>
-        <SortByLabel>Sort by:</SortByLabel>
-        <SortBySelection>Date added</SortBySelection>
-    </SortByStyled>
+    <div className={styles.container}>
+        <div className={styles.label}>Sort by:</div>
+        <div className={styles.select}>Date added</div>
+    </div>
 );
 
 export { SortBy };

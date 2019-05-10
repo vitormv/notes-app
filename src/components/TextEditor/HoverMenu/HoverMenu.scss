@@ -1,0 +1,41 @@
+.menu {
+  padding: 0.8rem 0.7rem 0.6rem;
+  position: absolute;
+  z-index: 1;
+  margin-top: -0.6px;
+  opacity: 0;
+  background-color: $menuColor;
+  border-radius: 0.4rem;
+  transition: opacity 200ms $animationSlower, transform 100ms $animationFaster;
+  transform: translateX(-50%) translateY(-90%) scale(0.95);
+
+  &.isVisible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-110%) scale(1);
+  }
+
+  & > * {
+    display: inline-block;
+  }
+}
+
+.button {
+  cursor: pointer;
+  color: $textColor;
+
+  &.active {
+    color: $textColorHighlight;
+  }
+}
+
+.icon {
+  font-size: 16px;
+  display: inline-block;
+  padding: .5rem 0.8rem;
+  vertical-align: text-bottom;
+  color: $textColorLight;
+
+  &:hover {
+    color: $textColorHover;
+  }
+}

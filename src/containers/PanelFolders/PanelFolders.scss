@@ -1,0 +1,16 @@
+.foldersPanel {
+  background-color: $menuColor;
+  color: $grayMedium;
+  padding-bottom: 3.2rem;
+  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
+
+.draggable {
+  height: 3.2rem;
+  -webkit-app-region: drag;
+}

@@ -18,7 +18,7 @@ const defaultState = {
         {
             uid: 'folder:notes',
             label: 'notes',
-            iconClass: 'note',
+            iconClass: 'file-alt',
             classSuffix: '',
             isCollapsed: false,
             isDefault: true,
@@ -36,7 +36,7 @@ const defaultState = {
         {
             uid: 'folder:trash',
             label: 'trash',
-            iconClass: 'trash',
+            iconClass: 'trash-alt',
             classSuffix: '',
             isCollapsed: false,
             isDefault: true,

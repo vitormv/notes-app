@@ -16,10 +16,10 @@ const middleware = [
 ];
 
 if (isDevelopment()) {
-    const { devToolsExtension } = window;
+    const { __REDUX_DEVTOOLS_EXTENSION__ } = window;
 
-    if (typeof devToolsExtension === 'function') {
-        enhancers.push(devToolsExtension());
+    if (typeof __REDUX_DEVTOOLS_EXTENSION__ === 'function') {
+        enhancers.push(__REDUX_DEVTOOLS_EXTENSION__());
     }
 }
 

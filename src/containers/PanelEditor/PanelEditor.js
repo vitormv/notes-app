@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { TextEditor } from 'src/components/TextEditor';
 import { NoteType } from 'src/models/Note';
 import { currentNoteSelector } from 'src/store/selectors';
-import './PanelEditor.scss';
+import styles from './PanelEditor.scss';
 
 const PanelEditorPure = ({ note }) => (
-    <section className="l-panel-editor">
-        <div className="o-editor">
+    <section className={styles.wrapper}>
+        <div className={styles.editor}>
             {((note && 'summary' in note)) && (
                 <TextEditor key={note.uid} noteContent={[note.title, note.summary].join('\n')} />
             )}

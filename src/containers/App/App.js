@@ -8,25 +8,22 @@ import { PanelList } from 'src/containers/PanelList';
 import { PanelEditor } from 'src/containers/PanelEditor';
 import { isUiLoadingSelector } from 'src/store/selectors';
 import { uiLoadedAction } from 'src/store/actions';
-import { ThemeProvider } from 'styled-components';
-import { styledTheme } from 'src/styles/styledTheme';
+import './Icons';
 import './App.scss';
 
 const AppPure = ({ isLoading }) => (
-    <ThemeProvider theme={styledTheme}>
-        <PanelGroup
-            spacing={0}
-            panelWidths={[
-                { minSize: 150, size: 220, resize: 'dynamic' },
-                { minSize: 350, size: 400, resize: 'dynamic' },
-                { minSize: 500, resize: 'stretch' },
-            ]}
-        >
-            <PanelFolders />
-            <PanelList />
-            <PanelEditor />
-        </PanelGroup>
-    </ThemeProvider>
+    <PanelGroup
+        spacing={0}
+        panelWidths={[
+            { minSize: 150, size: 220, resize: 'dynamic' },
+            { minSize: 350, size: 400, resize: 'dynamic' },
+            { minSize: 500, resize: 'stretch' },
+        ]}
+    >
+        <PanelFolders />
+        <PanelList />
+        <PanelEditor />
+    </PanelGroup>
 );
 
 AppPure.propTypes = {

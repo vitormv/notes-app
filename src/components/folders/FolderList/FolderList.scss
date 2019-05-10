@@ -1,0 +1,31 @@
+.menu {
+  padding: 0;
+  list-style: none;
+  font-size: 1.6rem;
+
+  .menu {
+    font-size: 1.4rem;
+  }
+
+  &__sub {
+    padding: 0.8rem 0;
+
+    .o-notes-menu__item {
+      padding-left: 0;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+.mainMenu {
+  > :nth-child(4) {
+    margin-top: 2rem;
+  }
+
+  > :nth-child(n+4) {
+    font-size: 1.4rem;
+  }
+}

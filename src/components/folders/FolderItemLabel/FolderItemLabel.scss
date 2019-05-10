@@ -1,0 +1,57 @@
+.folderItem {
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    height: 2.8rem;
+    padding: 0.6rem 1.5rem;
+    display: flex;
+    z-index: 1;
+    color: $grayMedium;
+    background-color: $menuColor;
+
+    &.lightlyHighlighted {
+        background-color: $menuColorLight;
+        color: $textColorHover;
+    }
+
+    &.highlighted {
+        background-color: $textColorHighlight;
+        color: $textColorHover;
+    }
+}
+
+.icons {
+    width: 3rem;
+    min-width: 3rem;
+    text-align: center;
+    opacity: 0.3;
+    position: relative;
+}
+
+.label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.collapseToggle {
+    display: none;
+    position: absolute;
+    opacity: 0.5;
+    transition: $animationFaster;
+    left: -0.8rem;
+    padding: 0.3rem;
+    top: -0.1rem;
+    transform: rotateZ(0deg);
+
+    &.hasChildren {
+        display: block;
+    }
+
+    &.collapsed {
+        transform: rotateZ(-90deg);
+    }
+}

@@ -1,21 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
-const NewNoteButtonStyled = styled.div`
-  padding-left: 2rem;
-  text-align: right;
-  cursor: pointer;
-  
-  &:hover {
-    color: ${props => props.theme.primary}
-  }
-`;
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styles from './NewNoteButton.scss';
 
 const NewNoteButton = () => (
-    <NewNoteButtonStyled>
-        <i className="far fa-lg fa-edit" />
-    </NewNoteButtonStyled>
+    <div className={styles.button}>
+        <FontAwesomeIcon icon={['far', 'edit']} size="lg" />
+    </div>
 );
 
 NewNoteButton.propTypes = {};

@@ -77,9 +77,9 @@ export const currentNotesUidsSelector = createSelector(
         // there is no input query
         if (searchQuery.length < 1) return currentNoteuids;
 
-        const searchMatches = searchInstance.search(searchQuery).map(note => note.uid);
+        const matchedUids = searchInstance.search(searchQuery).map(note => note.uid);
 
-        return intersection(currentNoteuids, searchMatches);
+        return intersection(currentNoteuids, matchedUids);
     },
 );
 

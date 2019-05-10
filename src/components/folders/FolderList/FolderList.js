@@ -5,6 +5,7 @@ import { FolderItem } from 'src/components/folders/FolderItem';
 import { AddFolder } from 'src/components/folders/AddFolder';
 import { animated } from 'react-spring';
 import { FolderCollectionType } from 'src/models/Folder';
+import styles from './FolderList.scss';
 
 const FolderList = ({
     folders,
@@ -20,8 +21,8 @@ const FolderList = ({
 }) => (
     <animated.ul
         className={classNames({
-            'o-notes-menu': true,
-            'o-notes-menu--main': indent === 0,
+            [styles.menu]: true,
+            [styles.mainMenu]: indent === 0,
         })}
         style={style}
     >

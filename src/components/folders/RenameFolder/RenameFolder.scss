@@ -1,0 +1,55 @@
+.container {
+  height: 2.8rem;
+  position: relative;
+  overflow: hidden;
+
+  > * {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
+
+.inputWrapper {
+  padding: 0 3rem;
+  box-sizing: border-box;
+  position: relative;
+
+  > span {
+    position: absolute;
+    top: 50%;
+    right: 3rem;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    padding: 1rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .15s $animationFaster;
+
+    &:hover {
+      color: $textColorHighlight;
+    }
+  }
+
+  > .close-input {
+    &-enter {
+      opacity: 0.01;
+      &-active, &-done {
+        opacity: 1;
+      }
+    }
+  }
+
+
+  .input {
+    background-color: $reversedBackgroundLight;
+    border: none;
+    color: $reversedText;
+    padding: 0.6rem 1rem 0.6rem 2rem;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
+    outline: none;
+  }
+
+}

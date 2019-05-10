@@ -12,7 +12,7 @@ module.exports = {
             src: path.resolve(__dirname, '../src/'),
             vendor: path.resolve(__dirname, '../node_modules/'),
         },
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
         mainFields: ['browser', 'main'],
     },
     mode: 'development',
