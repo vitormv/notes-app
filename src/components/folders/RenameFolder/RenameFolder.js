@@ -2,62 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { animated, Spring } from 'react-spring';
 import { CSSTransition } from 'react-transition-group';
-import { Icon } from 'src/components/ui/Icon';
-import styled from 'styled-components';
-
-const StyledFolderRename = styled.div`
-    height: 2.8rem;
-    position: relative;
-    overflow: hidden;
-
-    > * {
-        position: absolute;
-        top: 0;
-        width: 100%;
-    }
-`;
-
-const StyledRename = styled(animated.div)`
-    padding: 0 3rem;
-    box-sizing: border-box;
-    position: relative;
-
-    > span {
-        position: absolute;
-        top: 50%;
-        right: 3rem;
-        transform: translateY(-50%);
-        font-size: 1.5rem;
-        padding: 1rem;
-        cursor: pointer;
-        opacity: 0;
-        transition: opacity .15s ${props => props.theme.animation.fast};
-
-        &:hover {
-            color: ${props => props.theme.primary};
-        }
-    }
-
-    > .close-input {
-        &-enter {
-            opacity: 0.01;
-            &-active, &-done {
-                opacity: 1;
-            }
-        }
-    }
-`;
-
-const StyledInput = styled.input`
-    background-color: ${props => props.theme.reversed.backgroundLight};
-    border: none;
-    color: ${props => props.theme.reversed.text};
-    padding: 0.6rem 1rem 0.6rem 2rem;
-    width: 100%;
-    box-sizing: border-box;
-    display: block;
-    outline: none;
-`;
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styles from './RenameFolder.scss';
 
 class RenameFolder extends React.PureComponent {
     constructor(props) {
@@ -132,7 +78,7 @@ class RenameFolder extends React.PureComponent {
         } = this.props;
 
         return (
-            <StyledFolderRename>
+            <div className={styles.container}>
                 <Spring
                     native
                     to={{
@@ -140,16 +86,18 @@ class RenameFolder extends React.PureComponent {
                         transform: (isInputVisible || motion !== 'verticalSlide') ? 'translateY(0)' : 'translateY(-100%)',
                     }}
                     immediate={this.state.immediate}
-                    render={styles => (
-                        <StyledRename
+                    render={dynamicStyles => (
+                        <animated.div
+                            className={styles.inputWrapper}
                             key="folder-input"
                             style={{
-                                ...styles,
+                                ...dynamicStyles,
                                 paddingLeft: `${1 + ((indent + 1) * 2)}rem`,
                             }}
                         >
-                            <StyledInput
-                                innerRef={(el) => { this.inputNode = el; }}
+                            <input
+                                className={styles.input}
+                                ref={(el) => { this.inputNode = el; }}
                                 type="text"
                                 placeholder="folder name"
                                 onBlur={this.onBlur}
@@ -163,9 +111,12 @@ class RenameFolder extends React.PureComponent {
                                 in={this.state.folderNameInputValue.length > 0}
                                 timeout={150}
                             >
-                                <Icon name="times-circle" onClick={() => { this.toggleInput(false); }} />
+                                <FontAwesomeIcon
+                                    icon="times-circle"
+                                    onClick={() => { this.toggleInput(false); }}
+                                />
                             </CSSTransition>
-                        </StyledRename>
+                        </animated.div>
                     )}
                 />
 
@@ -177,9 +128,9 @@ class RenameFolder extends React.PureComponent {
                             ? 'none'
                             : (isInputVisible) ? 'translateY(110%)' : 'translateY(10%)',
                     }}
-                    render={styles => (renderElement(styles, this.showInput))}
+                    render={dynamicStyles => (renderElement(dynamicStyles, this.showInput))}
                 />
-            </StyledFolderRename>
+            </div>
         );
     }
 }

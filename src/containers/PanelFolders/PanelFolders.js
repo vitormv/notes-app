@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FolderCollectionType } from 'src/models/Folder';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { FolderList } from 'src/components/folders/FolderList';
 import { KeyboardNavigation } from 'src/containers/KeyboardNavigation';
@@ -12,11 +11,7 @@ import {
     highlightedFolderUidSelector,
     unhighlightedFolderSelector,
 } from 'src/store/selectors';
-
-const DraggableArea = styled.div`
-    height: 3.2rem;
-    -webkit-app-region: drag;
-`;
+import styles from './PanelFolders.scss';
 
 export const PanelFoldersPure = ({
     folders,
@@ -28,8 +23,8 @@ export const PanelFoldersPure = ({
     unhighlightedUid,
     addFolder,
 }) => (
-    <nav className="l-panel-menu">
-        <DraggableArea />
+    <nav className={styles.foldersPanel}>
+        <div className={styles.draggable} />
         <KeyboardNavigation columnIndex={1}>
             <FolderList
                 folders={folders}

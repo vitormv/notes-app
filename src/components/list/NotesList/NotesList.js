@@ -1,18 +1,17 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import memoizeOne from 'memoize-one';
+import PropTypes from 'prop-types';
+import memoize from 'lodash/memoize';
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List } from 'react-virtualized';
 import { NoteSummary } from 'src/components/list/NoteSummary';
 import { NoteCollectionType } from 'src/models/Note';
-import './NotesList.scss';
+import styles from './NotesList.scss';
 
 // list hash parameter is used only to bust the cache
-const getNewCache = listHash => new CellMeasurerCache({
-    defaultHeight: 90,
-    fixedWidth: true,
-});
+const getNewCache = (listHash) => (
+    new CellMeasurerCache({ defaultHeight: 90, fixedWidth: true })
+);
 
-const getRowSizesCache = memoizeOne(getNewCache);
+const getRowSizesCache = memoize(getNewCache);
 
 class NotesList extends React.PureComponent {
     render() {
@@ -26,7 +25,7 @@ class NotesList extends React.PureComponent {
         const cache = getRowSizesCache(listHash);
 
         return (
-            <div className="o-notes-list__items">
+            <div className={styles.notesList}>
                 <AutoSizer>
                     {({ height, width }) => (
                         <List

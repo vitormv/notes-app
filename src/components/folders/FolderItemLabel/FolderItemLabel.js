@@ -1,50 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { animated } from 'react-spring';
-import styled from 'styled-components';
-import { Icon } from 'src/components/ui/Icon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Show } from 'src/components/ui/Show';
 
-const StyledFolderItemLabel = styled(animated.div)`
-    cursor: pointer;
-    user-select: none;
-    outline: none;
-    position: relative;
-    box-sizing: border-box;
-    overflow: hidden;
-    height: 2.8rem;
-    padding: 0.6rem 1.5rem;
-    display: flex;
-    z-index: 1;
-    background-color: ${props => props.theme.ui.folder[props.status].background};
-    color: ${props => props.theme.ui.folder[props.status].color};
-
-    > .icons {
-        width: 3rem;
-        min-width: 3rem;
-        text-align: center;
-        opacity: 0.3;
-        position: relative;
-    }
-    
-    > .label {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-`;
-
-const StyledCollapseToggle = styled.div`
-    display: ${({ hasChildren }) => (hasChildren ? 'block' : 'none')};
-    position: absolute;
-    opacity: 0.5;
-    transition: transform .15s ${props => props.theme.animation.fast};
-    left: -0.8rem;
-    padding: 0.3rem;
-    top: -0.1rem;
-    
-    transform: rotateZ(${({ isCollapsed }) => (isCollapsed ? '-90deg' : '0')});
-`;
+import styles from './FolderItemLabel.scss';
 
 const FolderItemLabel = ({
     label,
@@ -58,30 +19,37 @@ const FolderItemLabel = ({
     onClick,
     style,
 }) => (
-    <StyledFolderItemLabel
-        status={isHighlighted ? 'highlighted' : (isUnhighlighted ? 'unhighlighted' : 'default')}
+    <animated.div
+        className={classNames({
+            [styles.folderItem]: true,
+            [styles.highlighted]: isHighlighted,
+            [styles.lightlyHighlighted]: isUnhighlighted,
+        })}
         style={{
             ...style,
             paddingLeft: `${((indent + 1) * 2)}rem`,
         }}
         onClick={onClick}
     >
-        <div className="icons">
-            <Icon name={icon} />
+        <div className={styles.icons}>
+            <FontAwesomeIcon icon={icon} />
 
             <Show when={hasChildren}>
-                <StyledCollapseToggle
-                    isCollapsed={isCollapsed}
-                    hasChildren={hasChildren}
+                <div
+                    className={classNames({
+                        [styles.collapseToggle]: true,
+                        [styles.collapsed]: isCollapsed,
+                        [styles.hasChildren]: hasChildren,
+                    })}
                     onClick={onCollapseFolder}
                 >
-                    <Icon name="angle-down" />
-                </StyledCollapseToggle>
+                    <FontAwesomeIcon icon="angle-down" />
+                </div>
             </Show>
         </div>
 
-        <div className="label" title={label}>{label}</div>
-    </StyledFolderItemLabel>
+        <div className={styles.label} title={label}>{label}</div>
+    </animated.div>
 );
 
 FolderItemLabel.propTypes = {

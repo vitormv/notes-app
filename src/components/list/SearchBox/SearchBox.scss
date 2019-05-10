@@ -1,0 +1,107 @@
+.wrapper {
+  position: relative;
+  width: 20rem;
+  overflow-x: hidden;
+  cursor: text;
+  background-color: $backgroundColor;
+  border: 1px solid $grayMedium;
+  border-radius: 4px;
+  padding: 0.6rem 1rem;
+  box-sizing: border-box;
+  font-size: 1.6rem;
+  color: $textColorLight;
+  transition: color 150ms linear;
+
+  &.hasFocus {
+    border-color: $textColorLight;
+  }
+
+  &.hasSearchQuery {
+    color: $textColor;
+  }
+
+  strong {
+    display: inline-block;
+    position: relative;
+  }
+}
+
+.icon {
+  position: absolute;
+  left: -20px;
+  top: 1px;
+  color: $textColorLight;
+
+  &.hasFocus {
+    color: $textColor;
+  }
+}
+
+.input {
+  background-color: transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(100% - 40px);
+  margin-right: 20px;
+  outline: none;
+  box-sizing: border-box;
+  border: none;
+  font-size: 1.4rem;
+  color: $textColor;
+
+  &.inputActive {
+
+  }
+}
+
+.outerSpan {
+  margin-left: -15px;
+  transform: translateX(calc(50%));
+  display: inline-block;
+  cursor: text;
+  width: 100%;
+  box-sizing: border-box;
+  transition: transform 200ms $animationFaster;
+
+  &.hasFocus, &.hasSearchQuery {
+    transform: translateX(35px);
+  }
+
+  .label {
+    visibility: visible;
+
+    &.hasSearchQuery {
+      visibility: hidden;
+    }
+  }
+}
+
+.clear {
+  z-index: 1;
+  position: absolute;
+  cursor: pointer;
+  right: .8rem;
+  top: 50%;
+  font-size: 1.8rem;
+  background-color: white;
+  color: $textColorLight;
+  transform: translateY(-50%);
+
+  opacity: 0;
+  transition: opacity 200ms $animationFaster;
+  display: none;
+
+  &.hasFocus {
+    color: $textColor;
+  }
+
+  &.hasSearchQuery {
+    opacity: 1;
+    display: block;
+  }
+
+  &:hover {
+    color: $textColorHighlight;
+  }
+}

@@ -9,6 +9,7 @@ import { FolderItemLabel } from 'src/components/folders/FolderItemLabel';
 import { animated, Spring } from 'react-spring';
 import { RenameFolder } from 'src/components/folders/RenameFolder';
 import { FolderType } from 'src/models/Folder';
+import styles from './FolderItem.scss';
 
 class FolderItemPure extends React.PureComponent {
     static calculateItemHeight(folder) {
@@ -97,18 +98,18 @@ class FolderItemPure extends React.PureComponent {
                 }}
                 tabindex={-1}
             >
-                {styles => (
+                {dynamicStyles => (
                     <animated.li
                         ref={(el) => { this.folderNode = el; }}
                         className={classNames({
-                            'o-notes-menu__item': true,
-                            'o-notes-menu__item--collapsed': folder.isCollapsed,
+                            [styles.item]: true,
+                            [styles.itemCollapsed]: folder.isCollapsed,
                             [className]: true,
                         })}
                         key={folder.uid}
                         onClick={(e) => { e.stopPropagation(); onClick(folder.uid); }}
                         tabIndex={-1}
-                        style={styles}
+                        style={dynamicStyles}
                         onContextMenu={this.onContextMenu}
                     >
                         <RenameFolder

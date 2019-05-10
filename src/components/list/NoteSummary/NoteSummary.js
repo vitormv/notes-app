@@ -3,32 +3,31 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { format } from 'date-fns';
 import Highlighter from 'react-highlight-words';
-import './NoteSummary.scss';
+import styles from './NoteSummary.scss';
 
 const NoteSummaryPure = ({
     isActive, isHighlighted, uid, style, title, updatedAt, summary, onClick, searchWords,
 }) => (
     <div
         className={classNames({
-            'o-notes-list__note': true,
-            'o-note-summary': true,
-            'o-note-summary--active': isActive,
-            'o-note-summary--highlighted': isHighlighted,
+            [styles.noteSummary]: true,
+            [styles.isActive]: isActive,
+            [styles.isHighlighted]: isHighlighted,
         })}
         onClick={() => onClick(uid)}
         style={style}
     >
-        <div className="o-note-summary__title">
+        <div className={styles.title}>
             <Highlighter
                 searchWords={searchWords}
                 autoEscape
                 textToHighlight={title}
             />
         </div>
-        <div className="o-note-summary__date" title={format(updatedAt, 'DD MMM')}>
+        <div className={styles.date} title={format(updatedAt, 'DD MMM')}>
             {format(updatedAt, 'DD MMM')}
         </div>
-        <div className="o-note-summary__excerpt">
+        <div className={styles.excerpt}>
             <Highlighter
                 searchWords={searchWords}
                 autoEscape

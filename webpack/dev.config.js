@@ -10,11 +10,14 @@ module.exports = merge(baseConfig, {
         overlay: true,
         hot: true,
     },
+    devtool: 'cheap-module-source-map',
     plugins: [
         new ErrorOverlayPlugin(),
     ],
     module: {
         rules: [
+            { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+            { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
@@ -27,13 +30,7 @@ module.exports = merge(baseConfig, {
                     },
                 ],
             },
-            {
-                test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                ],
-            },
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
             {
                 test: /\.scss$/,
                 use: [
@@ -41,7 +38,8 @@ module.exports = merge(baseConfig, {
                     {
                         loader: 'css-loader',
                         options: {
-                            modules: false,
+                            modules: true,
+                            localIdentName: '[name]__[local]___[hash:base64:5]',
                         },
                     },
                     'sass-loader',
@@ -56,20 +54,9 @@ module.exports = merge(baseConfig, {
             },
             {
                 test: /\.(html)$/,
-                use: {
-                    loader: 'html-loader',
-                    options: {
-                        attrs: [
-                            ':data-src',
-                            'img:src',
-                        ],
-                    },
-                },
+                use: { loader: 'html-loader', options: { attrs: [':data-src', 'img:src'] } },
             },
-            {
-                test: /\.(png|jpg|gif|svg|woff(2)?|ttf|eot)$/,
-                loader: 'file-loader',
-            },
+            { test: /\.(png|jpg|gif|svg|woff(2)?|ttf|eot)$/, loader: 'file-loader' },
         ],
     },
 });

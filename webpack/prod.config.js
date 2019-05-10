@@ -54,6 +54,8 @@ module.exports = merge(baseConfig, {
                                 minimize: true,
                                 sourceMap: true,
                                 importLoaders: 2,
+                                modules: true,
+                                localIdentName: '[name]__[local]___[hash:base64:5]',
                             },
                         },
                         'sass-loader',

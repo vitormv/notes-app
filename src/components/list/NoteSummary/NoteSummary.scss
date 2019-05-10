@@ -1,4 +1,4 @@
-.o-note-summary {
+.noteSummary {
   padding: 1.6rem 3rem;
   border-bottom: 1px solid $grayMedium;
   border-left: 5px solid transparent;
@@ -16,7 +16,7 @@
     background-color: #FFD63F;
   }
 
-  &__title {
+  .title {
     font-weight: 600;
     padding-bottom: 0.3rem;
     white-space: nowrap;
@@ -24,14 +24,14 @@
     text-overflow: ellipsis;
   }
 
-  &__date {
+  .date {
     display: inline;
     color: $textColorLight;
     font-size: 1.2rem;
     padding-right: .8rem;
   }
 
-  &__excerpt {
+  .excerpt {
     display: inline;
     font-size: 1.3rem;
     font-weight: 300;
@@ -45,12 +45,12 @@
     outline: none;
   }
 
-  &--active {
+  &.isActive {
     background-color: white;
     border-left: 5px solid $textColor;
   }
 
-  &--highlighted {
+  &.isHighlighted {
     background-color: white;
     border-left: 5px solid $textColorHighlight;
   }

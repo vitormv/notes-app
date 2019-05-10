@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NoteCollectionType } from 'src/models/Note';
-import styled from 'styled-components';
 import { ListHeader } from 'src/components/list/ListHeader';
 import { connect } from 'react-redux';
 import { NotesList } from 'src/components/list/NotesList';
@@ -12,25 +11,7 @@ import {
     currentNotesSelector, getCurrentNoteUidsHashSelector,
     unhighlightedNoteSelector, highlightedNoteUid, getSearchQueryWordsSelector,
 } from 'src/store/selectors';
-
-const StyledPanelList = styled.section`
-    background-color: ${props => props.theme.gray.light};
-    border-right: 1px solid ${props => props.theme.gray.medium};
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 1.6rem;
-
-    > :nth-child(1) {
-      flex: 0 0 6rem;
-    }
-    
-    > :nth-child(2) {
-      flex: 1;
-    }
-`;
+import styles from './PanelList.scss';
 
 const PanelListPure = ({
     notes,
@@ -40,7 +21,7 @@ const PanelListPure = ({
     listHash,
     searchWords,
 }) => (
-    <StyledPanelList>
+    <section className={styles.panelList}>
         <ListHeader />
 
         <KeyboardNavigation columnIndex={2}>
@@ -61,7 +42,7 @@ const PanelListPure = ({
                 />
             </Show>
         </KeyboardNavigation>
-    </StyledPanelList>
+    </section>
 );
 
 PanelListPure.propTypes = {

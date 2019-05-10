@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isArray from 'lodash/isArray';
 import { Transition } from 'react-spring';
 
 const mergeStyleIntoChildren = (styles, children) => {
-    const nodes = isArray(children) ? children : [children];
+    const nodes = Array.isArray(children) ? children : [children];
 
     return nodes.map(child => React.cloneElement(child, {
         ...child.props,

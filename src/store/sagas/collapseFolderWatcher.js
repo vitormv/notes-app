@@ -4,7 +4,7 @@ import { folderTreeSelector, unhighlightedFolderSelector } from 'src/store/selec
 
 function* onCollapseFolderWorker(collapseFolderAction) {
     // folder is being expanded: nothing to do here
-    if (!collapseFolderAction.isCollapsed) return;
+    if (collapseFolderAction.isCollapsed === false) return;
 
     const folderTree = yield select(folderTreeSelector);
     const nodeBeingCollapsed = folderTree.first(node => (
