@@ -149,7 +149,6 @@ class FolderItemPure extends React.PureComponent {
                                 native
                                 to={{
                                     transform: folder.isCollapsed ? 'translateY(-100%)' : 'translateY(0%)',
-                                    opacity: folder.isCollapsed ? '0' : '1',
                                 }}
                             >
                                 {subStyles => (
