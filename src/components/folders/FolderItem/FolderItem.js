@@ -40,11 +40,11 @@ class FolderItemPure extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.folderCoordinates = this.folderNode.node.getBoundingClientRect();
+        this.folderCoordinates = this.folderNode.getBoundingClientRect();
     }
 
     componentDidUpdate() {
-        this.folderCoordinates = this.folderNode.node.getBoundingClientRect();
+        this.folderCoordinates = this.folderNode.getBoundingClientRect();
     }
 
     onContextMenu(event) {
