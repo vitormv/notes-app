@@ -7,10 +7,20 @@ const regex = /[\x2D0-9A-Z_a-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u02C6-\u
 
 export const getWordBoundariesAtOffset = (str, pos) => {
     const sentence = String(str);
-    let leftIndex = parseInt(pos, 10);
-    let rightIndex = parseInt(pos, 10);
 
-    for (let i = pos; i >= 0; i -= 1) {
+    let offset = pos;
+    let leftIndex = parseInt(offset, 10);
+    let rightIndex = parseInt(offset, 10);
+    const whiteSpaceRegex = RegExp(/\s/);
+
+    // if we start at a whitespace character, move offset backwards until
+    // a non-whitespace char is found
+    while (offset > 0 && whiteSpaceRegex.test(sentence.charAt(offset))) {
+        offset -= 1;
+    }
+
+    // find lower word boundary.
+    for (let i = offset; i >= 0; i -= 1) {
         if (!regex.test(sentence.charAt(i))) {
             break;
         }
@@ -18,7 +28,8 @@ export const getWordBoundariesAtOffset = (str, pos) => {
         leftIndex = i;
     }
 
-    for (let i = pos; i < sentence.length; i += 1) {
+    // find outer word boundary
+    for (let i = offset; i < sentence.length; i += 1) {
         if (!regex.test(sentence.charAt(i))) {
             break;
         }
