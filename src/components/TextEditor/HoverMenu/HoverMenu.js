@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import { MARK_BOLD, MARK_CODE, MARK_ITALIC, MARK_UNDERLINE } from 'src/components/TextEditor/SlateDictionary';
-import { Icon } from 'src/components/ui/Icon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './HoverMenu.scss';
 
 class HoverMenu extends React.PureComponent {
@@ -28,7 +28,7 @@ class HoverMenu extends React.PureComponent {
                 })}
                 onMouseDown={event => this.onClickMark(event, type)}
             >
-                <Icon className={styles.icon} name={`${icon}`} />
+                <FontAwesomeIcon className={styles.icon} icon={icon} />
             </span>
         );
     }

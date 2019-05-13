@@ -1,8 +1,10 @@
-[![Build Status](https://travis-ci.org/vitormv/notas.svg?branch=master)](https://travis-ci.org/vitormv/notas) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/vitormv/notas/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vitormv/notas/?branch=master)
+[![Build Status](https://travis-ci.org/vitormv/notas.svg?branch=master)](https://travis-ci.org/vitormv/notas) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/vitormv/notas/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vitormv/notas/?branch=master)
 
 This is a prototype for a Desktop-only Notes UI I developed on my free time. It has very basic funcionality, and a simple text editor.
 
 **This is NOT meant to replace your Notes editor 😁 Use at your own risk.**
+
+[![Basic usage video](https://vitormv.github.io/notas/public/quick_usage_demo.mp4)]()
 
 ### Not working yet:
 
@@ -10,7 +12,7 @@ This is a prototype for a Desktop-only Notes UI I developed on my free time. It 
 * Adding notes 😅
 * sort folders
 
-### things you can do:
+### Things you can do:
 
 * edit notes (highligh text to show options, or use common keyboard shortcuts)
 * search notes
@@ -19,7 +21,7 @@ This is a prototype for a Desktop-only Notes UI I developed on my free time. It 
 * resize the panels
 
 
-## how to run locally
+## How to run locally
 
 ```
 git clone https://github.com/vitormv/notas.git notas

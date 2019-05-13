@@ -7,6 +7,7 @@ const baseConfig = require('./base.config');
 const config = require('./config');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const stylesExtractor = new ExtractTextPlugin({
     filename: config.targetPath.css,
@@ -102,7 +103,13 @@ module.exports = merge(baseConfig, {
         new UglifyJSPlugin(),
         new BundleAnalyzerPlugin({
             analyzerMode: 'disabled',
-            generateStatsFile: true,
+            generateStatsFile: Boolean(process.env.BUILD_STATS),
         }),
+        new CopyWebpackPlugin([
+            {
+                from: 'media/public',
+                to: 'public',
+            },
+        ]),
     ],
 });

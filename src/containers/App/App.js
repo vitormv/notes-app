@@ -8,7 +8,6 @@ import { PanelList } from 'src/containers/PanelList';
 import { PanelEditor } from 'src/containers/PanelEditor';
 import { isUiLoadingSelector } from 'src/store/selectors';
 import { uiLoadedAction } from 'src/store/actions';
-import './Icons';
 import './App.scss';
 
 const AppPure = ({ isLoading }) => (
