@@ -10,7 +10,8 @@ build:
                     -
                         command: eslint-run
                         use_website_config: false
-            environment:
-                node:
-                    version: 10.15.0
         tests: true
+
+    environment:
+        node:
+            version: "v10.15.0"
