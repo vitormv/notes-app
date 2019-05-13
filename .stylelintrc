@@ -1,0 +1,33 @@
+{
+    "extends": "stylelint-config-recommended-scss",
+    "rules": {
+        "indentation": [
+            2
+        ],
+        "color-hex-case": [
+            "lower"
+        ],
+        "color-hex-length": [
+            "long"
+        ],
+        "color-named": [
+            "never"
+        ],
+        "selector-pseudo-class-no-unknown": [
+            true,
+            {
+                "ignorePseudoClasses": [
+                    "global"
+                ]
+            }
+        ],
+        "selector-pseudo-element-no-unknown": [
+            true,
+            {
+                "ignorePseudoElements": [
+                    "global"
+                ]
+            }
+        ]
+    }
+}
