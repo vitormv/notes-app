@@ -107,7 +107,7 @@ module.exports = merge(baseConfig, {
         }),
         new CopyWebpackPlugin([
             {
-                from: 'media/public',
+                from: 'src/media/public',
                 to: 'public',
             },
         ]),
