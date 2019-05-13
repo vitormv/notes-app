@@ -21,3 +21,5 @@ exports.targetPath = {
     js: 'assets/js/[name].[chunkhash:8].js',
     media: 'assets/media/[name].[hash:8].[ext]',
 };
+
+exports.enableBuildProfiling = Boolean(process.env.BUILD_STATS);

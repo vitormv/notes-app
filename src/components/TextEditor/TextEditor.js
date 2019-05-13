@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { Editor } from 'slate-react';
 import Plain from 'slate-plain-serializer';
 import { HoverMenu } from 'src/components/TextEditor/HoverMenu';
@@ -7,6 +8,7 @@ import { ExpandMarkdownSyntax } from 'src/components/TextEditor/plugins/ExpandMa
 import { applyMark, MarkHotkey } from 'src/components/TextEditor/plugins/MarkHotkey';
 import DropOrPasteImages from 'slate-drop-or-paste-images';
 import { Schema } from 'src/components/TextEditor/Schema';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     BLOCK_CHECKLIST_ITEM,
     BLOCK_H1,
@@ -25,7 +27,7 @@ import {
     MARK_UNDERLINE,
 } from 'src/components/TextEditor/SlateDictionary';
 import { renderSlateNode } from './renderSlateNode';
-import './TextEditor.scss';
+import styles from './TextEditor.scss';
 
 const plugins = [
     MarkHotkey({ type: MARK_BOLD, key: 'mod+b' }),
@@ -93,10 +95,12 @@ class TextEditor extends React.PureComponent {
 
         return (
             <span
-                className={isActive ? 'active' : ''}
+                className={classNames({
+                    [styles.active]: isActive,
+                })}
                 onMouseDown={event => this.onClickMark(event, type)}
             >
-                <i className={`icon-${icon}`} />
+                <FontAwesomeIcon icon={icon} />
             </span>
         );
     }
@@ -119,10 +123,12 @@ class TextEditor extends React.PureComponent {
 
         return (
             <span
-                className={isActive ? 'active' : ''}
+                className={classNames({
+                    [styles.active]: isActive,
+                })}
                 onMouseDown={event => this.onClickBlock(event, type)}
             >
-                <i className={`icon-${icon}`} />
+                <FontAwesomeIcon icon={icon} />
             </span>
         );
     }
@@ -223,14 +229,14 @@ class TextEditor extends React.PureComponent {
     // Render the editor.
     render() {
         return (
-            <div className="editor-wrapper">
+            <div className={styles.editorWrapper}>
                 <HoverMenu
                     value={this.state.value}
                     onChange={this.onChange}
                     isVisible={this.state.isHoverMenuVisible}
                 />
                 <Editor
-                    className="editor"
+                    className={styles.editor}
                     spellCheck={false}
                     placeholder="Enter some text..."
                     value={this.state.value}
@@ -242,17 +248,17 @@ class TextEditor extends React.PureComponent {
                     renderMark={this.renderMark}
                     plugins={plugins}
                 />
-                <div className="toolbar">
-                    {this.renderBlockButton(BLOCK_H1, 'heading')}
+                <div className={styles.toolbar}>
+                    {this.renderBlockButton(BLOCK_H1, 'fa-heading')}
                     {this.renderBlockButton(BLOCK_H2, 'heading')}
                     {this.renderBlockButton(BLOCK_H3, 'heading')}
-                    <span className="gap" />
+                    <span className={styles.gap} />
                     {this.renderBlockButton(BLOCK_LIST_OL, 'list-ol')}
                     {this.renderBlockButton(BLOCK_LIST_UL, 'list-ul')}
                     {this.renderBlockButton(BLOCK_CHECKLIST_ITEM, 'checkbox')}
-                    <span className="gap" />
+                    <span className={styles.gap} />
                     {this.renderBlockButton(BLOCK_QUOTE, 'quote-right')}
-                    {this.renderBlockButton(BLOCK_SEPARATOR, 'quote-right')}
+                    {this.renderBlockButton(BLOCK_SEPARATOR, 'fa-quote-right')}
                 </div>
             </div>
         );

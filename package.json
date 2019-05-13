@@ -6,6 +6,7 @@
     "homepage": "./",
     "scripts": {
         "build:prod": "webpack --config ./webpack/prod.config.js",
+        "build:stats": "BUILD_STATS=1 yarn build:prod",
         "electron": "yarn build:prod && electron .",
         "lint": "yarn lint:js && yarn lint:scss",
         "lint:js": "eslint src/",
