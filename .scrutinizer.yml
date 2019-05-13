@@ -1,0 +1,16 @@
+checks:
+    javascript: true
+
+build:
+    nodes:
+        analysis:
+            tests:
+                override:
+                    - js-scrutinizer-run
+                    -
+                        command: eslint-run
+                        use_website_config: false
+            environment:
+                node:
+                    version: 10.15.0
+        tests: true
