@@ -2,7 +2,7 @@
 
 This is a prototype for a Desktop-only Notes UI I developed on my free time. It has very basic funcionality, and a simple text editor.
 
-**This is NOT meant to replace your Notes editor 😁 Use at your own risk.**
+**⚠️ This is NOT meant to replace your Notes editor 😁 Use at your own risk. ⚠️**
 
 ![App Screenshot](https://vitormv.github.io/notas/public/screenshot.png)
 
