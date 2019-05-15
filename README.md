@@ -15,6 +15,7 @@ This is a prototype for a Desktop-only Notes UI I developed on my free time. It 
 ### Things you can do:
 
 * edit notes (highligh text to show options, or use common keyboard shortcuts)
+* add blocks by using Markdown syntax
 * search notes
 * add images to the editor (though still very primitive)
 * add/edit/rename folders
