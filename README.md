@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/vitormv/notas.svg?branch=master)](https://travis-ci.org/vitormv/notas) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/vitormv/notes-frontend/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vitormv/notas/?branch=master)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]() 
+[![Build Status](https://travis-ci.org/vitormv/notes-frontend.svg?branch=master)](https://travis-ci.org/vitormv/notes-frontend) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/vitormv/notes-frontend/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vitormv/notas/?branch=master)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]() 
 
 This is a prototype for a Desktop-only Notes UI I developed on my free time. It has very basic funcionality, and a simple text editor.
 
