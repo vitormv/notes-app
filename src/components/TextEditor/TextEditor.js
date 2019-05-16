@@ -19,7 +19,8 @@ import {
     BLOCK_LIST_OL,
     BLOCK_LIST_UL,
     BLOCK_QUOTE,
-    BLOCK_SEPARATOR, DEFAULT_NODE,
+    BLOCK_SEPARATOR,
+    DEFAULT_NODE,
     MARK_BOLD,
     MARK_CODE,
     MARK_ITALIC,
@@ -249,16 +250,16 @@ class TextEditor extends React.PureComponent {
                     plugins={plugins}
                 />
                 <div className={styles.toolbar}>
-                    {this.renderBlockButton(BLOCK_H1, 'fa-heading')}
+                    {this.renderBlockButton(BLOCK_H1, 'heading')}
                     {this.renderBlockButton(BLOCK_H2, 'heading')}
                     {this.renderBlockButton(BLOCK_H3, 'heading')}
                     <span className={styles.gap} />
                     {this.renderBlockButton(BLOCK_LIST_OL, 'list-ol')}
                     {this.renderBlockButton(BLOCK_LIST_UL, 'list-ul')}
-                    {this.renderBlockButton(BLOCK_CHECKLIST_ITEM, 'checkbox')}
+                    {this.renderBlockButton(BLOCK_CHECKLIST_ITEM, 'check')}
                     <span className={styles.gap} />
                     {this.renderBlockButton(BLOCK_QUOTE, 'quote-right')}
-                    {this.renderBlockButton(BLOCK_SEPARATOR, 'fa-quote-right')}
+                    {this.renderBlockButton(BLOCK_SEPARATOR, 'quote-right')}
                 </div>
             </div>
         );
