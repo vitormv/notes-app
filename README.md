@@ -4,7 +4,7 @@ This is a prototype for a Desktop-only Notes UI I developed on my free time. It 
 
 **⚠️ This is NOT meant to replace your Notes editor 😁 Use at your own risk. ⚠️**
 
-![App Screenshot](https://vitormv.github.io/notes-frontend//public/screenshot.png)
+![App Screenshot](https://vitormv.github.io/notes-app//public/screenshot.png)
 
 ### Not working yet:
 
