@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { animated } from 'react-spring';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Show } from 'src/components/ui/Show';
-
 import styles from './FolderItemLabel.scss';
 
 const FolderItemLabel = ({
@@ -31,10 +29,15 @@ const FolderItemLabel = ({
         }}
         onClick={onClick}
     >
-        <div className={styles.icons}>
+        <div
+            className={classNames({
+                [styles.icons]: true,
+                [styles.highlighted]: isHighlighted,
+            })}
+        >
             <FontAwesomeIcon icon={icon} />
 
-            <Show when={hasChildren}>
+            {hasChildren && (
                 <div
                     className={classNames({
                         [styles.collapseToggle]: true,
@@ -45,7 +48,7 @@ const FolderItemLabel = ({
                 >
                     <FontAwesomeIcon icon="angle-down" />
                 </div>
-            </Show>
+            )}
         </div>
 
         <div className={styles.label} title={label}>{label}</div>
